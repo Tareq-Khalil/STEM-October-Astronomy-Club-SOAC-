@@ -66,6 +66,12 @@
        max-height: 100%;
        overflow: auto;
    }
+   #more-options li {
+	padding-left: 15px;
+	margin-top: 5px;
+    margin-left: 50px
+}
+
    </style>
 
    <!-- script
@@ -90,16 +96,27 @@
 	         <a href="index.html"></a>
 	      </div>
 
-	   	<nav id="main-nav-wrap">
-				<ul class="main-navigation">
-					<li class="current"><a class="smoothscroll"  href="#intro" title="">Home</a></li>
-					<li><a class="smoothscroll"  href="#about" title="">About Us</a></li>
-					<li><a class="smoothscroll"  href="#events" title="">Events</a></li>
-					<li><a class="smoothscroll"  href="#members" title="">Members</a></li>
-					<li><a class="smoothscroll"  href="#footer" title="">Contact</a></li>
-					<li class="highlight with-sep"><a href="solar.html" title="">OUR SOLAR SYSTEM - A Special Presentation</a></li>
-				</ul>
-			</nav>
+          <nav id="main-nav-wrap">
+            <ul class="main-navigation">
+                <li class="current"><a class="smoothscroll" href="#intro" title="">Home</a></li>
+                <li><a class="smoothscroll" href="#about" title="">About Us</a></li>
+                <li><a class="smoothscroll" href="#events" title="">Events</a></li>
+                <li><a class="smoothscroll" href="#members" title="">Members</a></li>
+                <li><a class="smoothscroll" href="#footer" title="">Contact</a></li>
+                <li class="highlight with-sep"><a href="solar.html" title="">OUR SOLAR SYSTEM - A Special Presentation</a></li>
+        
+                <!-- More Button -->
+                <li><button id="more-toggle" style="background:none;border:none;color:skyblue;cursor:pointer;">More ▼</button></li>
+        
+                <!-- Hidden Options -->
+                <div id="more-options">
+                    <li><a class="smoothscroll" href="simulations/curved-spacetime-main/index.html" title="">curved spacetime</a></li>
+                    <li><a class="smoothscroll" href="#team" title="">Our Team</a></li>
+                    <li><a class="smoothscroll" href="#faq" title="">FAQ</a></li>
+                </div>
+            </ul>
+        </nav>
+        
 
 			<a class="menu-toggle" href="#"><span>Menu</span></a>
    		
@@ -606,6 +623,13 @@
    <script src="js/jquery-migrate-1.2.1.min.js"></script>
    <script src="js/plugins.js"></script>
    <script src="js/main.js"></script>
+   <script>
+	document.getElementById("more-toggle").addEventListener("click", function () {
+		const options = document.getElementById("more-options");
+		options.style.display = options.style.display === "none" ? "block" : "none";
+	});
+</script>
+
 
 </body>
 

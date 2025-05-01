@@ -1,0 +1,19 @@
+{
+  "name": "orbits",
+  "version": "1.0.0",
+  "description": "Html 5 canvas game",
+  "main": "orbits.js",
+  "scripts": {
+    "babel": "babel --presets es2015 orbits.js -o orbits.bundle.js"
+  },
+  "author": "donmaiq",
+  "license": "ISC",
+  "devDependencies": {
+    "babel-cli": "^6.14.0",
+    "babel-core": "^6.14.0",
+    "babel-loader": "^6.2.5",
+    "babel-preset-es2015": "^6.14.0",
+    "chai": "^3.5.0",
+    "mocha": "^3.0.2"
+  }
+}

@@ -37,6 +37,57 @@
        visibility: visible;
        opacity: 1;
    }
+    .overlayevents .popupevents {
+         position: absolute;
+         top: 50%;
+         left: 50%;
+         width: 90%;
+         max-width: 600px;
+         padding: 20px;
+         background: #fff;
+         border-radius: 5px;
+         box-shadow: 0 0 10px rgba(0,0,0,0.5);
+         transform: translate(-50%, -50%);
+    }
+    #intro {
+  position: relative;
+  width: 100%;
+  height: 100vh;
+  background-image: url('images/intro-bg.jpg'); /* replace with your real image path */
+  background-size: cover;
+  background-position: center;
+  overflow: hidden;
+}
+
+
+#rippleCanvas {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 0;
+  pointer-events: none;
+}
+
+.intro-content {
+  position: relative;
+  z-index: 2;
+}
+
+.shadow-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.4);
+  z-index: 1;
+}
+
+
+
+    
    
    .popupevents {
        margin: 7.5%;
@@ -88,7 +139,7 @@
 
 	<!-- header 
    ================================================== -->
-   <header>
+   <header class="riple-effect">
 
    	<div class="row">
 
@@ -109,9 +160,9 @@
                 <li><button id="more-toggle" style="background:none;border:none;color:skyblue;cursor:pointer;">More ▼</button></li>
         
                 <!-- Hidden Options -->
-                <div id="more-options" style=" display:none;">
+                <div id="more-options" style="display: none;">
                     <li><a class="smoothscroll" href="simulations/curved-spacetime-main/index.html" title="">curved spacetime</a></li>
-                    <li><a class="smoothscroll" href="simulations/orbits/index.html" title="">Orbits</a></li>
+                    <li><a class="smoothscroll" href="#team" title="">Our Team</a></li>
                     <li><a class="smoothscroll" href="#faq" title="">FAQ</a></li>
                 </div>
             </ul>
@@ -127,23 +178,17 @@
 	<!-- intro section
    ================================================== -->
    <section id="intro">
-
-   	<div class="shadow-overlay"></div>
-
-   	<div class="intro-content">
-   		<div class="row">
-
-   			<div class="col-twelve">
-
-	   			<h5>Welcome to the official page of</h5>
-	   			<h1>STEM October Astronomy Club (SOAC)</h1>
-
-	   		</div>  
-   			
-   		</div>   		 		
-   	</div>
-   
-   </section> <!-- /intro -->
+    <canvas id="rippleCanvas"></canvas>
+    <div class="intro-content">
+      <div class="row">
+        <div class="col-twelve">
+          <h5>Welcome to the official page of</h5>
+          <h1>STEM October Astronomy Club (SOAC)</h1>
+        </div>  
+      </div>   		 		
+    </div>
+  </section>
+   <!-- /intro -->
 
 
    <!-- about Section
@@ -623,11 +668,42 @@
    <script src="js/jquery-migrate-1.2.1.min.js"></script>
    <script src="js/plugins.js"></script>
    <script src="js/main.js"></script>
+   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+   <script src="js/06f086e7-dfaa-4ed3-ae93-91902494f43f.js"></script>
+    <script src="js/jquery.ripples-min.js"></script>
+   <script>
+     $(document).ready(function () {
+       $('#intro').ripples({
+         resolution: 512,
+         dropRadius: 20, // control ripple size
+         perturbance: 0.04, // 0 = no distortion, 1 = heavy distortion
+         interactive: true
+       });
+     });
+     $('section').ripples({
+	resolution: 512,
+	dropRadius: 20,
+	perturbance: 0.04,
+});
+    </script>
+    <script>
+        $('.top-nav').ripples({
+	resolution: 512,
+	dropRadius: 20,
+	perturbance: 0.04,
+});
+
+   </script>
+   
+
+    
    <script>
 	document.getElementById("more-toggle").addEventListener("click", function () {
 		const options = document.getElementById("more-options");
 		options.style.display = options.style.display === "none" ? "block" : "none";
 	});
+    
+
 </script>
 
 

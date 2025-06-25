@@ -530,21 +530,6 @@
             (this.renderProgram = i(
               [
                 "precision highp float;",
-                "attribute vec2 vertex;",
-                "uniform vec2 topLeft;",
-                "uniform vec2 bottomRight;",
-                "uniform vec2 containerRatio;",
-                "varying vec2 ripplesCoord;",
-                "varying vec2 backgroundCoord;",
-                "void main() {",
-                "backgroundCoord = mix(topLeft, bottomRight, vertex * 0.5 + 0.5);",
-                "backgroundCoord.y = 1.0 - backgroundCoord.y;",
-                "ripplesCoord = vec2(vertex.x, -vertex.y) * containerRatio * 0.5 + 0.5;",
-                "gl_Position = vec4(vertex.x, -vertex.y, 0.0, 1.0);",
-                "}",
-              ].join("\n"),
-              [
-                "precision highp float;",
                 "uniform sampler2D samplerBackground;",
                 "uniform sampler2D samplerRipples;",
                 "uniform vec2 delta;",
@@ -552,16 +537,24 @@
                 "varying vec2 ripplesCoord;",
                 "varying vec2 backgroundCoord;",
                 "void main() {",
-                "float height = texture2D(samplerRipples, ripplesCoord).r;",
-                "float heightX = texture2D(samplerRipples, vec2(ripplesCoord.x + delta.x, ripplesCoord.y)).r;",
-                "float heightY = texture2D(samplerRipples, vec2(ripplesCoord.x, ripplesCoord.y + delta.y)).r;",
-                "vec3 dx = vec3(delta.x, heightX - height, 0.0);",
-                "vec3 dy = vec3(0.0, heightY - height, delta.y);",
-                "vec2 offset = -normalize(cross(dy, dx)).xz;",
-                "float specular = pow(max(0.0, dot(offset, normalize(vec2(-0.6, 1.0)))), 4.0);",
-                "gl_FragColor = texture2D(samplerBackground, backgroundCoord + offset * perturbance) + specular;",
-                "}",
-              ].join("\n")
+"  float height = texture2D(samplerRipples, ripplesCoord).r;",
+"  float heightX = texture2D(samplerRipples, vec2(ripplesCoord.x + delta.x, ripplesCoord.y)).r;",
+"  float heightY = texture2D(samplerRipples, vec2(ripplesCoord.x, ripplesCoord.y + delta.y)).r;",
+"  vec3 dx = vec3(delta.x, heightX - height, 0.0);",
+"  vec3 dy = vec3(0.0, heightY - height, delta.y);",
+"  vec2 offset = -normalize(cross(dy, dx)).xz;",
+"  float visibility = length(offset);",
+"  if (visibility < 0.005) {",
+"    gl_FragColor = vec4(0.0, 0.0, 0.0, 1.0);", // Fully black where there's no ripple
+"  } else {",
+"    vec4 bg = texture2D(samplerBackground, backgroundCoord + offset * perturbance);",
+"    gl_FragColor = bg;",
+"  }",
+"}"
+
+                ].join("\n")
+                
+              
             )),
             s.uniform2fv(this.renderProgram.locations.delta, this.textureDelta);
         },

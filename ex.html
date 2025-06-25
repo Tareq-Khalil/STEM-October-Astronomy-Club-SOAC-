@@ -1,0 +1,1028 @@
+<!DOCTYPE html>
+<!--[if IE 8 ]><html class="no-js oldie ie8" lang="en"> <![endif]-->
+<!--[if IE 9 ]><html class="no-js oldie ie9" lang="en"> <![endif]-->
+<!--[if (gte IE 9)|!(IE)]><!--><html class="no-js" lang="en"> <!--<![endif]-->
+<head>
+   <!--- basic page needs
+   ================================================== -->
+   <meta charset="utf-8">
+	<title>STEM October Astronomy Club (SOAC)</title>
+	<meta name="description" content="Explore the cosmos with STEM October Astronomy Club - where stellar minds converge to unravel the mysteries of the universe">
+	<meta name="author" content="STEM October Astronomy Club">
+   <!-- mobile specific metas
+   ================================================== -->
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+ 	<!-- CSS
+   ================================================== -->
+   <link rel="stylesheet" href="css/base.css">
+   <link rel="stylesheet" href="css/main.css">
+   <link rel="stylesheet" href="css/vendor.css">
+   <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Exo+2:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+   <style>
+       :root {
+           --primary-color: #1e3a8a;
+           --secondary-color: #3b82f6;
+           --accent-color: #60a5fa;
+           --gold-accent: #fbbf24;
+           --dark-space: #0f172a;
+           --light-space: #1e293b;
+           --text-light: #e2e8f0;
+           --text-gold: #fef3c7;
+       }
+
+       body {
+           background: var(--dark-space);
+           color: var(--text-light);
+           font-family: 'Exo 2', sans-serif;
+       }
+
+       h1, h2, h3, h4, h5 {
+           font-family: 'Orbitron', monospace;
+           color: var(--text-gold);
+       }
+
+       .overlayevents {
+           position: fixed;
+           top: 0;
+           bottom: 0;
+           left: 0;
+           right: 0;
+           background: rgba(0, 0, 0, 0.85);
+           backdrop-filter: blur(5px);
+           transition: all 500ms ease-in-out;
+           visibility: hidden;
+           opacity: 0;
+           z-index: 10000;
+       }
+
+       .overlayevents:target {
+           visibility: visible;
+           opacity: 1;
+       }
+
+       .popupevents {
+           position: absolute;
+           top: 50%;
+           left: 50%;
+           width: 90%;
+           max-width: 800px;
+           max-height: 90vh;
+           padding: 30px;
+           background: linear-gradient(135deg, var(--light-space), var(--dark-space));
+           border: 1px solid var(--accent-color);
+           border-radius: 15px;
+           box-shadow: 0 20px 40px rgba(0,0,0,0.8);
+           transform: translate(-50%, -50%);
+           overflow-y: auto;
+       }
+
+       .closeevents {
+           position: absolute;
+           top: 15px;
+           right: 25px;
+           transition: all 200ms ease-in-out;
+           font-size: 35px;
+           font-weight: bold;
+           text-decoration: none;
+           color: var(--accent-color);
+           z-index: 10001;
+       }
+
+       .closeevents:hover {
+           color: var(--gold-accent);
+           transform: scale(1.1);
+       }
+
+       .contentevents {
+           max-height: 100%;
+           overflow: auto;
+           color: var(--text-light);
+       }
+
+       /* Enhanced Intro Section with Spotlight Effect */
+       #intro {
+           position: relative;
+           background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(15, 23, 42, 0.9)), 
+                       url(images/intro-bg.jpg) center center;
+           background-size: cover;
+           background-attachment: fixed;
+           height: 100%;
+            width: 100%;
+           overflow: hidden;
+           cursor: none;
+       }
+
+       /* Dark overlay that covers everything initially */
+       #intro::before {
+           content: "";
+           position: absolute;
+           top: 0;
+           left: 0;
+           right: 0;
+           bottom: 0;
+           background: radial-gradient(circle 150px at var(--mouse-x, 50%) var(--mouse-y, 50%), 
+                                     transparent 0%, 
+                                     transparent 40%, 
+                                     rgba(0, 0, 0, 0.95) 100%);
+           z-index: 1;
+           transition: all 0.1s ease-out;
+           pointer-events: none;
+       }
+
+       .intro-content {
+           position: relative;
+           z-index: 3;
+           text-align: center;
+           padding-top: 30vh;
+       }
+
+       .intro-content h5 {
+           font-size: 1.2rem;
+           color: var(--accent-color);
+           text-transform: uppercase;
+           letter-spacing: 3px;
+           margin-bottom: 20px;
+           opacity: 0;
+           animation: fadeInUp 1s ease-out 0.5s forwards;
+       }
+
+       .intro-content h1 {
+           font-size: 4rem;
+           font-weight: 900;
+           background: linear-gradient(135deg, var(--gold-accent), var(--accent-color));
+           -webkit-background-clip: text;
+           -webkit-text-fill-color: transparent;
+           background-clip: text;
+           margin-bottom: 30px;
+           opacity: 0;
+           animation: fadeInUp 1s ease-out 1s forwards;
+       }
+
+       @keyframes fadeInUp {
+           from {
+               opacity: 0;
+               transform: translateY(30px);
+           }
+           to {
+               opacity: 1;
+               transform: translateY(0);
+           }
+       }
+
+       /* Enhanced Navigation */
+       header {
+           background: rgba(15, 23, 42, 0.95);
+           backdrop-filter: blur(10px);
+           border-bottom: 1px solid var(--accent-color);
+       }
+
+       .main-navigation a {
+           color: var(--text-light);
+           transition: all 0.3s ease;
+           position: relative;
+       }
+
+       .main-navigation a:hover {
+           color: var(--gold-accent);
+       }
+
+       .main-navigation a::after {
+           content: '';
+           position: absolute;
+           bottom: -5px;
+           left: 0;
+           width: 0;
+           height: 2px;
+           background: var(--gold-accent);
+           transition: width 0.3s ease;
+       }
+
+       .main-navigation a:hover::after {
+           width: 100%;
+       }
+
+       .highlight {
+           background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+           border-radius: 25px;
+           padding: 10px 20px;
+           margin-left: 20px;
+       }
+
+       #more-toggle {
+           background: none;
+           border: none;
+           color: var(--accent-color);
+           cursor: pointer;
+           font-family: inherit;
+           font-size: inherit;
+           padding: 10px;
+           transition: all 0.3s ease;
+       }
+
+       #more-toggle:hover {
+           color: var(--gold-accent);
+           transform: scale(1.05);
+       }
+
+       #more-options {
+           position: absolute;
+           top: 100%;
+           right: 0;
+           background: rgba(15, 23, 42, 0.95);
+           backdrop-filter: blur(10px);
+           border: 1px solid var(--accent-color);
+           border-radius: 10px;
+           padding: 10px 0;
+           margin-top: 5px;
+           box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+       }
+
+       #more-options li {
+           list-style: none;
+           padding: 5px 20px;
+       }
+
+       /* Enhanced Sections */
+       section {
+           padding: 100px 0;
+           background: linear-gradient(135deg, var(--dark-space), var(--light-space));
+       }
+
+       #about {
+           background: linear-gradient(135deg, var(--light-space), var(--dark-space));
+       }
+
+       .section-intro h5 {
+           color: var(--accent-color);
+           text-transform: uppercase;
+           letter-spacing: 2px;
+           margin-bottom: 20px;
+       }
+
+       .h01 {
+           font-size: 2.5rem;
+           color: var(--gold-accent);
+           margin-bottom: 30px;
+       }
+
+       .lead {
+           font-size: 1.1rem;
+           line-height: 1.8;
+           color: var(--text-light);
+       }
+
+       /* Enhanced Events Section */
+       #events {
+           background: var(--dark-space);
+       }
+
+       .bgrid {
+           background: linear-gradient(135deg, var(--light-space), rgba(59, 130, 246, 0.1));
+           border: 1px solid var(--accent-color);
+           border-radius: 15px;
+           padding: 30px;
+           margin: 20px;
+           transition: all 0.3s ease;
+           position: relative;
+           overflow: hidden;
+       }
+
+       .bgrid::before {
+           content: '';
+           position: absolute;
+           top: -50%;
+           left: -50%;
+           width: 200%;
+           height: 200%;
+           background: linear-gradient(45deg, transparent, rgba(96, 165, 250, 0.1), transparent);
+           transform: rotate(45deg);
+           transition: all 0.6s ease;
+           opacity: 0;
+       }
+
+       .bgrid:hover::before {
+           opacity: 1;
+           transform: rotate(45deg) translate(50%, 50%);
+       }
+
+       .bgrid:hover {
+           transform: translateY(-10px);
+           box-shadow: 0 20px 40px rgba(96, 165, 250, 0.2);
+           border-color: var(--gold-accent);
+       }
+
+       .bgrid img {
+           filter: brightness(0.8) contrast(1.2);
+           transition: all 0.3s ease;
+       }
+
+       .bgrid:hover img {
+           filter: brightness(1) contrast(1.3);
+           transform: scale(1.1);
+       }
+
+       .h05 {
+           color: var(--gold-accent);
+           font-size: 1.3rem;
+           margin: 20px 0 10px 0;
+       }
+
+       /* Enhanced Members Section */
+       #members {
+           background: linear-gradient(135deg, var(--primary-color), var(--dark-space));
+       }
+
+       .member-author {
+           text-align: center;
+           padding: 30px;
+           background: rgba(255, 255, 255, 0.05);
+           border-radius: 15px;
+           border: 1px solid var(--accent-color);
+       }
+
+       .author-info {
+           font-family: 'Orbitron', monospace;
+           font-weight: 600;
+           color: var(--gold-accent);
+           margin-top: 20px;
+       }
+
+       .author-info span {
+           display: block;
+           color: var(--accent-color);
+           font-size: 0.9rem;
+           margin-top: 5px;
+       }
+
+       /* Enhanced Footer */
+       #footer {
+           background: linear-gradient(135deg, var(--dark-space), var(--primary-color));
+           color: var(--text-light);
+           padding: 60px 0 20px 0;
+       }
+
+       .footer-bottom {
+           background: var(--dark-space);
+           padding: 20px 0;
+           border-top: 1px solid var(--accent-color);
+       }
+
+       .social-links a {
+           color: var(--text-light);
+           transition: all 0.3s ease;
+           text-decoration: none;
+           padding: 5px 0;
+           display: block;
+       }
+
+       .social-links a:hover {
+           color: var(--gold-accent);
+           padding-left: 10px;
+       }
+
+       /* Responsive Design */
+       @media (max-width: 768px) {
+           .intro-content h1 {
+               font-size: 2.5rem;
+           }
+           
+           .intro-content h5 {
+               font-size: 1rem;
+           }
+           
+           .popupevents {
+               width: 95%;
+               padding: 20px;
+           }
+           
+           .bgrid {
+               margin: 10px 0;
+           }
+       }
+
+       /* Scroll animations */
+       .fade-in-up {
+           opacity: 0;
+           transform: translateY(30px);
+           transition: all 0.8s ease;
+       }
+
+       .fade-in-up.animate {
+           opacity: 1;
+           transform: translateY(0);
+       }
+
+       /* Custom scrollbar */
+       ::-webkit-scrollbar {
+           width: 8px;
+       }
+
+       ::-webkit-scrollbar-track {
+           background: var(--dark-space);
+       }
+
+       ::-webkit-scrollbar-thumb {
+           background: var(--accent-color);
+           border-radius: 4px;
+       }
+
+       ::-webkit-scrollbar-thumb:hover {
+           background: var(--gold-accent);
+       }
+   </style>
+   <!-- script
+   ================================================== -->
+	<script src="js/modernizr.js"></script>
+   <!-- favicons
+	================================================== -->
+	<link rel="icon" type="image/png" href="./images/favicon.png">
+</head>
+<body id="top">
+	<!-- header 
+   ================================================== -->
+   <header class="riple-effect">
+   	<div class="row">
+   		<div class="logo">
+	         <a href="index.html"></a>
+	      </div>
+          <nav id="main-nav-wrap">
+            <ul class="main-navigation">
+                <li class="current"><a class="smoothscroll" href="#intro" title="">Home</a></li>
+                <li><a class="smoothscroll" href="#about" title="">About Us</a></li>
+                <li><a class="smoothscroll" href="#events" title="">Events</a></li>
+                <li><a class="smoothscroll" href="#members" title="">Members</a></li>
+                <li><a class="smoothscroll" href="#footer" title="">Contact</a></li>
+                <li class="highlight with-sep"><a href="solar.html" title="">Solar System Explorer</a></li>
+                <!-- More Button -->
+                <li style="position: relative;"><button id="more-toggle">More ▼</button>
+                <!-- Hidden Options -->
+                <div id="more-options" style="display: none;">
+                    <li><a href="simulations/curved-spacetime-main/index.html" title="">Curved Spacetime</a></li>
+                    <li><a class="smoothscroll" href="#team" title="">Our Team</a></li>
+                    <li><a class="smoothscroll" href="#faq" title="">FAQ</a></li>
+                </div>
+                </li>
+            </ul>
+        </nav>
+			<a class="menu-toggle" href="#"><span>Menu</span></a>
+   	</div>   	
+   </header> <!-- /header -->
+
+	<!-- intro section
+   ================================================== -->
+   <section id="intro">
+    <div class="intro-content">
+      <div class="row">
+        <div class="col-twelve">
+          <h5>Welcome to the cosmos with</h5>
+          <h1>STEM October Astronomy Club</h1>
+          <p style="font-size: 1.2rem; color: var(--accent-color); margin-top: 20px;">
+            Where stellar minds converge to unravel the mysteries of the universe
+          </p>
+        </div>  
+      </div>   		 		
+    </div>
+  </section>
+   <!-- /intro -->
+
+   <!-- about Section
+   ================================================== -->
+   <section id="about" class="fade-in-up">
+   	<div class="row section-intro">
+   		<div class="col-twelve with-bottom-line">
+   			<h5>About Us</h5>
+            <br/>
+            <h2 class="h01">Who Are We?</h2>
+            <br/>
+   			<p class="lead">
+                <strong>ASTRONOMY is a natural science that studies celestial objects and phenomena, exploring the physics, chemistry, and evolution of cosmic bodies and the universe itself. At <strong>STEM High School for Boys - 6th of October</strong>, we've created this club for astronomy enthusiasts to quench their thirst for cosmic knowledge.<br/><br/>We are a passionate community of stargazers, dreamers, and scientists-in-the-making. Fascinated by the mysteries of the night sky and the majestic views through our telescopes, we gather to explore the infinite cosmos together.<br/><br/>The STEM October Astronomy Club was founded by dedicated students who share an insatiable curiosity about the universe. Our club aims to create awareness in amateur astronomy through night-sky observations, educational talks, and exciting competitions that challenge our understanding of the cosmos.
+            </strong></p>
+            <br/>
+            <h2 class="h01">What We Do?</h2>
+            <br/>
+            <p class="lead">
+            <strong>"Astronomy compels us to look upwards and leads us from this world to another." - Plato<br/><br/>Astronomy transcends theoretical concepts, involving practical observation of celestial wonders beyond our earthly horizon. It questions the origin and existence of our universe, driving our insatiable curiosity and desire to learn.<br/><br/>Our club has successfully built an environment of healthy knowledge exchange about astronomy and astrophysics. Our dedicated team has brought pride to our school by participating in various astronomical competitions held across the nation. We aim for the stars and beyond!</strong>
+            </p>
+   		</div>   		
+   	</div>
+   </section> <!-- /about-->   
+
+   <!-- events Section
+   ================================================== -->
+	<section id="events" class="fade-in-up">
+		<div class="row section-intro">
+   		<div class="col-twelve with-bottom-line">
+   			<h5>Our Celestial Events</h5><br/>
+   			<p class="lead">Embark on extraordinary cosmic journeys through our carefully crafted events, designed to challenge your astronomical knowledge and ignite your passion for the universe.</p>
+   		</div>   		
+   	</div>
+   	<div class="row events-content">
+   		<div class="events-list block-1-3 block-s-1-2 block-tab-full group">
+	      	<div class="bgrid feature">	
+	      		<span class="icon"><br/><a href="#popup1"><img src="https://images.unsplash.com/photo-1446776653964-20c1d3a81b06?ixlib=rb-4.0.3&auto=format&fit=crop&w=200&h=200&q=80" style="height:120px; width:120px; border-radius: 50%; object-fit: cover;"/></a></span>
+	            <div class="service-content">	
+	            	 <h3 class="h05"><a href="#popup1">Armageddon</a></h3>
+		            <p>The fate of humanity rests in your hands. Devise a plan to save Earth from cosmic destruction.
+	         		</p>
+	         	</div> 	         	 
+				</div> <!-- /bgrid -->
+				<div class="bgrid feature">	
+					<span class="icon"><br/><a href="#popup2"><img src="https://images.unsplash.com/photo-1502134249126-9f3755a50d78?ixlib=rb-4.0.3&auto=format&fit=crop&w=200&h=200&q=80" style="height:120px; width:120px; border-radius: 50%; object-fit: cover;"/></a></span>
+	            <div class="service-content">	
+	            	<h3 class="h05"><a href="#popup2">Astro Hunt</a></h3>
+		            <p>Solve the mysteries of the universe through challenging puzzles and astronomical clues.
+	         		</p>
+	            </div>	                          
+			   </div> <!-- /bgrid -->
+			   <div class="bgrid feature">
+			   	<span class="icon"><br/><a href="#popup3"><img src="https://images.unsplash.com/photo-1516849841032-87cbac4d88f7?ixlib=rb-4.0.3&auto=format&fit=crop&w=200&h=200&q=80" style="height:120px; width:120px; border-radius: 50%; object-fit: cover;"/></a></span>
+	            <div class="service-content">
+	            	<h3 class="h05"><a href="#popup3">Star Trek</a></h3>
+		            <p>Voyage through different celestial bodies via telescopic exploration and astronomical quizzes.
+	        			</p> 
+	            </div> 	            	               
+			   </div> <!-- /bgrid -->
+			   <div class="bgrid feature">
+			   	<span class="icon"><br/><a href="#popup4"><img src="https://images.unsplash.com/photo-1419242902214-272b3f66ee7a?ixlib=rb-4.0.3&auto=format&fit=crop&w=200&h=200&q=80" style="height:120px; width:120px; border-radius: 50%; object-fit: cover;"/></a></span>
+	            <div class="service-content">	
+	            	<h3 class="h05"><a href="#popup4">Desert Stargazing</a></h3>
+		            <p>An extended astronomical adventure under pristine dark skies away from city lights.</p>
+	            </div>	               
+               </div> <!-- /bgrid -->
+               <div class="bgrid feature">
+                   <span class="icon"><br/><a href="#popup5"><img src="https://images.unsplash.com/photo-1506905925346-21bda4d32df4?ixlib=rb-4.0.3&auto=format&fit=crop&w=200&h=200&q=80" style="height:120px; width:120px; border-radius: 50%; object-fit: cover;"/></a></span>
+                   <div class="service-content">
+                       <h3 class="h05"><a href="#popup5">Night Observation Camp</a></h3>
+                       <p>Stars shine brightest in the healing darkness of midnight. Join our overnight celestial observations.
+                       </p> 
+                   </div>                
+               </div> <!-- /bgrid -->
+               <div class="bgrid feature">
+			   	<span class="icon"><br/><a href="#popup6"><img src="https://images.unsplash.com/photo-1581833971358-2c8b550f87b3?ixlib=rb-4.0.3&auto=format&fit=crop&w=200&h=200&q=80" style="height:120px; width:120px; border-radius: 50%; object-fit: cover;"/></a></span>
+	            <div class="service-content">
+	            	 <h3 class="h05"><a href="#popup6">Cosmic Presentation Series</a></h3>
+		            <p>Introducing new members to astronomy through innovative and informative presentations.
+	        			</p> 
+	            </div>	               
+			   </div> <!-- /bgrid -->
+	      </div> <!-- events-list -->
+   	</div> <!-- events-content -->
+
+    <!-- Event Popups -->
+    <div id="popup1" class="overlayevents">
+        <div class="popupevents">
+            <a class="closeevents" href="#events">&times;</a>
+            <div class="contentevents">
+                <div class=" col-six mob-full tab-full"><img src="https://images.unsplash.com/photo-1446776653964-20c1d3a81b06?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80" style="height:200px; width:100%; object-fit: cover; border-radius: 10px;"/></div>
+                <div class="col-six tab-full mob-full" style="color: var(--text-light)">
+                    <br/><p style="font-size:24px; font-family: 'Orbitron', monospace; color: var(--gold-accent);">ARMAGEDDON</p>
+                    <p style="color: var(--accent-color);">Date: Annual Event<br/>Venue: STEM High School - 6th of October</p>
+                </div>
+                <div class="col-twelve mob-full tab-full">
+                    <br/><h3>Synopsis</h3>
+                    <p>Scientists at NASA have discovered an asteroid 65 miles wide, codenamed Destroyer786. This massive celestial body, composed of carbon molecules, rocks, and metals, is on a collision course with Earth. The asteroid travels at 30,000 miles per hour, approaching from the sun's direction with an estimated impact in 1.5 years.</p>
+                    <p>All nations have united, understanding the grave situation and ready to take extreme measures to prevent the end of the world. You are chosen to be part of the core team of scientists tasked with saving humanity.</p>
+                    <p><strong>Your mission: Devise a comprehensive plan to save Earth and humanity. The fate of our species lies in your hands.</strong></p>
+                    <br/><h3>Event Structure</h3>
+                    <ul>
+                        <li>Two-round competition with online submissions followed by live presentations</li>
+                        <li>No economic constraints - all global resources are available</li>
+                        <li>547 days to execute your plan - every hour counts</li>
+                        <li>Solutions must be based on current or near-future technology</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="popup2" class="overlayevents">
+        <div class="popupevents">
+            <a class="closeevents" href="#events">&times;</a>
+            <div class="contentevents">
+                <div class=" col-six mob-full tab-full"><img src="https://images.unsplash.com/photo-1502134249126-9f3755a50d78?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80" style="height:200px; width:100%; object-fit: cover; border-radius: 10px;"/></div>
+                <div class="col-six tab-full mob-full">
+                    <br/><p style="font-size:24px; font-family: 'Orbitron', monospace; color: var(--gold-accent);">ASTRO HUNT</p>
+                    <p style="color: var(--accent-color);">Date: Annual Event<br/>Venue: STEM High School Campus</p>
+                </div>
+                <div class="col-twelve mob-full tab-full">
+                    <br/><h3>Synopsis</h3>
+                    <p>Foresee the unfathomable and explore the mysteries of the universe. Only the sharp, intelligent, and astronomy enthusiasts will make it to the end. The route to solving the mysteries of the universe lies within the depths of the dark sky and your imagination. It's time to bring out the Galileo Galilei in you and look into the infinite cosmic depths.</p>
+                    <br/><h3>Event Description</h3>
+                    <ul>
+                        <li>Teams receive campus maps and detailed sky charts</li>
+                        <li>Four challenging rounds of astronomical puzzles and clues</li>
+                        <li>Each round leads to specific campus locations with astronomical significance</li>
+                        <li>Collect flags containing crucial information for the final cosmic puzzle</li>
+                        <li>The fastest team to solve all puzzles wins the cosmic crown</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="popup3" class="overlayevents">
+        <div class="popupevents">
+            <a class="closeevents" href="#events">&times;</a>
+            <div class="contentevents">
+                <div class=" col-six mob-full tab-full"><img src="https://images.unsplash.com/photo-1516849841032-87cbac4d88f7?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80" style="height:200px; width:100%; object-fit: cover; border-radius: 10px;"/></div>
+                <div class="col-six tab-full mob-full">
+                    <br/><p style="font-size:24px; font-family: 'Orbitron', monospace; color: var(--gold-accent);">STAR TREK</p>
+                    <p style="color: var(--accent-color);">Date: Bi-Annual Event<br/>Venue: STEM High School Observatory</p>
+                </div>
+                <div class="col-twelve mob-full tab-full">
+                    <br/><h3>Synopsis</h3>
+                    <p>This event consists of two exciting rounds: Spacewalk and Messier Marathon. Prepare for an astronomical journey that will test your knowledge and observational skills.</p>
+                    <br/><h4>1st Round: Spacewalk</h4>
+                    <p>An immersive audio-visual quiz featuring stunning cosmic imagery and videos. Participants must demonstrate their astronomical knowledge through challenging questions.</p>
+                    <br/><h4>2nd Round: Messier Marathon</h4>
+                    <p>For those who sneak out at night to gaze at the stars and build cosmic imagination - this is your perfect challenge. A stellar hunt requiring participants to embark on a voyage through different celestial bodies using professional telescopes.</p>
+                    <br/><h3>What You'll Experience</h3>
+                    <ul>
+                        <li>Professional telescope handling tutorial</li>
+                        <li>Live observation of planets, star clusters, and nebulae</li>
+                        <li>Timed celestial object identification challenges</li>
+                        <li>Expert guidance from our astronomy mentors</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="popup4" class="overlayevents">
+        <div class="popupevents">
+            <script>
+                // STEM October Astronomy Club (SOAC) Website JavaScript
+
+// Wait for DOM to be fully loaded
+document.addEventListener('DOMContentLoaded', function() {
+    
+    // ==========================================
+    // SPOTLIGHT EFFECT FOR INTRO SECTION
+    // ==========================================
+    const introSection = document.getElementById('intro');
+    
+    if (introSection) {
+        introSection.addEventListener('mousemove', function(e) {
+            const rect = introSection.getBoundingClientRect();
+            const x = ((e.clientX - rect.left) / rect.width) * 100;
+            const y = ((e.clientY - rect.top) / rect.height) * 100;
+            
+            introSection.style.setProperty('--mouse-x', x + '%');
+            introSection.style.setProperty('--mouse-y', y + '%');
+        });
+        
+        // Reset spotlight to center when mouse leaves
+        introSection.addEventListener('mouseleave', function() {
+            introSection.style.setProperty('--mouse-x', '50%');
+            introSection.style.setProperty('--mouse-y', '50%');
+        });
+    }
+    
+    // ==========================================
+    // SMOOTH SCROLLING FOR NAVIGATION LINKS
+    // ==========================================
+    const smoothScrollLinks = document.querySelectorAll('a.smoothscroll');
+    
+    smoothScrollLinks.forEach(link => {
+        link.addEventListener('click', function(e) {
+            e.preventDefault();
+            
+            const targetId = this.getAttribute('href');
+            const targetSection = document.querySelector(targetId);
+            
+            if (targetSection) {
+                const headerHeight = document.querySelector('header').offsetHeight;
+                const targetPosition = targetSection.offsetTop - headerHeight;
+                
+                window.scrollTo({
+                    top: targetPosition,
+                    behavior: 'smooth'
+                });
+            }
+        });
+    });
+    
+    // ==========================================
+    // DROPDOWN MENU FUNCTIONALITY
+    // ==========================================
+    const moreToggle = document.getElementById('more-toggle');
+    const moreOptions = document.getElementById('more-options');
+    
+    if (moreToggle && moreOptions) {
+        moreToggle.addEventListener('click', function(e) {
+            e.stopPropagation();
+            const isVisible = moreOptions.style.display === 'block';
+            moreOptions.style.display = isVisible ? 'none' : 'block';
+        });
+        
+        // Close dropdown when clicking outside
+        document.addEventListener('click', function() {
+            moreOptions.style.display = 'none';
+        });
+        
+        // Prevent dropdown from closing when clicking inside it
+        moreOptions.addEventListener('click', function(e) {
+            e.stopPropagation();
+        });
+    }
+    
+    // ==========================================
+    // MOBILE MENU TOGGLE
+    // ==========================================
+    const menuToggle = document.querySelector('.menu-toggle');
+    const mainNavWrap = document.getElementById('main-nav-wrap');
+    
+    if (menuToggle && mainNavWrap) {
+        menuToggle.addEventListener('click', function(e) {
+            e.preventDefault();
+            mainNavWrap.classList.toggle('active');
+            this.classList.toggle('active');
+        });
+    }
+    
+    // ==========================================
+    // SCROLL ANIMATIONS
+    // ==========================================
+    const observerOptions = {
+        threshold: 0.1,
+        rootMargin: '0px 0px -50px 0px'
+    };
+    
+    const observer = new IntersectionObserver(function(entries) {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('animate');
+            }
+        });
+    }, observerOptions);
+    
+    // Observe all fade-in-up elements
+    const fadeElements = document.querySelectorAll('.fade-in-up');
+    fadeElements.forEach(element => {
+        observer.observe(element);
+    });
+    
+    // ==========================================
+    // HEADER BACKGROUND ON SCROLL
+    // ==========================================
+    const header = document.querySelector('header');
+    
+    window.addEventListener('scroll', function() {
+        if (window.scrollY > 100) {
+            header.classList.add('scrolled');
+        } else {
+            header.classList.remove('scrolled');
+        }
+    });
+    
+    // ==========================================
+    // EVENT POPUP FUNCTIONALITY
+    // ==========================================
+    const eventLinks = document.querySelectorAll('a[href^="#popup"]');
+    const closeButtons = document.querySelectorAll('.closeevents');
+    const overlays = document.querySelectorAll('.overlayevents');
+    
+    // Handle popup opening
+    eventLinks.forEach(link => {
+        link.addEventListener('click', function(e) {
+            e.preventDefault();
+            const targetPopup = document.querySelector(this.getAttribute('href'));
+            if (targetPopup) {
+                targetPopup.style.visibility = 'visible';
+                targetPopup.style.opacity = '1';
+                document.body.style.overflow = 'hidden'; // Prevent background scrolling
+            }
+        });
+    });
+    
+    // Handle popup closing
+    closeButtons.forEach(button => {
+        button.addEventListener('click', function(e) {
+            e.preventDefault();
+            const popup = this.closest('.overlayevents');
+            if (popup) {
+                popup.style.visibility = 'hidden';
+                popup.style.opacity = '0';
+                document.body.style.overflow = ''; // Restore scrolling
+            }
+        });
+    });
+    
+    // Close popup when clicking on overlay (but not on popup content)
+    overlays.forEach(overlay => {
+        overlay.addEventListener('click', function(e) {
+            if (e.target === this) {
+                this.style.visibility = 'hidden';
+                this.style.opacity = '0';
+                document.body.style.overflow = '';
+            }
+        });
+    });
+    
+    // Close popup with Escape key
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape') {
+            const visiblePopup = document.querySelector('.overlayevents[style*="visible"]');
+            if (visiblePopup) {
+                visiblePopup.style.visibility = 'hidden';
+                visiblePopup.style.opacity = '0';
+                document.body.style.overflow = '';
+            }
+        }
+    });
+    
+    // ==========================================
+    // ENHANCED ANIMATIONS FOR EVENTS GRID
+    // ==========================================
+    const eventCards = document.querySelectorAll('.bgrid.feature');
+    
+    eventCards.forEach((card, index) => {
+        // Add staggered animation delay
+        card.style.animationDelay = `${index * 0.1}s`;
+        
+        // Add hover sound effect (optional - requires audio files)
+        card.addEventListener('mouseenter', function() {
+            // You can add sound effects here if desired
+            // const hoverSound = new Audio('path/to/hover-sound.mp3');
+            // hoverSound.play();
+        });
+    });
+    
+    // ==========================================
+    // PARALLAX SCROLLING EFFECT
+    // ==========================================
+    window.addEventListener('scroll', function() {
+        const scrolled = window.pageYOffset;
+        const parallaxElements = document.querySelectorAll('[data-parallax]');
+        
+        parallaxElements.forEach(element => {
+            const speed = element.dataset.parallax;
+            const yPos = -(scrolled * speed / 100);
+            element.style.transform = `translateY(${yPos}px)`;
+        });
+    });
+    
+    // ==========================================
+    // CONSTELLATION ANIMATION (OPTIONAL)
+    // ==========================================
+    function createStarField() {
+        const starField = document.createElement('div');
+        starField.className = 'star-field';
+        starField.style.cssText = `
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: -1;
+        `;
+        
+        // Create random stars
+        for (let i = 0; i < 100; i++) {
+            const star = document.createElement('div');
+            star.className = 'star';
+            star.style.cssText = `
+                position: absolute;
+                width: 2px;
+                height: 2px;
+                background: #fff;
+                border-radius: 50%;
+                top: ${Math.random() * 100}%;
+                left: ${Math.random() * 100}%;
+                animation: twinkle ${2 + Math.random() * 3}s infinite;
+            `;
+            starField.appendChild(star);
+        }
+        
+        document.body.appendChild(starField);
+    }
+    
+    // Add CSS for twinkling animation
+    const style = document.createElement('style');
+    style.textContent = `
+        @keyframes twinkle {
+            0%, 100% { opacity: 0.3; }
+            50% { opacity: 1; }
+        }
+        
+        header.scrolled {
+            background: rgba(15, 23, 42, 0.98) !important;
+            backdrop-filter: blur(15px);
+        }
+        
+        .main-navigation.active {
+            display: block;
+        }
+        
+        @media (max-width: 768px) {
+            #main-nav-wrap {
+                display: none;
+            }
+            
+            #main-nav-wrap.active {
+                display: block;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                right: 0;
+                background: rgba(15, 23, 42, 0.98);
+                backdrop-filter: blur(10px);
+                border-top: 1px solid var(--accent-color);
+            }
+            
+            .main-navigation {
+                flex-direction: column;
+                padding: 20px;
+            }
+            
+            .main-navigation li {
+                margin: 10px 0;
+            }
+        }
+    `;
+    document.head.appendChild(style);
+    
+    // Initialize star field (uncomment if desired)
+    // createStarField();
+    
+    // ==========================================
+    // PERFORMANCE OPTIMIZATION
+    // ==========================================
+    
+    // Throttle scroll events for better performance
+    let ticking = false;
+    
+    function updateScrollEffects() {
+        // Update header background
+        if (window.scrollY > 100) {
+            header.classList.add('scrolled');
+        } else {
+            header.classList.remove('scrolled');
+        }
+        
+        ticking = false;
+    }
+    
+    function requestTick() {
+        if (!ticking) {
+            requestAnimationFrame(updateScrollEffects);
+            ticking = true;
+        }
+    }
+    
+    window.addEventListener('scroll', requestTick);
+    
+    console.log('SOAC Website JavaScript loaded successfully! 🌟');
+});
+
+// ==========================================
+// UTILITY FUNCTIONS
+// ==========================================
+
+// Function to preload images for better performance
+function preloadImages() {
+    const images = [
+        'intro-bg.jpg'
+    ];
+    
+    images.forEach(src => {
+        const img = new Image();
+        img.src = src;
+    });
+}
+
+// Initialize image preloading
+preloadImages();
+
+// Function to handle form submissions (if forms are added later)
+function handleFormSubmission(formId, callback) {
+    const form = document.getElementById(formId);
+    if (form) {
+        form.addEventListener('submit', function(e) {
+            e.preventDefault();
+            const formData = new FormData(this);
+            callback(formData);
+        });
+    }
+}
+
+// Function to add loading states to buttons
+function addLoadingState(button, loadingText = 'Loading...') {
+    const originalText = button.textContent;
+    button.textContent = loadingText;
+    button.disabled = true;
+    
+    return function() {
+        button.textContent = originalText;
+        button.disabled = false;
+    };
+}
+
+// Export functions for potential use in other scripts
+window.SOACUtils = {
+    preloadImages,
+    handleFormSubmission,
+    addLoadingState
+};
+            </script>

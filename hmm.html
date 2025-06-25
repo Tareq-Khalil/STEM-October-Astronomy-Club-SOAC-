@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="s.css">
+    <title>Drop-down menu</title>
+    
+
+</head>
+<body>
+
+    <div id="menu">
+    <nav class="top-nav" >
+        <ul>
+            <li class="riple-effect"><a href="#">Home</a>
+               
+            </li>
+            <li class="riple-effect"><a href="#">About us</a>
+               
+            </li>
+            <li class="riple-effect"><a href="#">Blog</a>
+                
+            </li>
+            <li class="riple-effect"><a href="#">Services</a>
+                <ul>
+                    <li><a href="#">Web services</a></li>
+                    <li><a href="#">Design services</a></li>
+                    <li><a href="#">Home services</a></li>
+                   
+                </ul>
+            </li>
+            <li class="riple-effect"><a href="#">Contact us</a>
+                <ul>
+                    <li><a href="#">Map</a></li>
+                    <li><a href="#">Directions</a></li>
+                
+                </ul>
+            </li>
+        </ul>
+    </nav>
+    </div>
+
+    <section>
+        <header class="top-header">
+            <h1>Water Ripple Effect On Website</h1>
+        </header>
+       
+    </section>
+
+  
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="jquery.ripples-min.js"></script>
+    <script>
+        $('section').ripples({
+	resolution: 512,
+	dropRadius: 20,
+	perturbance: 0.04,
+});
+    </script>
+    <script>
+        $('.top-nav').ripples({
+	resolution: 512,
+	dropRadius: 20,
+	perturbance: 0.04,
+});
+
+    </script>
+
+   
+</body> 
+
+</html>

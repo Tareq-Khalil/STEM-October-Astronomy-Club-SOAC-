@@ -1,20 +1,18 @@
+
 <!DOCTYPE html>
 <!--[if IE 8 ]><html class="no-js oldie ie8" lang="en"> <![endif]-->
 <!--[if IE 9 ]><html class="no-js oldie ie9" lang="en"> <![endif]-->
 <!--[if (gte IE 9)|!(IE)]><!--><html class="no-js" lang="en"> <!--<![endif]-->
 <head>
-
    <!--- basic page needs
    ================================================== -->
    <meta charset="utf-8">
 	<title>STEM October Astronomy Club (SOAC)</title>
 	<meta name="description" content="">
 	<meta name="author" content="">
-
    <!-- mobile specific metas
    ================================================== -->
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-
  	<!-- CSS
    ================================================== -->
    <link rel="stylesheet" href="css/base.css">
@@ -49,46 +47,74 @@
          box-shadow: 0 0 10px rgba(0,0,0,0.5);
          transform: translate(-50%, -50%);
     }
+           h1, h2, h3, h4, h5 {
+           font-family: 'Orbitron', monospace;
+       }
     #intro {
   position: relative;
-  width: 100%;
-  height: 100vh;
-  background-image: url('images/intro-bg.jpg'); /* replace with your real image path */
+             background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(15, 23, 42, 0.9)), 
+                       url(images/intro-bg.jpg) center center;
+    background-repeat: no-repeat;
   background-size: cover;
-  background-position: center;
   overflow: hidden;
+    cursor: none;
 }
+ /* Dark overlay that covers everything initially */
+       #intro::before {
+           content: "";
+           position: absolute;
+           top: 0;
+           left: 0;
+           right: 0;
+           bottom: 0;
+           background: radial-gradient(circle 200px at var(--mouse-x, 50%) var(--mouse-y, 50%), 
+                                     transparent 0%, 
+                                     transparent 70%, 
+                                     rgba(0, 0, 0, 0.95) 100%);
+           z-index: 1;
+           transition: all 5s ease-out;
+           pointer-events: none;
+       }
 
+       .intro-content {
+           position: relative;
+           z-index: 3;
+           text-align: center;
+           padding-top: 30vh;
+       }
 
-#rippleCanvas {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  z-index: 0;
-  pointer-events: none;
-}
+       .intro-content h5 {
+           font-size: 1.2rem;
+           color: var(--accent-color);
+           text-transform: uppercase;
+           letter-spacing: 3px;
+           margin-bottom: 20px;
+           opacity: 0;
+           animation: fadeInUp 5s ease-out 5s forwards;
+       }
 
-.intro-content {
-  position: relative;
-  z-index: 2;
-}
+       .intro-content h1 h5 {
+           font-size: 4rem;
+           font-weight: 900;
+           background: linear-gradient(135deg, var(--gold-accent), var(--accent-color));
+           -webkit-background-clip: text;
+           -webkit-text-fill-color: transparent;
+           background-clip: text;
+           margin-bottom: 30px;
+           opacity: 0;
+           animation: fadeInUp 5s ease-out 5s forwards;
+       }
 
-.shadow-overlay {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: rgba(0,0,0,0.4);
-  z-index: 1;
-}
-
-
-
-    
-   
+       @keyframes fadeInUp {
+           from {
+               opacity: 0;
+               transform: translateY(30px);
+           }
+           to {
+               opacity: 1;
+               transform: translateY(0);
+           }
+       }
    .popupevents {
        margin: 7.5%;
        margin-left: 10%;
@@ -117,36 +143,219 @@
        max-height: 100%;
        overflow: auto;
    }
-   #more-options li {
-	padding-left: 15px;
-	margin-top: 5px;
-    margin-left: 50px
-}
 
+   /* Sidebar Styles */
+   .sidebar-toggle {
+       background: none;
+       border: none;
+       color: skyblue;
+       cursor: pointer;
+       padding: 8px;
+       display: flex;
+       flex-direction: column;
+       align-items: center;
+       justify-content: center;
+       width: 30px;
+       height: 24px;
+       transition: all 0.3s ease;
+   }
+
+   .hamburger-line {
+       width: 22px;
+       height: 2px;
+       background: skyblue;
+       margin: 2px 0;
+       transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+       border-radius: 2px;
+   }
+
+   .sidebar-toggle:hover .hamburger-line {
+       background: #87CEEB;
+   }
+
+   .sidebar-toggle.active .hamburger-line:nth-child(1) {
+       transform: rotate(45deg) translate(5px, 5px);
+   }
+
+   .sidebar-toggle.active .hamburger-line:nth-child(2) {
+       opacity: 0;
+   }
+
+   .sidebar-toggle.active .hamburger-line:nth-child(3) {
+       transform: rotate(-45deg) translate(7px, -6px);
+   }
+
+   /* Sidebar Overlay */
+   .sidebar-overlay {
+       position: fixed;
+       top: 0;
+       left: 0;
+       right: 0;
+       bottom: 0;
+       background: rgba(0, 0, 0, 0.6);
+       backdrop-filter: blur(5px);
+       z-index: 9998;
+       opacity: 0;
+       visibility: hidden;
+       transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+   }
+
+   .sidebar-overlay.active {
+       opacity: 1;
+       visibility: visible;
+   }
+
+   /* Sidebar */
+   .sidebar {
+       position: fixed;
+       top: 0;
+       right: -350px;
+       width: 320px;
+       height: 100vh;
+       background: linear-gradient(135deg, rgba(15, 23, 42, 0.95), rgba(30, 41, 59, 0.95));
+       backdrop-filter: blur(20px);
+       box-shadow: -10px 0 30px rgba(0, 0, 0, 0.3);
+       z-index: 9999;
+       transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+       overflow-y: auto;
+   }
+
+   .sidebar.active {
+       right: 0;
+   }
+
+   .sidebar-header {
+       padding: 30px 25px;
+       border-bottom: 1px solid rgba(135, 206, 235, 0.2);
+       background: linear-gradient(135deg, rgba(135, 206, 235, 0.1), rgba(72, 187, 255, 0.1));
+   }
+
+   .sidebar-title {
+       color: skyblue;
+       font-size: 1.4rem;
+       font-weight: 600;
+       margin: 0;
+       text-align: center;
+       font-family: 'Orbitron', monospace;
+   }
+
+   .sidebar-close {
+       position: absolute;
+       top: 20px;
+       right: 20px;
+       background: none;
+       border: none;
+       color: skyblue;
+       font-size: 1.5rem;
+       cursor: pointer;
+       padding: 5px;
+       border-radius: 50%;
+       transition: all 0.3s ease;
+       width: 35px;
+       height: 35px;
+       display: flex;
+       align-items: center;
+       justify-content: center;
+   }
+
+   .sidebar-close:hover {
+       background: rgba(135, 206, 235, 0.2);
+       transform: rotate(90deg);
+   }
+
+   .sidebar-menu {
+       padding: 20px 0;
+       list-style: none;
+       margin: 0;
+   }
+
+   .sidebar-menu li {
+       margin: 0;
+   }
+
+   .sidebar-menu a {
+       display: flex;
+       align-items: center;
+       padding: 15px 25px;
+       color: rgba(255, 255, 255, 0.9);
+       text-decoration: none;
+       transition: all 0.3s ease;
+       font-size: 1rem;
+       font-weight: 500;
+       border-left: 3px solid transparent;
+   }
+
+   .sidebar-menu a:hover {
+       background: linear-gradient(135deg, rgba(135, 206, 235, 0.15), rgba(72, 187, 255, 0.15));
+       color: skyblue;
+       border-left-color: skyblue;
+       transform: translateX(5px);
+   }
+
+   .sidebar-menu a::before {
+       content: '';
+       width: 8px;
+       height: 8px;
+       background: skyblue;
+       border-radius: 50%;
+       margin-right: 12px;
+       opacity: 0;
+       transform: scale(0);
+       transition: all 0.3s ease;
+   }
+
+   .sidebar-menu a:hover::before {
+       opacity: 1;
+       transform: scale(1);
+   }
+
+   /* Category Headers */
+   .sidebar-category {
+       padding: 20px 25px 10px;
+       color: rgba(135, 206, 235, 0.7);
+       font-size: 0.85rem;
+       font-weight: 600;
+       text-transform: uppercase;
+       letter-spacing: 1px;
+       border-top: 1px solid rgba(135, 206, 235, 0.1);
+       margin-top: 10px;
+   }
+
+   .sidebar-category:first-child {
+       border-top: none;
+       margin-top: 0;
+   }
+
+   /* Mobile Responsiveness */
+   @media (max-width: 768px) {
+       .sidebar {
+           width: 280px;
+           right: -300px;
+       }
+   }
+
+   @media (max-width: 480px) {
+       .sidebar {
+           width: 100vw;
+           right: -100vw;
+       }
+   }
    </style>
-
    <!-- script
    ================================================== -->
 	<script src="js/modernizr.js"></script>
-
    <!-- favicons
 	================================================== -->
 	<link rel="icon" type="image/png" href="./images/favicon.png">
-
 </head>
-
 <body id="top">
-
 	<!-- header 
    ================================================== -->
    <header class="riple-effect">
-
    	<div class="row">
-
    		<div class="logo">
 	         <a href="index.html"></a>
 	      </div>
-
           <nav id="main-nav-wrap">
             <ul class="main-navigation">
                 <li class="current"><a class="smoothscroll" href="#intro" title="">Home</a></li>
@@ -155,49 +364,177 @@
                 <li><a class="smoothscroll" href="#members" title="">Members</a></li>
                 <li><a class="smoothscroll" href="#footer" title="">Contact</a></li>
                 <li class="highlight with-sep"><a href="solar.html" title="">OUR SOLAR SYSTEM - A Special Presentation</a></li>
-        
-                <!-- More Button -->
-                <li><button id="more-toggle" style="background:none;border:none;color:skyblue;cursor:pointer;">More ▼</button></li>
-        
-                <!-- Hidden Options -->
-                <div id="more-options" style="display: none;">
-                    <li><a class="smoothscroll" href="simulations/curved-spacetime-main/index.html" title="">curved spacetime</a></li>
-                    <li><a class="smoothscroll" href="simulations/orbits/index.html" title="">Our Team</a></li>
-                    <li><a class="smoothscroll" href="#faq" title="">FAQ</a></li>
-                </div>
+                
+                <!-- Sidebar Toggle Button -->
+                <li>
+                    <button class="sidebar-toggle" type="button" aria-label="Open sidebar menu">
+                        <span class="hamburger-line"></span>
+                        <span class="hamburger-line"></span>
+                        <span class="hamburger-line"></span>
+                    </button>
+                </li>
             </ul>
         </nav>
-        
-
 			<a class="menu-toggle" href="#"><span>Menu</span></a>
-   		
    	</div>   	
-   	
    </header> <!-- /header -->
 
+   <!-- Sidebar -->
+   <div class="sidebar-overlay"></div>
+   <div class="sidebar">
+       <div class="sidebar-header">
+           <h3 class="sidebar-title">SOAC Menu</h3>
+           <button class="sidebar-close" aria-label="Close sidebar">&times;</button>
+       </div>
+       <ul class="sidebar-menu">
+           <li class="sidebar-category">Simulations</li>
+           <li><a href="simulations/curved-spacetime-main/index.html">Curved Spacetime</a></li>
+           <li><a href="simulations/orbits/index.html">Orbital Mechanics</a></li>
+           <li><a href="simulations/black-hole/index.html">Black Hole Visualization</a></li>
+           <li><a href="simulations/solar-system/index.html">Solar System 3D</a></li>
+           
+           <li class="sidebar-category">Events</li>
+           <li><a href="#stargazing-events">Stargazing Nights</a></li>
+           <li><a href="#telescope-workshops">Telescope Workshops</a></li>
+           <li><a href="#guest-lectures">Guest Lectures</a></li>
+           <li><a href="#observatory-visits">Observatory Visits</a></li>
+           
+           <li class="sidebar-category">Competitions</li>
+           <li><a href="#astronomy-olympiad">Astronomy Olympiad</a></li>
+           <li><a href="#astrophotography-contest">Astrophotography Contest</a></li>
+           <li><a href="#rocket-design">Rocket Design Challenge</a></li>
+           <li><a href="#space-quiz">Space Knowledge Quiz</a></li>
+           
+           <li class="sidebar-category">Games</li>
+           <li><a href="SpaceOdyssey-main/SpaceOdyssey-main/index.html">A Treasure Hunt</a></li>
+           <li><a href="games/planet-explorer/index.html">Planet Explorer</a></li>
+           <li><a href="games/space-mission/index.html">Space Mission Simulator</a></li>
+           <li><a href="games/asteroid-dodge/index.html">Asteroid Dodge</a></li>
+       </ul>
+   </div> <!-- /header -->
+    <script>
+   document.addEventListener('DOMContentLoaded', function() {
+       const sidebarToggle = document.querySelector('.sidebar-toggle');
+       const sidebar = document.querySelector('.sidebar');
+       const sidebarOverlay = document.querySelector('.sidebar-overlay');
+       const sidebarClose = document.querySelector('.sidebar-close');
+
+       // Open sidebar
+       function openSidebar() {
+           sidebar.classList.add('active');
+           sidebarOverlay.classList.add('active');
+           sidebarToggle.classList.add('active');
+           document.body.style.overflow = 'hidden'; // Prevent background scrolling
+       }
+
+       // Close sidebar
+       function closeSidebar() {
+           sidebar.classList.remove('active');
+           sidebarOverlay.classList.remove('active');
+           sidebarToggle.classList.remove('active');
+           document.body.style.overflow = ''; // Restore scrolling
+       }
+
+       // Toggle sidebar on hamburger button click
+       sidebarToggle.addEventListener('click', function(e) {
+           e.stopPropagation();
+           if (sidebar.classList.contains('active')) {
+               closeSidebar();
+           } else {
+               openSidebar();
+           }
+       });
+
+       // Close sidebar when clicking close button
+       sidebarClose.addEventListener('click', closeSidebar);
+
+       // Close sidebar when clicking overlay
+       sidebarOverlay.addEventListener('click', closeSidebar);
+
+       // Close sidebar when pressing Escape key
+       document.addEventListener('keydown', function(e) {
+           if (e.key === 'Escape' && sidebar.classList.contains('active')) {
+               closeSidebar();
+               sidebarToggle.focus(); // Return focus to toggle button
+           }
+       });
+
+       // Handle keyboard navigation for hamburger button
+       sidebarToggle.addEventListener('keydown', function(e) {
+           if (e.key === 'Enter' || e.key === ' ') {
+               e.preventDefault();
+               if (sidebar.classList.contains('active')) {
+                   closeSidebar();
+               } else {
+                   openSidebar();
+               }
+           }
+       });
+
+       // Add smooth scroll behavior for internal links
+       const sidebarLinks = document.querySelectorAll('.sidebar-menu a[href^="#"]');
+       sidebarLinks.forEach(link => {
+           link.addEventListener('click', function() {
+               closeSidebar();
+           });
+       });
+
+       // Add staggered animation to menu items
+       const menuItems = document.querySelectorAll('.sidebar-menu li:not(.sidebar-category)');
+       sidebar.addEventListener('transitionend', function(e) {
+           if (e.target === sidebar && sidebar.classList.contains('active')) {
+               menuItems.forEach((item, index) => {
+                   setTimeout(() => {
+                       item.style.animation = `slideInFromRight 0.3s ease-out forwards`;
+                   }, index * 50);
+               });
+           }
+       });
+
+       // Reset animations when sidebar closes
+       sidebar.addEventListener('transitionstart', function(e) {
+           if (e.target === sidebar && !sidebar.classList.contains('active')) {
+               menuItems.forEach(item => {
+                   item.style.animation = '';
+               });
+           }
+       });
+   });
+
+   // Add CSS animation keyframes dynamically
+   const style = document.createElement('style');
+   style.textContent = `
+       @keyframes slideInFromRight {
+           from {
+               opacity: 0;
+               transform: translateX(20px);
+           }
+           to {
+               opacity: 1;
+               transform: translateX(0);
+           }
+       }
+   `;
+   document.head.appendChild(style);
+   </script>
 	<!-- intro section
    ================================================== -->
    <section id="intro">
-    <canvas id="rippleCanvas"></canvas>
     <div class="intro-content">
       <div class="row">
         <div class="col-twelve">
           <h5>Welcome to the official page of</h5>
-          <h1>STEM October Astronomy Club (SOAC)</h1>
+          <h1 style="color: #fff;">STEM October Astronomy Club (SOAC)</h1>
         </div>  
       </div>   		 		
     </div>
   </section>
    <!-- /intro -->
-
-
    <!-- about Section
    ================================================== -->
    <section id="about">
-
    	<div class="row section-intro">
    		<div class="col-twelve with-bottom-line">
-
    			<h5>About Us</h5>
             <br/>
             <h2 class="h01">Who Are We?</h2>
@@ -205,129 +542,75 @@
    			<p class="lead">
                 <strong>ASTRONOMY, a natural science, is the study of celestial objects and aboutes, the physics, chemistry, and evolution of such objects and aboutes, and more generally all phenomena that originate outside the atmosphere of Earth. So we at <strong>STEM High School for Boys - 6th of October</strong> made a club for the astronomy enthusiasts to quench their thirst for knowledge here only.<br/><br/>We are a bunch of people enthusiastic towards astronomy. Fascinated with the mysteries of the night sky and majestic views of telescope.<br/><br/>The LNMIIT Astronomy Club was founded by Y10 Batch students : Rishabh Baid, Rajat Vyas, Samarth Mathur and Shasak Raina. The club aims to create awareness in the field of amateur astronomy by indulging in night-sky observations, talks and various competitions.
             </strong></p>
-            
             <br/>
             <h2 class="h01">What We Do?</h2>
             <br/>
             <p class="lead">
             <strong>“Astronomy compels us to look upwards and leads us from this world to another.” - Plato.<br/><br/>Astronomy is not limited to theoretical concepts but involves practical observation of what lies beyond our horizon. It questions the origin and existence of our universe. This keeps us driving and entices the desire to learn.<br/><br/>The club has successfully built an environment of healthy exchange of knowledge about astronomy and astrophysics. The dedicated team has made the college proud by winning various astronomical competitions held across the nation. We aim higher!</strong>
             </p>
-            
    		</div>   		
    	</div>
-
-   </section> <!-- /about-->    
-
-
+   </section> <!-- /about-->   
    <!-- events Section
    ================================================== -->
 	<section id="events">
-
 		<div class="row section-intro">
    		<div class="col-twelve with-bottom-line">
-
    			<h5>Events</h5><br/>
    			<p class="lead">Lorem ipsum dolor sit amet consectetur adipisicing elit. Quasi nihil sequi quia tempora aut vero a totam enim quibusdam blanditiis ullam fuga dignissimos hic, libero suscipit rem repellat asperiores laudantium!</strong></p>
-
    		</div>   		
    	</div>
-
    	<div class="row events-content">
-
    		<div class="events-list block-1-3 block-s-1-2 block-tab-full group">
-
 	      	<div class="bgrid feature">	
-
 	      		<span class="icon"><br/><a href="#popup1"><img src="./images/armageddon.png" style="height:30%; width:30%;"/></a></span>
-
 	            <div class="service-content">	
-
 	            	 <h3 class="h05"><a href="#popup1">Armageddon</a></h3>
-
 		            <p>Fate of humanity in yours Hand.
 	         		</p>
-	         		
 	         	</div> 	         	 
-
 				</div> <!-- /bgrid -->
-
 				<div class="bgrid feature">	
-
 					<span class="icon"><br/><a href="#popup2"><img src="./images/astrohunt.png" style="height:30%; width:30%;"/></a></span>
-
 	            <div class="service-content">	
 	            	<h3 class="h05"><a href="#popup2">Astro Hunt</a></h3>
-
 		            <p>Solve the mysteries of Universe!
 	         		</p>
-
-	         		
 	            </div>	                          
-
 			   </div> <!-- /bgrid -->
-
 			   <div class="bgrid feature">
-
 			   	<span class="icon"><br/><a href="#popup3"><img src="./images/startrek.png" style="height:25%; width:25%;"/></a></span>
-
 	            <div class="service-content">
 	            	<h3 class="h05"><a href="#popup3">Star Trek</a></h3>
-
 		            <p>Voyage to different celestial bodies
 	        			</p> 
-
-	        			
 	            </div> 	            	               
-
 			   </div> <!-- /bgrid -->
-
 			   <div class="bgrid feature">
-
 			   	<span class="icon"><br/><a href="#popup4"><img src="./images/sambharlake.png" style="height:34%; width:34%;"/></a></span>
-
 	            <div class="service-content">	
 	            	<h3 class="h05"><a href="#popup4">Sambhar Lake Trip</a></h3>
-
 		            <p>An extended version of Yuri's Night in an exciting trip.</p>
-
-	        			
 	            </div>	               
-
                </div> <!-- /bgrid -->
-               
                <div class="bgrid feature">
-                   
                    <span class="icon"><br/><a href="#popup5"><img src="./images/yurisnight.png" style="height:30%; width:30%;"/></a></span>
-                   
                    <div class="service-content">
                        <h3 class="h05"><a href="#popup5">Night Camp</a></h3>
-                       
                        <p>Star shine in the Healing Darkness of the Midnight.
                        </p> 
-                       
-                       
                    </div>                
-                   
                </div> <!-- /bgrid -->
-               
                <div class="bgrid feature">
-
 			   	<span class="icon"><br/><a href="#popup6"><img src="./images/presentation.png" style="height:30%; width:30%;"/></a></span>
-
 	            <div class="service-content">
 	            	 <h3 class="h05"><a href="#popup6">Presentation Series</a></h3>
-
 		            <p>Making new members familiar with Astronomy, in an innovative yet informative way.
 	        			</p> 
-	        			
 	            </div>	               
-
 			   </div> <!-- /bgrid -->
-
 	      </div> <!-- events-list -->
-   		
    	</div> <!-- events-content -->
-    
     <div id="popup1" class="overlayevents">
         <div class="popupevents"><div class="contentevents">
             <div class=" col-six mob-full tab-full"><img src="./images/armageddon.png" style="height:30%; width:30%; position:relative; left:60%;"/></div><div class="col-six tab-full mob-full" style="color:#0f0f0f"><br/><p style="font-size:20px; font-family: raleway-heavy;">ARMAGEDDON</p>Date : 18th - 19th Jan 2017<br/>Venue : The LNMIIT, Jaipur</div>
@@ -336,7 +619,6 @@
                 <br/><h3>Synopsis</h3>Scientists at NASA have discovered an asteroid 65 miles wide, named as Destroyer786. It is composed of large quantities of carbon molecules as well as the more usual rocks and metals.It has it's collision course set with Earth. The asteroid is supposed to make its impact 1.5 years from today. Destroyer786 is travelling at a speed of 30,000 miles per hour and is approaching the earth from the direction of the sun. Keeping the estimated flyby distance in mind, it is supposed to cause a mass destruction if not total wipeout of humanity from the face of Earth.<br/>All countries have come together, understanding the grim situation and are ready to take extreme measures to stop the 'end of the world'. You are chosen to be a part of core team of scientists that is going to save the humanity.<br/>Devise a plan to save Earth and humanity.
                 Fate of humanity lies in your hand.
                 This event consists of two rounds. First round will be online. The participants have to submit a report before the given deadline. After the date of submission, we will select the teams for the second round on the basis of their report. All the teams selected teams will have to present their report in front of the judges during plinth.
-                
                 <br/><br/><br/><h3>Event Description</h3><h4><u>Problem Statement</u></h4>
                 <ul>
                     <li>You have no economic constraints as all countries are willing to pool their resources in an attempt to save humanity.</li>
@@ -344,7 +626,6 @@
                     <li>Level of technology is not much advance than today, therefore make assumptions that are almost realistic.</li>
                 </ul>
                 The final project report should be mailed to <a href"mailto:astronomy.lnmiit@gmail.com">astronomy.lnmiit@gmail.com</a> with the subject:<br/>Plinth: Armageddon Project Report: TeamId.
-                
                 <br/><br/><br/><h3>Rules</h3><h4><u>General Rules</u></h4>
                 <ul>
                     <li>Any form of copying of textual material would lead to disqualification.</li>
@@ -365,7 +646,6 @@
             </div></div>
         </div>
     </div> <!-- /popup1 -->
-    
     <div id="popup2" class="overlayevents">
         <div class="popupevents"><div class="contentevents">
             <div class=" col-six mob-full tab-full"><img src="./images/astrohunt.png" style="height:30%; width:30%; position:relative; left:60%;"/></div><div class="col-six tab-full mob-full" style="color:#0f0f0f"><br/><p style="font-size:20px; font-family: raleway-heavy;">ASTRO HUNT</p>Date : 18th - 19th Jan 2017<br/>Venue : The LNMIIT, Jaipur</div>
@@ -393,7 +673,6 @@
             </div></div>
         </div>
     </div> <!-- /popup2 -->
-    
     <div id="popup3" class="overlayevents">
         <div class="popupevents"><div class="contentevents">
             <div class=" col-six mob-full tab-full"><img src="./images/startrek.png" style="height:25%; width:25%; position:relative; left:60%;"/></div><div class="col-six tab-full mob-full" style="color:#0f0f0f"><br/><p style="font-size:20px; font-family: raleway-heavy;">STAR TREK</p>Date : 18th - 19th Jan 2017<br/>Venue : The LNMIIT, Jaipur</div>
@@ -426,7 +705,6 @@
             </div></div>
         </div>
     </div> <!-- /popup3 -->
-    
     <div id="popup4" class="overlayevents">
         <div class="popupevents"><div class="contentevents">
             <div class=" col-six mob-full tab-full"><img src="./images/sambharlake.png" style="height:34%; width:34%; position:relative; left:60%;"/></div><div class="col-six tab-full mob-full" style="color:#0f0f0f"><br/><p style="font-size:20px; font-family: raleway-heavy;">SAMBHAR LAKE TRIP</p>Date : 4th - 5th Nov 2016<br/>Venue : Sambhar Lake, Rajasthan</div>
@@ -436,7 +714,6 @@
             </div></div>
         </div>
     </div> <!-- /popup4 -->
-    
     <div id="popup5" class="overlayevents">
         <div class="popupevents"><div class="contentevents">
             <div class=" col-six mob-full tab-full"><img src="./images/yurisnight.png" style="height:30%; width:30%; position:relative; left:60%;"/></div><div class="col-six tab-full mob-full" style="color:#0f0f0f"><br/><p style="font-size:20px; font-family: raleway-heavy;">YURI'S NIGHT</p>Venue : The LNMIIT, Jaipur</div>
@@ -446,7 +723,6 @@
             </div></div>
         </div>
     </div> <!-- /popup5 -->
-    
     <div id="popup6" class="overlayevents">
         <div class="popupevents"><div class="contentevents">
             <div class=" col-six mob-full tab-full"><img src="./images/presentation.png" style="height:30%; width:30%; position:relative; left:60%;"/></div><div class="col-six tab-full mob-full" style="color:#0f0f0f"><br/><p style="font-size:20px; font-family: raleway-heavy;">PRESENTATION SERIES</p>Date : 3rd - 21st October 2016<br/>Venue : The LNMIIT, Jaipur</div>
@@ -474,27 +750,19 @@
             </div></div>
         </div>
     </div> <!-- /popup6 -->
-    
     </section> <!-- /events -->
-	
-
 	   <!-- members Section
    ================================================== -->
    <section id="members">
-
    	<div class="row section-intro">
         <h5>MEMBERS</h5><br/>
    		<div class="col-twelve">
    			<h2>Astronomy Club has a team of 30+ students who passionately handle all the club activities.</h2><h2 class="h01"/>
    		</div>   		
    	</div>   	
-
       <div class="row flex-container">
-    
          <div id="member-slider" class="flexslider">
-
             <ul class="slides">
-
                <li>
                	<div class="member-author">
                     	<img src="" alt="Prezident image">
@@ -503,12 +771,9 @@
                     		<span class="position">Prezident</span>
                     	</div>
                   </div>
-
                   <p></p>
              	</li> <!-- /slide -->
-
                <li> 
-
                	<div class="member-author">
                     	<img src="" alt="Vice-Prezident image">
                     	<div class="author-info">
@@ -516,13 +781,9 @@
                     		<span>Vice-Prezident</span>
                     	</div>
                   </div> 
-
 <p>Astronomy is all about exploring the unfathomable reaches of universe. It’s a continuous learning about where mankind progresses as the cosmos evolves. The mystery of our evolution and descent can be resolved to a great extent by what we learn and what we perceive. The sky’s the limit!</p>
-
                </li> <!-- /slide -->
-               
                <li>
-                   
                    <div class="member-author">
                        <img src="" alt="Vice-Prezident image">
                            <div class="author-info">
@@ -530,13 +791,9 @@
                                <span>Vice-Prezident</span>
                            </div>
                            </div>
-                   
                    <p>I think astronomy is all about curiosity of mind. It is about knowing the unknown and to get that in our reach. After all Rome wasn’t built in a day so it will take decades or maybe centuries to attain what we see in science fiction but yes one day we will achieve it.</p>
-                   
                </li> <!-- /slide -->
-               
                <li>
-                   
                    <div class="member-author">
                            <div class="author-info">
                                Mentors<br/><br/>
@@ -546,12 +803,9 @@
 			       <span>Ahmed Awd</span>
 			       <span></span>
                            </div>
-                           </div>
-                   
-               </li> <!-- /slide -->
-               
-               <li>
-                   
+                           </div>                  
+               </li> <!-- /slide -->               
+               <li>                   
                    <div class="member-author">
                            <div class="author-info">
                                s'25 Members<br/><br/>
@@ -560,12 +814,9 @@
                                <span>Srishti Bharadwaj</span>
                                <span>Samyak Dutt Gupta</span>
                            </div>
-                           </div>
-                   
-               </li> <!-- /slide -->
-               
-               <li>
-                   
+                           </div>                  
+               </li> <!-- /slide -->               
+               <li>                   
                    <div class="member-author">
                            <div class="author-info">
                                S'26 Members<br/><br/>
@@ -580,63 +831,40 @@
                                <span>Siddharth Sharma</span>
                                <span>Tapish Gupta</span>
                            </div>
-                           </div>
-                   
-               </li> <!-- /slide -->
-               
-               <li>
-                   
+                           </div>                   
+               </li> <!-- /slide -->              
+               <li>                   
                    <div class="member-author">
                            <div class="author-info">
                                S'27 Members<br/><br/>
                                
                            </div>
-                           </div>
-                   
-               </li> <!-- /slide -->
-               
+                           </div>                  
+               </li> <!-- /slide -->               
             </ul> <!-- /slides -->
-
-         </div> <!-- /member-slider -->         
-        
+         </div> <!-- /member-slider -->                 
       </div> <!-- /flex-container -->
-
    </section> <!-- /members -->
-
    <!-- footer
    ================================================== -->
    <section id="footer">
-
    	<div class="footer-main">
-
    		<div class="row">  
-
 	      	<div class="col-six tab-full mob-full footer-info" style="text-align: left;">
-
 	            <div class="footer-logo"></div>
-
-	            <p>The LNM Institute of Information Technology<br>
-                Rupa ki Nangal, Post-Sumel, Via-Jamdoli
-                Jaipur, India<br>
-		        	astronomy.lnmiit@gmail.com <br/> +91-85618 01305
+	            <p>STEM October Astronomy Club<br>
+                Farouk Diab, Aly Al-Gendy, Adam Shaabn, Egypt<br>
+		        	astronomyclub.october@gmail.com <br/> +20 109 298 1313
 		        	</p>
-
 		      </div> <!-- /footer-info -->
-
 	      	<div class="col-six tab-full mob-full social-links" style="text-align: right;">
-
-
-
 	      		<ul>
                         <li><h4 style="color:#aaaaaa">Links</h4></li>
-						<li><a href="http://bit.ly/astrolnmfb">Facebook</a></li>
-                        <li><a href="http://bit.ly/astrolnmwp">Wordpress Blog</a></li>
-					</ul>
-	      	           	
+						<li><a href="https://www.linkedin.com/company/stem-october-astronomy-club/">LinkedIn</a></li>
+                        <li><a href=""></a></li>
+					</ul>	      	           	
 	      	</div> <!-- /social -->
-
 	      </div> <!-- /row -->
-
    	</div> <!-- /footer-main -->
     </section>
    <footer>
@@ -644,9 +872,8 @@
            <div class="row">
                <div class="col-twelve">
                    <div class="copyright">
-                       <span>© Astronomy Club, LNMIIT</span>
-                       <span>Designed by: Yashovardhan Agrawal</span>
-                       <span>Edited by: Gaurav Kulkarni</span>
+                       <span>© Astronomy Club, SOAC</span>
+                       <span>Designed by: Tareq Khalil</span>
                    </div>
                    <div id="go-top" style="display: block;">
                        <a class="smoothscroll" title="Back to Top" href="#top">
@@ -657,11 +884,9 @@
            </div>
         </div>
    </footer>
-
    <div id="preloader"> 
     	<div id="loader"></div>
    </div> 
-
    <!-- Java Script
    ================================================== --> 
    <script src="js/jquery-1.11.3.min.js"></script>
@@ -671,42 +896,389 @@
    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
    <script src="js/06f086e7-dfaa-4ed3-ae93-91902494f43f.js"></script>
     <script src="js/jquery.ripples-min.js"></script>
-   <script>
-     $(document).ready(function () {
-       $('#intro').ripples({
-         resolution: 512,
-         dropRadius: 20, // control ripple size
-         perturbance: 0.04, // 0 = no distortion, 1 = heavy distortion
-         interactive: true
-       });
-     });
-     $('section').ripples({
-	resolution: 512,
-	dropRadius: 20,
-	perturbance: 0.04,
-});
-    </script>
-    <script>
-        $('.top-nav').ripples({
-	resolution: 512,
-	dropRadius: 20,
-	perturbance: 0.04,
-});
 
-   </script>
-   
 
+<script>
+                // STEM October Astronomy Club (SOAC) Website JavaScript
+
+// Wait for DOM to be fully loaded
+document.addEventListener('DOMContentLoaded', function() {
     
+    // ==========================================
+    // SPOTLIGHT EFFECT FOR INTRO SECTION
+    // ==========================================
+    const introSection = document.getElementById('intro');
+    
+    if (introSection) {
+        introSection.addEventListener('mousemove', function(e) {
+            const rect = introSection.getBoundingClientRect();
+            const x = ((e.clientX - rect.left) / rect.width) * 100;
+            const y = ((e.clientY - rect.top) / rect.height) * 100;
+            
+            introSection.style.setProperty('--mouse-x', x + '%');
+            introSection.style.setProperty('--mouse-y', y + '%');
+        });
+        
+        // Reset spotlight to center when mouse leaves
+        introSection.addEventListener('mouseleave', function() {
+            introSection.style.setProperty('--mouse-x', '50%');
+            introSection.style.setProperty('--mouse-y', '50%');
+        });
+    }
+    
+    // ==========================================
+    // SMOOTH SCROLLING FOR NAVIGATION LINKS
+    // ==========================================
+    const smoothScrollLinks = document.querySelectorAll('a.smoothscroll');
+    
+    smoothScrollLinks.forEach(link => {
+        link.addEventListener('click', function(e) {
+            e.preventDefault();
+            
+            const targetId = this.getAttribute('href');
+            const targetSection = document.querySelector(targetId);
+            
+            if (targetSection) {
+                const headerHeight = document.querySelector('header').offsetHeight;
+                const targetPosition = targetSection.offsetTop - headerHeight;
+                
+                window.scrollTo({
+                    top: targetPosition,
+                    behavior: 'smooth'
+                });
+            }
+        });
+    });
+    
+    // ==========================================
+    // DROPDOWN MENU FUNCTIONALITY
+    // ==========================================
+    const moreToggle = document.getElementById('more-toggle');
+    const moreOptions = document.getElementById('more-options');
+    
+    if (moreToggle && moreOptions) {
+        moreToggle.addEventListener('click', function(e) {
+            e.stopPropagation();
+            const isVisible = moreOptions.style.display === 'block';
+            moreOptions.style.display = isVisible ? 'none' : 'block';
+        });
+        
+        // Close dropdown when clicking outside
+        document.addEventListener('click', function() {
+            moreOptions.style.display = 'none';
+        });
+        
+        // Prevent dropdown from closing when clicking inside it
+        moreOptions.addEventListener('click', function(e) {
+            e.stopPropagation();
+        });
+    }
+    
+    // ==========================================
+    // MOBILE MENU TOGGLE
+    // ==========================================
+    const menuToggle = document.querySelector('.menu-toggle');
+    const mainNavWrap = document.getElementById('main-nav-wrap');
+    
+    if (menuToggle && mainNavWrap) {
+        menuToggle.addEventListener('click', function(e) {
+            e.preventDefault();
+            mainNavWrap.classList.toggle('active');
+            this.classList.toggle('active');
+        });
+    }
+    
+    // ==========================================
+    // SCROLL ANIMATIONS
+    // ==========================================
+    const observerOptions = {
+        threshold: 0.1,
+        rootMargin: '0px 0px -50px 0px'
+    };
+    
+    const observer = new IntersectionObserver(function(entries) {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('animate');
+            }
+        });
+    }, observerOptions);
+    
+    // Observe all fade-in-up elements
+    const fadeElements = document.querySelectorAll('.fade-in-up');
+    fadeElements.forEach(element => {
+        observer.observe(element);
+    });
+    
+    // ==========================================
+    // HEADER BACKGROUND ON SCROLL
+    // ==========================================
+    const header = document.querySelector('header');
+    
+    window.addEventListener('scroll', function() {
+        if (window.scrollY > 100) {
+            header.classList.add('scrolled');
+        } else {
+            header.classList.remove('scrolled');
+        }
+    });
+    
+    // ==========================================
+    // EVENT POPUP FUNCTIONALITY
+    // ==========================================
+    const eventLinks = document.querySelectorAll('a[href^="#popup"]');
+    const closeButtons = document.querySelectorAll('.closeevents');
+    const overlays = document.querySelectorAll('.overlayevents');
+    
+    // Handle popup opening
+    eventLinks.forEach(link => {
+        link.addEventListener('click', function(e) {
+            e.preventDefault();
+            const targetPopup = document.querySelector(this.getAttribute('href'));
+            if (targetPopup) {
+                targetPopup.style.visibility = 'visible';
+                targetPopup.style.opacity = '1';
+                document.body.style.overflow = 'hidden'; // Prevent background scrolling
+            }
+        });
+    });
+    
+    // Handle popup closing
+    closeButtons.forEach(button => {
+        button.addEventListener('click', function(e) {
+            e.preventDefault();
+            const popup = this.closest('.overlayevents');
+            if (popup) {
+                popup.style.visibility = 'hidden';
+                popup.style.opacity = '0';
+                document.body.style.overflow = ''; // Restore scrolling
+            }
+        });
+    });
+    
+    // Close popup when clicking on overlay (but not on popup content)
+    overlays.forEach(overlay => {
+        overlay.addEventListener('click', function(e) {
+            if (e.target === this) {
+                this.style.visibility = 'hidden';
+                this.style.opacity = '0';
+                document.body.style.overflow = '';
+            }
+        });
+    });
+    
+    // Close popup with Escape key
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape') {
+            const visiblePopup = document.querySelector('.overlayevents[style*="visible"]');
+            if (visiblePopup) {
+                visiblePopup.style.visibility = 'hidden';
+                visiblePopup.style.opacity = '0';
+                document.body.style.overflow = '';
+            }
+        }
+    });
+    
+    // ==========================================
+    // ENHANCED ANIMATIONS FOR EVENTS GRID
+    // ==========================================
+    const eventCards = document.querySelectorAll('.bgrid.feature');
+    
+    eventCards.forEach((card, index) => {
+        // Add staggered animation delay
+        card.style.animationDelay = `${index * 0.1}s`;
+        
+        // Add hover sound effect (optional - requires audio files)
+        card.addEventListener('mouseenter', function() {
+            // You can add sound effects here if desired
+            // const hoverSound = new Audio('path/to/hover-sound.mp3');
+            // hoverSound.play();
+        });
+    });
+    
+    // ==========================================
+    // PARALLAX SCROLLING EFFECT
+    // ==========================================
+    window.addEventListener('scroll', function() {
+        const scrolled = window.pageYOffset;
+        const parallaxElements = document.querySelectorAll('[data-parallax]');
+        
+        parallaxElements.forEach(element => {
+            const speed = element.dataset.parallax;
+            const yPos = -(scrolled * speed / 100);
+            element.style.transform = `translateY(${yPos}px)`;
+        });
+    });
+    
+    // ==========================================
+    // CONSTELLATION ANIMATION (OPTIONAL)
+    // ==========================================
+    function createStarField() {
+        const starField = document.createElement('div');
+        starField.className = 'star-field';
+        starField.style.cssText = `
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: -1;
+        `;
+        
+        // Create random stars
+        for (let i = 0; i < 100; i++) {
+            const star = document.createElement('div');
+            star.className = 'star';
+            star.style.cssText = `
+                position: absolute;
+                width: 2px;
+                height: 2px;
+                background: #fff;
+                border-radius: 50%;
+                top: ${Math.random() * 100}%;
+                left: ${Math.random() * 100}%;
+                animation: twinkle ${2 + Math.random() * 3}s infinite;
+            `;
+            starField.appendChild(star);
+        }
+        
+        document.body.appendChild(starField);
+    }
+    
+    // Add CSS for twinkling animation
+    const style = document.createElement('style');
+    style.textContent = `
+        @keyframes twinkle {
+            0%, 100% { opacity: 0.3; }
+            50% { opacity: 1; }
+        }
+        
+        header.scrolled {
+            background: rgba(15, 23, 42, 0.98) !important;
+            backdrop-filter: blur(15px);
+        }
+        
+        .main-navigation.active {
+            display: block;
+        }
+        
+        @media (max-width: 768px) {
+            #main-nav-wrap {
+                display: none;
+            }
+            
+            #main-nav-wrap.active {
+                display: block;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                right: 0;
+                background: rgba(15, 23, 42, 0.98);
+                backdrop-filter: blur(10px);
+                border-top: 1px solid var(--accent-color);
+            }
+            
+            .main-navigation {
+                flex-direction: column;
+                padding: 20px;
+            }
+            
+            .main-navigation li {
+                margin: 10px 0;
+            }
+        }
+    `;
+    document.head.appendChild(style);
+    
+    // Initialize star field (uncomment if desired)
+    // createStarField();
+    
+    // ==========================================
+    // PERFORMANCE OPTIMIZATION
+    // ==========================================
+    
+    // Throttle scroll events for better performance
+    let ticking = false;
+    
+    function updateScrollEffects() {
+        // Update header background
+        if (window.scrollY > 100) {
+            header.classList.add('scrolled');
+        } else {
+            header.classList.remove('scrolled');
+        }
+        
+        ticking = false;
+    }
+    
+    function requestTick() {
+        if (!ticking) {
+            requestAnimationFrame(updateScrollEffects);
+            ticking = true;
+        }
+    }
+    
+    window.addEventListener('scroll', requestTick);
+    
+    console.log('SOAC Website JavaScript loaded successfully! 🌟');
+});
+
+// ==========================================
+// UTILITY FUNCTIONS
+// ==========================================
+
+// Function to preload images for better performance
+function preloadImages() {
+    const images = [
+        'intro-bg.jpg'
+    ];
+    
+    images.forEach(src => {
+        const img = new Image();
+        img.src = src;
+    });
+}
+
+// Initialize image preloading
+preloadImages();
+
+// Function to handle form submissions (if forms are added later)
+function handleFormSubmission(formId, callback) {
+    const form = document.getElementById(formId);
+    if (form) {
+        form.addEventListener('submit', function(e) {
+            e.preventDefault();
+            const formData = new FormData(this);
+            callback(formData);
+        });
+    }
+}
+
+// Function to add loading states to buttons
+function addLoadingState(button, loadingText = 'Loading...') {
+    const originalText = button.textContent;
+    button.textContent = loadingText;
+    button.disabled = true;
+    
+    return function() {
+        button.textContent = originalText;
+        button.disabled = false;
+    };
+}
+
+// Export functions for potential use in other scripts
+window.SOACUtils = {
+    preloadImages,
+    handleFormSubmission,
+    addLoadingState
+};
+            </script>
    <script>
 	document.getElementById("more-toggle").addEventListener("click", function () {
 		const options = document.getElementById("more-options");
 		options.style.display = options.style.display === "none" ? "block" : "none";
 	});
-    
-
 </script>
-
-
 </body>
-
 </html>

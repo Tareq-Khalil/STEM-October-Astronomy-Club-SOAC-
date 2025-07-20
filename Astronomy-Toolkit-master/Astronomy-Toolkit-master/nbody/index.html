@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>N-Body Simulator</title>
+		<link rel = "stylesheet" type = "text/css" href = "../res/threeStylesheet.css"/>
+	</head>
+
+	<body>
+		  <script src = "../lib/three.js/three.min.js"></script>
+			<script src = "../lib/three.js/OrthographicTrackballControls.js"></script>
+			<script src = "../lib/Utils.js"></script>
+			<script src = "../lib/randomColor.js"></script>
+			<script src = "../lib/dat.gui.min.js"></script>
+
+			<script src = "Arrow.js"></script>
+			<script src = "body.js"></script>
+			<script src = "main.js"></script>
+
+			<div id = "bellowAbout">
+
+				<div id = "error">
+					<h1>Error! There seems to be a problem :/</h1>
+					<h2>Please <a href = "http://www.wikihow.com/Update-Your-Video-Card-Drivers-on-Windows-7">upgrade your video card drivers </a>
+						 or download the recommended browsers:</h2>
+					<a href = "https://www.google.com/chrome/browser/desktop/"><img src = "../res/logos/chrome.png"></a>
+					<a href = "https://www.mozilla.org/en-US/firefox/new/"><img src = "../res/logos/firefox.png"></a>
+				</div>
+
+				<div id = "guiContainer"></div>
+
+				<div id = "info">
+	        <p>FPS: <span id="fps">00</span>fps</p>
+					<p># Of Bodies: <span id="bodies">00</span></p>
+	      </div>
+
+		</div>
+
+		<div id = "about">
+			<h1>Gravitational N-Body Simulation</h1>
+			<h2>How to use</h2>
+			<h3>Controls</h3>
+			<ul>
+				<li>Pan - Right Click</li>
+				<li>Zoom - Scroll or Middle Click</li>
+				<li>Fullscreen mode - F11</li>
+			</ul>
+
+			<h3>Options</h3>
+			<ul>
+				<li>Mass - the mass of the next created body</li>
+				<li>Density - the density of the next created body</li>
+				<li>G Constant - the gravitational Constant</li>
+				<li>Time Per Step - how much time passes in Simulation beetween steps: faster simulation, does not affect fps, but less precise</li>
+				<li>Steps Per Frame - how many steps are calculated for each frame, slower fps, does not affect precission </li>
+			</ul>
+
+			<h3>Presets</h3>
+			<ul>
+				<li>Empty Universe - just an empty, boring Universe</li>
+				<li>A Single Star - one star in the middle of the screen</li>
+				<li>Solar System - a solar system formed by a sun with huge mass and some planets with almost negligible mass</li>
+				<li>Binary Stars - two stars of equal mass orbiting their center of mass</li>
+				<li>Triple Stars - a triple star system</li>
+				<li>Planet w/ Satellite - a planet which has a natural satellite</li>
+				<li>Protoplanetary - <a href = "https://en.wikipedia.org/wiki/Protoplanetary_disk">protoplanetary disk</a> orbiting a star</li>
+
+			</ul>
+
+			<h2>References and acknowledgements</h2>
+			<ul>
+				<li>Rendered using <a href = "https://github.com/mrdoob/three.js/">THREE.js</a></li>
+				<li>Random colors generated using <a href = "https://github.com/davidmerfield/randomColor">randomColor</a></li>
+			</ul>
+			<a  href = "javascript:void(0)" onclick = "closeHelp();" id = "aboutClose">Close</a>
+		</div>
+	</body>
+
+</html>

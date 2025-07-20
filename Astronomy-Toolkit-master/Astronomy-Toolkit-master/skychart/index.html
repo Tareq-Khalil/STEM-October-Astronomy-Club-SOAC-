@@ -1,0 +1,162 @@
+ <!DOCTYPE html>
+ <html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html;charset=utf-8"/>
+		<link rel="stylesheet" type="text/css" href="./stylesheet.css"/>
+		<!--<link rel="stylesheet" type="text/css" href="http://meyerweb.com/eric/tools/css/reset/reset.css"> -->
+		
+		<script type="text/javascript" src="../lib/jquery-2.1.4.js"></script>
+		
+		<title>Starchart</title>
+		<!-- Google Analytics -->
+			<script type="text/javascript"
+				src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+			</script>
+			
+			<script type="text/x-mathjax-config">
+				MathJax.Hub.Config({tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]}});
+			</script>
+			
+			<script>
+				(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+				(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+				m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+				})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+			  
+				ga('create', 'UA-68522324-1', 'auto');
+				ga('send', 'pageview');
+			  
+			</script>
+			<!-- End Google Analytics -->
+	</head>
+	<body>
+		<div id="main">
+			<img id="rose" src = "./sun.svg" style="display: none;"/>
+			<canvas id="starmap" width="900px" height="900px">
+			</canvas> 
+		</div>
+				<div id="settings">
+					
+					<h1>Settings</h1>
+					<form>
+											
+						<label for="lat" class="location">&deg lat</label>
+						<input type="text" class="check" id="latitude"><br>
+						
+																	
+						<label for="long" class="location">&deg long</label>
+						<input type="text" class="check" id="long">
+						
+						
+						<input type="checkbox" id="lines" class="check" onchange="drawStuff(); return false;" checked/>
+						<label for="lines" class="side-label" >Constellation Lines</label>
+						
+						<input type="checkbox" class="check" onchange="drawStuff(); return false;" id="names">
+						<label for="names" class="side-label">Constellation Names</label>
+						
+						<input type="checkbox" class="check" id="messier" onchange="drawStuff(); return false;" checked/>
+						<label for="messier" class="side-label">Messier Objects</label>
+						
+						<input type="checkbox" class="check" id="points" onchange="drawStuff(); return false;" checked/>
+						<label for="points" class="side-label">Cardinal Points</label>
+						
+						<input type="checkbox" class="check" id="planets" onchange="drawStuff(); return false;" checked/>
+						<label for="planets" class="side-label">Solar System Objects</label>
+						
+				    <!--<input type="checkbox" class="check" id="bounds" onchange="drawStuff(); return false;"/>
+						<label for="bounds" class="side-label">Constellation Bounds</label>  -->
+						
+						<input type="checkbox" class="check" id="milkyWay" onchange="drawStuff(); return false;" checked/>
+						<label for="milkyWay" class="side-label">Milky Way</label> 
+						
+						<input type="button" class="subSettings" value="Get Automatic Location" onclick="getLocation();"/><br>
+						<input type="button" class="subSettings" value="Get Location From Input" onclick="getManualLocation();"/><br>
+						<input type="button" class="subSettings" value="Download Image" onclick="downloadImage();"/><br>
+					
+				</form>
+					<input type = "submit" onclick="toggleSettings();" id="showButtonSettings" class="showB" value="Hide"/>
+			</div>
+		
+		<div id=dateinput>
+			<input type="button" class="showB" id="showButtonDate" onclick="toggleDate()" value="Hide"/>
+			<div class="textInputs">
+				<div class="textandlabel">
+					<input type="text" onchange="clearInterval(timeInt); inputTime(); drawStuff();" onblur="timeInt=setInterval(writeDate, 500);" onfocus="clearInterval(timeInt);" onkeydown="checkArrows(event, 3600);" class="date" id="hour"/>
+					<label>:</label>
+				</div>
+				<div class="textandlabel">
+					<input type="text" onchange="clearInterval(timeInt); inputTime(); drawStuff();" onblur="timeInt=setInterval(writeDate, 500);" onfocus="clearInterval(timeInt);" onkeydown="checkArrows(event, 60);" class="date" id="minute"/>
+					<label>:</label>
+				</div>
+				<div class="textandlabel">
+					<input type="text" onchange="clearInterval(timeInt); inputTime(); drawStuff();" onblur="timeInt=setInterval(writeDate, 500);" onfocus="clearInterval(timeInt);" onkeydown="checkArrows(event, 1);" class="date" id="second"/>
+					<label>|</label>
+				</div>
+				<div class="textandlabel">
+					<input type="text" onchange="clearInterval(timeInt); inputTime(); drawStuff();" onblur="timeInt=setInterval(writeDate, 500);" onfocus="clearInterval(timeInt);" onkeydown="checkArrows(event, 3600*24);" class="date" id="day"/>
+					<label>/</label>
+				</div>
+				<div class="textandlabel">
+					<input type="text" onchange="clearInterval(timeInt); inputTime(); drawStuff();" onblur="timeInt=setInterval(writeDate, 500);" onfocus="clearInterval(timeInt);" onkeydown="checkMonth(event);" class="date" id="month"/>
+					<label>/</label>
+				</div>
+				<div class="textandlabel">
+					<input type="text" onchange="clearInterval(timeInt); inputTime(); drawStuff();" onblur="timeInt=setInterval(writeDate, 500);" onfocus="clearInterval(timeInt);" onkeydown="checkYear(event);" class="date" id="year" style="width:60px;"/>
+				</div>
+			</div>
+			
+			<div id="upArrows">
+				<input type="button" value="" onclick="timeAdd(60*60);"/>
+				<input type="button" value="" onclick="timeAdd(60);"/>
+				<input type="button" value="" onclick="timeAdd(1);"/>
+				<input type="button" value="" onclick="timeAdd(60*60*24);"/>
+				<input type="button" value="" onclick="monthCounter(1);"/>
+				<input type="button" value="" onclick="yearCounter(1);" style="margin-left: 20px;"/>
+			</div>
+			<div id="downArrows">
+				<input type="button" value="" onclick="timeAdd(-60*60)"/>
+				<input type="button" value="" onclick="timeAdd(-60)"/>
+				<input type="button" value="" onclick="timeAdd(-1)"/>
+				<input type="button" value="" onclick="timeAdd(-60*60*24)"/>
+				<input type="button" value="" onclick="monthCounter(-1)"/>
+				<input type="button" value="" onclick="yearCounter(-1)" style="margin-left: 20px;"/>
+			</div>
+	
+			<input type ="submit" onclick="timeNow(); drawStuff();" id="now" value="Now"> 
+		</div> 
+			<script src="./loadData.js"></script>
+			<script src="./solarSystem.js"></script>
+			<script src="./messierCat.js"></script>
+			<script src="./conlines.js"></script>
+			<script src="./messierModels.js"></script>
+			<script src="./planetdata/mercury.js"></script>
+			<script src="./planetdata/venus.js"></script>
+			<script src="./planetdata/mars.js"></script>
+			<script src="./planetdata/jupiter.js"></script>
+			<script src="./planetdata/uranus.js"></script>
+			<script src="./planetdata/neptune.js"></script>
+			<script src="./planetdata/earth.js"></script>
+			<script src="./planetdata/saturn.js"></script>
+			<script src="./planetdata/moon.js"></script>
+			<script src="./download.js"></script>		
+			<script src="./geolocation.js"></script>
+			<script src="./mouseEvents.js"></script>
+			<script id="stars" src="./starmap.js"></script>
+			
+	<!--	<div id = "about">
+			<input type = "submit" onclick="toggleAbout();" id="showAbout" class="showB" value="About"/>
+			<div id = "aboutContent">
+				<h1>Digital Stargazing Star Chart</h1>
+				<p>Digital Stargazing Star Chart is an web application developed in JavaScript.</p>
+				<h2>Calculating the ephemeris(position of the planets, the Sun and the Moon)</h2>
+				<p>&#160;&#160;&#160;&#160;&#160;This application uses the full VSOP87(Variations Séculaires des Orbites Planétaires) theory to calculate the positions of the seven planets (Mercury, Venus, Mars, Jupiter, Uranus and Neptune)
+				and a truncated version of the ELP(Ephemeride Lunaire Parisienne) as presented in Jean Meesus' book “Astronomical Algorithms” for the moon.</p>
+			
+			</div>
+
+			<input type="submit" onclick="toggleAbout();" value="Close Dialog" id = "close"/>
+		</div>
+		-->
+		
+	</body>
+</html>

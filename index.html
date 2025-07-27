@@ -49,6 +49,51 @@
            h1, h2, h3, h4, h5 {
            font-family: 'Orbitron', monospace;
        }
+       /* CSS for the scroll reveal effect */
+        .scroll-reveal {
+            opacity: 0;
+            transform: translateY(50px);
+            transition: all 0.6s ease-out;
+        }
+        
+        .scroll-reveal.revealed {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        /* Alternative animations - you can choose one */
+        .fade-in-left {
+            opacity: 0;
+            transform: translateX(-50px);
+            transition: all 0.8s ease-out;
+        }
+        
+        .fade-in-left.revealed {
+            opacity: 1;
+            transform: translateX(0);
+        }
+        
+        .fade-in-right {
+            opacity: 0;
+            transform: translateX(50px);
+            transition: all 0.8s ease-out;
+        }
+        
+        .fade-in-right.revealed {
+            opacity: 1;
+            transform: translateX(0);
+        }
+        
+        .scale-in {
+            opacity: 0;
+            transform: scale(0.8);
+            transition: all 0.6s ease-out;
+        }
+        
+        .scale-in.revealed {
+            opacity: 1;
+            transform: scale(1);
+        }
     #intro {
   position: relative;
              background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(15, 23, 42, 0.9)), 
@@ -660,22 +705,19 @@
    ================================================== -->
    <section id="about">
    	<div class="row section-intro">
-   		<div class="col-twelve with-bottom-line">
-   			<h5>About Us</h5>
+   		<div class="col-twelve with-bottom-line" >
+   			<h5 class="scale-in">About Us</h5>
             <br/>
-            <h2 class="h01">Who Are We?</h2>
+            <h2 class="h01 scale-in">Who Are We?</h2>
             <br/>
-   			<p class="lead">
-                <strong>The science of astronomy is an adventure, a quest in the universe where meaning can be found among the stars. At <strong>STEM High School for Boys - 6th of October</strong>, <strong>the Astronomy Club</strong> was initiated to unite the learners that look and gaze at the night sky and see questions that they are eager to answer. We are a group of curious peers who love to explore the celestials, the processes taking place in the universe and the unknown secrets in the beyond. We are either gazing at the far away planets by a telescope or talking about the life cycle of a star, all united through our interest of exploring the vast universe.
-
+   			<p class="lead fade-in-right">
+                <strong>ASTRONOMY, a natural science, is the study of celestial objects and aboutes, the physics, chemistry, and evolution of such objects and aboutes, and more generally all phenomena that originate outside the atmosphere of Earth. So we at <strong>STEM High School for Boys - 6th of October</strong> made a club for the astronomy enthusiasts to quench their thirst for knowledge here only.<br/><br/>We are a bunch of people enthusiastic towards astronomy. Fascinated with the mysteries of the night sky and majestic views of telescope.<br/><br/>The LNMIIT Astronomy Club was founded by Y10 Batch students : Rishabh Baid, Rajat Vyas, Samarth Mathur and Shasak Raina. The club aims to create awareness in the field of amateur astronomy by indulging in night-sky observations, talks and various competitions.
             </strong></p>
             <br/>
-            <h2 class="h01">What We Do?</h2>
+            <h2 class="h01 scale-in">What We Do?</h2>
             <br/>
-            <p class="lead">
-            <strong>Our club is a combination of theory and literature with practice. We conduct observation sessions, astronomy lectures, and group discussions regularly to extend our knowledge on astrophysics and space science. Members are involved in stargazing nights, competitions, research and collaborative projects, making sure the curiosity and creativity of the involved members are harnessed.
- 
-<br>We are now almost done with our telescope set-up and are making preparations for stargazing parties in September. Also, we have two special programs, one of them is ISAC, a program where the students learn how to monitor and report on real data on asteroids and the other one is an astrophotography workshop where the members will be taught on how to edit raw astro images provided by observatories. This is just a notion about the numerous opportunities we provide to ignite passion to the cosmos in a lifetime.</strong>
+            <p class="lead fade-in-left">
+            <strong>“Astronomy compels us to look upwards and leads us from this world to another.” - Plato.<br/><br/>Astronomy is not limited to theoretical concepts but involves practical observation of what lies beyond our horizon. It questions the origin and existence of our universe. This keeps us driving and entices the desire to learn.<br/><br/>The club has successfully built an environment of healthy exchange of knowledge about astronomy and astrophysics. The dedicated team has made the college proud by winning various astronomical competitions held across the nation. We aim higher!</strong>
             </p>
    		</div>   		
    	</div>
@@ -684,14 +726,14 @@
    ================================================== -->
 	<section id="events">
 		<div class="row section-intro">
-   		<div class="col-twelve with-bottom-line">
+   		<div class="col-twelve with-bottom-line scroll-reveal">
    			<h5>Events</h5><br/>
    			<p class="lead">Lorem ipsum dolor sit amet consectetur adipisicing elit. Quasi nihil sequi quia tempora aut vero a totam enim quibusdam blanditiis ullam fuga dignissimos hic, libero suscipit rem repellat asperiores laudantium!</strong></p>
    		</div>   		
    	</div>
    	<div class="row events-content">
    		<div class="events-list block-1-3 block-s-1-2 block-tab-full group">
-	      	<div class="bgrid feature">	
+	      	<div class="bgrid feature fade-in-left">	
 	      		<span class="icon"><br/><a href="#popup1"><img src="./images/armageddon.png" style="height:30%; width:30%;"/></a></span>
 	            <div class="service-content">	
 	            	 <h3 class="h05"><a href="#popup1">Armageddon</a></h3>
@@ -699,7 +741,7 @@
 	         		</p>
 	         	</div> 	         	 
 				</div> <!-- /bgrid -->
-				<div class="bgrid feature">	
+				<div class="bgrid feature scroll-reveal">	
 					<span class="icon"><br/><a href="#popup2"><img src="./images/astrohunt.png" style="height:30%; width:30%;"/></a></span>
 	            <div class="service-content">	
 	            	<h3 class="h05"><a href="#popup2">Astro Hunt</a></h3>
@@ -707,7 +749,7 @@
 	         		</p>
 	            </div>	                          
 			   </div> <!-- /bgrid -->
-			   <div class="bgrid feature">
+			   <div class="bgrid feature fade-in-right">
 			   	<span class="icon"><br/><a href="#popup3"><img src="./images/startrek.png" style="height:25%; width:25%;"/></a></span>
 	            <div class="service-content">
 	            	<h3 class="h05"><a href="#popup3">Star Trek</a></h3>
@@ -715,14 +757,14 @@
 	        			</p> 
 	            </div> 	            	               
 			   </div> <!-- /bgrid -->
-			   <div class="bgrid feature">
+			   <div class="bgrid feature fade-in-left">
 			   	<span class="icon"><br/><a href="#popup4"><img src="./images/sambharlake.png" style="height:34%; width:34%;"/></a></span>
 	            <div class="service-content">	
 	            	<h3 class="h05"><a href="#popup4">Sambhar Lake Trip</a></h3>
 		            <p>An extended version of Yuri's Night in an exciting trip.</p>
 	            </div>	               
                </div> <!-- /bgrid -->
-               <div class="bgrid feature">
+               <div class="bgrid feature scroll-reveal">
                    <span class="icon"><br/><a href="#popup5"><img src="./images/yurisnight.png" style="height:30%; width:30%;"/></a></span>
                    <div class="service-content">
                        <h3 class="h05"><a href="#popup5">Night Camp</a></h3>
@@ -730,7 +772,7 @@
                        </p> 
                    </div>                
                </div> <!-- /bgrid -->
-               <div class="bgrid feature">
+               <div class="bgrid feature fade-in-right">
 			   	<span class="icon"><br/><a href="#popup6"><img src="./images/presentation.png" style="height:30%; width:30%;"/></a></span>
 	            <div class="service-content">
 	            	 <h3 class="h05"><a href="#popup6">Presentation Series</a></h3>
@@ -884,13 +926,13 @@
    ================================================== -->
    <section id="members">
    	<div class="row section-intro">
-        <h5>MEMBERS</h5><br/>
+        <h5 class="scale-in">MEMBERS</h5><br/>
    		<div class="col-twelve">
-   			<h2>Astronomy Club has a team of 30+ students who passionately handle all the club activities.</h2><h2 class="h01"/>
+   			<h2 class="scroll-reveal">Astronomy Club has a team of 30+ students who passionately handle all the club activities.</h2><h2 class="h01"/>
    		</div>   		
    	</div>   	
       <div class="row flex-container">
-         <div id="member-slider" class="flexslider">
+         <div id="member-slider" class="flexslider scale-in">
             <ul class="slides">
                <li>
                	<div class="member-author">
@@ -910,7 +952,7 @@
                     		<span>Vice-Prezident</span>
                     	</div>
                   </div> 
-<p>Astronomy is all about exploring the unfathomable reaches of universe. It’s a continuous learning about where mankind progresses as the cosmos evolves. The mystery of our evolution and descent can be resolved to a great extent by what we learn and what we perceive. The sky’s the limit!</p>
+<p>Astronomy is all about exploring the unfathomable reaches of universe. It's a continuous learning about where mankind progresses as the cosmos evolves. The mystery of our evolution and descent can be resolved to a great extent by what we learn and what we perceive. The sky’s the limit!</p>
                </li> <!-- /slide -->
                <li>
                    <div class="member-author">
@@ -1034,7 +1076,72 @@
    <script src="js/06f086e7-dfaa-4ed3-ae93-91902494f43f.js"></script>
     <script src="js/jquery.ripples-min.js"></script>
 
-
+<script>
+        // JavaScript for scroll reveal functionality
+        class ScrollReveal {
+            constructor() {
+                this.elements = document.querySelectorAll('.scroll-reveal, .fade-in-left, .fade-in-right, .scale-in');
+                this.windowHeight = window.innerHeight;
+                this.revealPoint = 150; // How many pixels from bottom before reveal
+                
+                this.init();
+            }
+            
+            init() {
+                // Check elements on page load
+                this.checkElements();
+                
+                // Listen for scroll events
+                window.addEventListener('scroll', () => this.checkElements());
+                
+                // Listen for resize events
+                window.addEventListener('resize', () => {
+                    this.windowHeight = window.innerHeight;
+                });
+            }
+            
+            checkElements() {
+                this.elements.forEach(element => {
+                    const elementTop = element.getBoundingClientRect().top;
+                    const elementVisible = (elementTop < this.windowHeight - this.revealPoint);
+                    
+                    if (elementVisible && !element.classList.contains('revealed')) {
+                        element.classList.add('revealed');
+                    }
+                });
+            }
+        }
+        
+        // Initialize when DOM is loaded
+        document.addEventListener('DOMContentLoaded', () => {
+            new ScrollReveal();
+        });
+        
+        // Alternative simple function approach (use this if you prefer)
+        function initScrollReveal() {
+            const elements = document.querySelectorAll('.scroll-reveal, .fade-in-left, .fade-in-right, .scale-in');
+            
+            function checkElements() {
+                elements.forEach(element => {
+                    const elementTop = element.getBoundingClientRect().top;
+                    const windowHeight = window.innerHeight;
+                    
+                    if (elementTop < windowHeight - 100) {
+                        element.classList.add('revealed');
+                    }
+                });
+            }
+            
+            // Check on scroll
+            window.addEventListener('scroll', checkElements);
+            
+            // Check on load
+            checkElements();
+        }
+        
+        // Uncomment this line if you want to use the simple function instead
+        // initScrollReveal();
+    </script>
 <script>
                 // STEM October Astronomy Club (SOAC) Website JavaScript
 

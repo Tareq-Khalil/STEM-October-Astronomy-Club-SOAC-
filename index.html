@@ -702,24 +702,14 @@ section#footer .section-watermark {
        z-index: 2;
    }
 
-   .timeline-line {
-       position: absolute;
-       left: 50%;
-       top: 0;
-       bottom: 0;
-       width: 3px;
-       background: linear-gradient(to bottom, #87ceeb, #4169e1, #87ceeb);
-       transform: translateX(-50%);
-       box-shadow: 0 0 10px rgba(135, 206, 235, 0.5);
-       z-index: 1;
-   }
+
 
    .curriculum-item {
        display: flex;
        justify-content: flex-end;
        padding-right: 30px;
        position: relative;
-       margin: 50px 0;
+       margin: 30px 0;
        z-index: 3;
    }
 
@@ -1027,7 +1017,7 @@ section#footer {
     position: relative;
     background: 
         linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.8)),
-        url('imm2.png') center/cover no-repeat;
+        url('contactsimg.png') center/cover no-repeat;
     overflow: hidden;
     padding: 60px 0;
     min-height: 400px;
@@ -1643,6 +1633,8 @@ section#footer .footer-main {
    }
 
    .member-author img {
+        
+        
        cursor: pointer;
    }
 
@@ -2108,8 +2100,8 @@ if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
                 
                 <div class="about-content-card fade-in-right">
                     <div class="about-icon scale-in"></div>
-                    <h3 class="slide-up">What We Do?</h3>
-                    <p class="fade-in-right">Our club is a combination of theory and literature with practice. We conduct observation sessions, astronomy lectures, and group discussions regularly to extend our knowledge on astrophysics and space science. Members are involved in stargazing nights, competitions, research and collaborative projects.</p>
+                    <h3 class="slide-up" style="font-size: 3rem;">What We Do?</h3>
+                    <p class="fade-in-right" style="font-size: 2rem;">Our club is a combination of theory and literature with practice. We conduct observation sessions, astronomy lectures, and group discussions regularly to extend our knowledge on astrophysics and space science. Members are involved in stargazing nights, competitions, research and collaborative projects.</p>
                 </div>
             </div>
         </div>
@@ -2134,74 +2126,80 @@ if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
             <div class="curriculum-timeline">
                 <div class="timeline-line"></div>
                 
-                <div class="curriculum-item scale-in">
+                <div class="curriculum-item scale-in" style="margin-left: 110px; ">
                     <div class="curriculum-card">
-                        <div class="curriculum-number">I</div>
-                        <h3 class="slide-up">Introducing Astronomy</h3>
-                        <p class="fade-in-left">Explore the fundamentals of astronomy, from the motion of celestial bodies to the tools we use to study them. This section covers the basics of light, telescopes, gravitation, and the cultural significance of astronomy.</p>
+                        <div class="curriculum-number" style="font-size: 2.5rem;">I</div>
+                        <h3 class="slide-up" style="font-size: 3rem;">Introducing Astronomy</h3>
+                        <p class="fade-in-left" style="font-size: 1.4rem;">Explore the fundamentals of astronomy, from the motion of celestial bodies to the tools we use to study them. This section covers the basics of light, telescopes, gravitation, and the cultural significance of astronomy.</p>
+                        <div class="curriculum-topics" style="font-size: 1.3rem;">
+                            <span class="topic-tag scale-in"  style="font-size: 1.2rem;">Light & Telescopes</span>
+                            <span class="topic-tag scale-in"  style="font-size: 1.2rem;">Celestial Motion</span>
+                            <span class="topic-tag scale-in" style="font-size: 1.2rem;">Gravitation</span>
+                            <span class="topic-tag scale-in" style="font-size: 1.2rem;">History</span>
+                        </div>
+                    </div>
+                    <img src="https://storage.noirlab.edu/media/archives/images/screen/6V6A9208-CC.jpg" alt="" style="width: 400px; height:400px; border-radius: 10%; object-fit: cover;">
+                </div>
+                
+                <div class="curriculum-item scale-in" style="margin-right: 85px; ">
+                    <img src="https://d.newsweek.com/en/full/2168730/planets-solar-system.jpg?w=1200&f=deb71f49133934ed94bcb02f81102c7a" alt="" style="width: 400px; height:400px; border-radius: 10%; object-fit: cover;">
+                    <div class="curriculum-card">
+                        <div class="curriculum-number" style="font-size: 2.5rem;">II</div>
+                        <h3 class="slide-up" style="font-size: 3rem;">Planets and Moons</h3>
+                        <p class="fade-in-right" style="font-size: 1.4rem;">Deep dive into the diverse planets of our solar system, comparing their geology, atmospheres, and origins. From Earth's dynamic systems to the icy moons of Jupiter and Saturn.</p>
                         <div class="curriculum-topics">
-                            <span class="topic-tag scale-in">Light & Telescopes</span>
-                            <span class="topic-tag scale-in">Celestial Motion</span>
-                            <span class="topic-tag scale-in">Gravitation</span>
-                            <span class="topic-tag scale-in">History</span>
+                            <span class="topic-tag scale-in" style="font-size: 1.2rem;">Solar System</span>
+                            <span class="topic-tag scale-in" style="font-size: 1.2rem;">Planetary Geology</span>
+                            <span class="topic-tag scale-in"style="font-size: 1.2rem;">Atmospheres</span>
+                            <span class="topic-tag scale-in"style="font-size: 1.2rem;">Moons</span>
                         </div>
                     </div>
                 </div>
                 
-                <div class="curriculum-item scale-in">
+                <div class="curriculum-item scale-in" style="margin-left: 110px; ">
                     <div class="curriculum-card">
-                        <div class="curriculum-number">II</div>
-                        <h3 class="slide-up">Planets and Moons</h3>
-                        <p class="fade-in-right">Deep dive into the diverse planets of our solar system, comparing their geology, atmospheres, and origins. From Earth's dynamic systems to the icy moons of Jupiter and Saturn.</p>
+                        <div class="curriculum-number" style="font-size: 2.5rem;">III</div>
+                        <h3 class="slide-up" style="font-size: 3rem;">Stars and Stellar Evolution</h3>
+                        <p class="fade-in-left" style="font-size: 1.4rem;">Explore the life cycles of stars, from their fiery birth in nebulae to their dramatic deaths as supernovae, neutron stars, or black holes. Learn about the Sun's structure and the forces that shape stellar evolution.</p>
                         <div class="curriculum-topics">
-                            <span class="topic-tag scale-in">Solar System</span>
-                            <span class="topic-tag scale-in">Planetary Geology</span>
-                            <span class="topic-tag scale-in">Atmospheres</span>
-                            <span class="topic-tag scale-in">Moons</span>
+                            <span class="topic-tag scale-in"style="font-size: 1.2rem;">Stellar Birth</span>
+                            <span class="topic-tag scale-in"style="font-size: 1.2rem;">Nuclear Fusion</span>
+                            <span class="topic-tag scale-in"style="font-size: 1.2rem;">Supernovae</span>
+                            <span class="topic-tag scale-in"style="font-size: 1.2rem;">Black Holes</span>
+                        </div>
+                    </div>
+                    <img src="https://www.aavso.org/sites/default/files/images/The_life_of_Sun-like_stars_sm.jpg" alt="" style="width: 400px; height:400px; border-radius: 10%; object-fit: cover;">
+                </div>
+                
+                <div class="curriculum-item scale-in" style="margin-right: 85px; ">
+                    <img src="https://www.openaccessgovernment.org/wp-content/uploads/2021/12/dreamstime_m_175599472-scaled.jpg" alt="" style="width: 400px; height:400px; border-radius: 10%; object-fit: cover;">
+                    <div class="curriculum-card">
+                        <div class="curriculum-number" style="font-size: 2.5rem;">IV</div>
+                        <h3 class="slide-up" style="font-size: 3rem;">Galaxies and Cosmology</h3>
+                        <p class="fade-in-right" style="font-size: 1.4rem;">Journey through the vast structures of the universe, from our Milky Way to active quasars and the expanding cosmos. This section examines dark matter, the Big Bang, and the search for extraterrestrial life.</p>
+                        <div class="curriculum-topics">
+                            <span class="topic-tag scale-in"style="font-size: 1.2rem;">Milky Way</span>
+                            <span class="topic-tag scale-in"style="font-size: 1.2rem;">Dark Matter</span>
+                            <span class="topic-tag scale-in"style="font-size: 1.2rem;">Big Bang</span>
+                            <span class="topic-tag scale-in"style="font-size: 1.2rem;">Exoplanets</span>
                         </div>
                     </div>
                 </div>
                 
-                <div class="curriculum-item scale-in">
+                <div class="curriculum-item scale-in" style="margin-left: 110px; ">
+                    
                     <div class="curriculum-card">
-                        <div class="curriculum-number">III</div>
-                        <h3 class="slide-up">Stars and Stellar Evolution</h3>
-                        <p class="fade-in-left">Explore the life cycles of stars, from their fiery birth in nebulae to their dramatic deaths as supernovae, neutron stars, or black holes. Learn about the Sun's structure and the forces that shape stellar evolution.</p>
+                        <div class="curriculum-number" style="font-size: 2.5rem;">V</div>
+                        <h3 class="slide-up" style="font-size: 3rem;">Modern Astrophysics</h3>
+                        <p class="fade-in-left" style="font-size: 1.4rem;">A focused section from Introduction to Modern Astrophysics bridges core concepts with advanced theories, deepening your understanding of the physical laws governing the universe.</p>
                         <div class="curriculum-topics">
-                            <span class="topic-tag scale-in">Stellar Birth</span>
-                            <span class="topic-tag scale-in">Nuclear Fusion</span>
-                            <span class="topic-tag scale-in">Supernovae</span>
-                            <span class="topic-tag scale-in">Black Holes</span>
+                            <span class="topic-tag scale-in"style="font-size: 1.2rem;">Quantum Physics</span>
+                            <span class="topic-tag scale-in"style="font-size: 1.2rem;">Relativity</span>
+                            <span class="topic-tag scale-in"style="font-size: 1.2rem;">Gravitational Waves</span>
+                            <span class="topic-tag scale-in"style="font-size: 1.2rem;">Research</span>
                         </div>
                     </div>
-                </div>
-                
-                <div class="curriculum-item scale-in">
-                    <div class="curriculum-card">
-                        <div class="curriculum-number">IV</div>
-                        <h3 class="slide-up">Galaxies and Cosmology</h3>
-                        <p class="fade-in-right">Journey through the vast structures of the universe, from our Milky Way to active quasars and the expanding cosmos. This section examines dark matter, the Big Bang, and the search for extraterrestrial life.</p>
-                        <div class="curriculum-topics">
-                            <span class="topic-tag scale-in">Milky Way</span>
-                            <span class="topic-tag scale-in">Dark Matter</span>
-                            <span class="topic-tag scale-in">Big Bang</span>
-                            <span class="topic-tag scale-in">Exoplanets</span>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="curriculum-item scale-in">
-                    <div class="curriculum-card">
-                        <div class="curriculum-number">V</div>
-                        <h3 class="slide-up">Modern Astrophysics</h3>
-                        <p class="fade-in-left">A focused section from Introduction to Modern Astrophysics bridges core concepts with advanced theories, deepening your understanding of the physical laws governing the universe.</p>
-                        <div class="curriculum-topics">
-                            <span class="topic-tag scale-in">Quantum Physics</span>
-                            <span class="topic-tag scale-in">Relativity</span>
-                            <span class="topic-tag scale-in">Gravitational Waves</span>
-                            <span class="topic-tag scale-in">Research</span>
-                        </div>
-                    </div>
+                    <img src="https://media-cldnry.s-nbcnews.com/image/upload/newscms/2018_27/2487546/180705-einstein-theory-general-relativity-al-1137.jpg" alt="" style="width: 400px; height:400px; border-radius: 10%; object-fit: cover;">
                 </div>
             </div>
         </div>
@@ -2293,7 +2291,7 @@ if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
    	<div class="row section-intro">
         <h5 class="scale-in" style="color: #e2e2e2;">MEMBERS</h5><br/>
    		<div class="col-twelve">
-   			<h2 class="scroll-reveal" style="color: #5c4b4b;">Astronomy Club has a team of 30+ students who passionately handle all the club activities.</h2><h2 class="h01"/>
+   			<h2 class="scroll-reveal" style="color: #87ceeb;">Astronomy Club has a team of 30+ students who passionately handle all the club activities.</h2><h2 class="h01"/>
    		</div>   		
    	</div>   	
       <div class="row flex-container">
@@ -2301,17 +2299,17 @@ if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
             <ul class="slides">
                <li>
                	<div class="member-author member-clickable" data-member="farouk">
-                    	<img src="members/farouk.jpg" alt="President image">
-                    	<div class="author-info">
-                    		Farouk Mohammed Farouk
+                    	<img src="members/farouk.jpg" alt="President image" style="width: 150px;height: 150px; border-radius: 10%; object-fit: cover;">
+                    	<div class="author-info" style="color: #87ceeb;">
+                    		Farouk Diab
                     		<span class="position" style="color: white;">President</span>
                     	</div>
                   </div>
              	</li> <!-- /slide -->
                <li> 
                	<div class="member-author member-clickable" data-member="mohammed">
-                    	<img src="members/mohammedosama.png" alt="Vice-President image">
-                    	<div class="author-info">
+                    	<img src="members/mohammedosama.png" alt="Vice-President image" style="width: 150px;height: 150px; border-radius: 10%; object-fit: cover;">
+                    	<div class="author-info" style="color: #87ceeb;">
                     		Mohammed Osama
                     		<span style="color: white;">Vice-President</span>
                     	</div>
@@ -2319,33 +2317,32 @@ if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
                </li> <!-- /slide -->
                <li>
                    <div class="member-author member-clickable" data-member="aly">
-                       <img src="members/alyalgendy.jpg" alt="Vice-President image">
-                           <div class="author-info">
+                       <img src="members/alyalgendy.jpg" alt="Vice-President image" style="width: 150px;height: 150px; border-radius: 10%; object-fit: cover;">
+                           <div class="author-info" style="color: #87ceeb;">
                                Aly Al-Gendy
                                <span style="color: white;">Vice-President</span>
                            </div>
                            </div>
                </li> <!-- /slide -->
-               
+               <li>
+                   <div class="member-author member-clickable" data-member="webmaster">
+                           <div class="author-info" style="color: #87ceeb;">
+                               Tareq Khalil<br/><br/>
+                               <span style="margin-top: 0px; color: white; font-size: 2rem;">Web Master</span>
+			       <span></span>
+                           </div>
+                           </div>                  
+               </li> <!-- /slide -->  
                <li>
                    <div class="member-author member-clickable" data-member="mentors">
-                           <div class="author-info">
-                               Mentors<br/><br/>
-                               <span style="color: white;">Tarak Khalil</span>
-			                   <span style="color: white;">Loay Alaa</span>
+                           <div class="author-info" style="color: #87ceeb;">
+                               Tareq Khalil<br>Loay Alaa<br/><br/>
+			                   <span style="color: white;">Academic Mentors</span>
 			       <span></span>
                            </div>
                            </div>                  
                </li> <!-- /slide -->       
-               <li>
-                   <div class="member-author member-clickable" data-member="webmaster">
-                           <div class="author-info">
-                               Web Master<br/><br/>
-                               <span>Tarak Khalil</span>
-			       <span></span>
-                           </div>
-                           </div>                  
-               </li> <!-- /slide -->            
+                         
                <!--<li>                   
                    <div class="member-author member-clickable" data-member="s25">
                            <div class="author-info">
@@ -2464,7 +2461,7 @@ if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
 	            <div class="footer-logo"></div>
 	            <p>STEM October Astronomy Club<br>
                 Farouk Diab, Aly Al-Gendy, Mohammed Osama, Egypt<br>
-		        	astronomyclub.october@gmail.com <br/> +20 109 298 1313
+		        	astronomyclub.october@gmail.com <br/> +20 111 816 7723
 		        	</p>
 		      </div> <!-- /footer-info -->
 	      	<div class="col-six tab-full mob-full social-links" style="text-align: right;">

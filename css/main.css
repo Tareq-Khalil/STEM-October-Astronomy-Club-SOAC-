@@ -1147,7 +1147,6 @@ a.menu-toggle {
  */
 
 #intro {
-	background: #14181E url(../images/intro-bg.jpg) no-repeat center;
 	-webkit-background-size: cover;
 	-moz-background-size: cover;
 	background-size: cover;
@@ -1408,10 +1407,10 @@ a.menu-toggle {
  */
 
 #about {
-	background: #FFFFFF;
-	padding-top: 12rem;
-	padding-bottom: 15rem;
-	overflow: hidden;
+background-color: white;
+	background-repeat: no-repeat;
+	background-size: cover;
+
 }
 .about-content {
 	position: relative;
@@ -1870,11 +1869,12 @@ footer ul li {
 	color: #FFFFFF;
 }
 .footer-main .footer-logo {
-	width: 182px;
-	height: 34px;
-	background: url("../images/footer-logo.png") no-repeat center;
-	background-size: 182px 34px;
+	width: 202px;
+	height: 100px;
+	background: url("../images/logo1.png") no-repeat center;
+	background-size: 202px 100px;
 	margin: -.6rem 0 2.1rem -.3rem;
+	margin-bottom:0px;
 	display: block;
 }
 .footer-main .footer-subscribe p {

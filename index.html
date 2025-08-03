@@ -17,6 +17,7 @@
    <link rel="stylesheet" href="css/base.css">
    <link rel="stylesheet" href="css/main.css">
    <link rel="stylesheet" href="css/vendor.css">
+   <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&display=swap" rel="stylesheet">
    <style>
        .overlayevents {
            position: fixed;
@@ -46,65 +47,1165 @@
          box-shadow: 0 0 10px rgba(0,0,0,0.5);
          transform: translate(-50%, -50%);
     }
-           h1, h2, h3, h4, h5 {
-           font-family: 'Orbitron', monospace;
-       }
-       /* CSS for the scroll reveal effect */
-        .scroll-reveal {
-            opacity: 0;
-            transform: translateY(50px);
-            transition: all 0.6s ease-out;
-        }
-        
-        .scroll-reveal.revealed {
-            opacity: 1;
-            transform: translateY(0);
-        }
-        
-        /* Alternative animations - you can choose one */
-        .fade-in-left {
-            opacity: 0;
-            transform: translateX(-50px);
-            transition: all 0.8s ease-out;
-        }
-        
-        .fade-in-left.revealed {
-            opacity: 1;
-            transform: translateX(0);
-        }
-        
-        .fade-in-right {
-            opacity: 0;
-            transform: translateX(50px);
-            transition: all 0.8s ease-out;
-        }
-        
-        .fade-in-right.revealed {
-            opacity: 1;
-            transform: translateX(0);
-        }
-        
-        .scale-in {
-            opacity: 0;
-            transform: scale(0.8);
-            transition: all 0.6s ease-out;
-        }
-        
-        .scale-in.revealed {
-            opacity: 1;
-            transform: scale(1);
-        }
-    #intro {
-  position: relative;
-             background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(15, 23, 42, 0.9)), 
-                       url(images/intro-bg.jpg) center center;
-    background-repeat: no-repeat;
-  background-size: cover;
-  overflow: hidden;
-    cursor: none;
-               animation: fadeInUp 5s ease-out 5s forwards;
 
+    /* Member Popup Styles */
+    .member-overlay {
+        position: fixed;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        background: rgba(0, 0, 0, 0.8);
+        transition: all 500ms ease-in-out;
+        visibility: hidden;
+        opacity: 0;
+        z-index: 10000;
+    }
+
+    .member-overlay.active {
+        visibility: visible;
+        opacity: 1;
+    }
+
+    .member-popup {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        width: 90%;
+        max-width: 500px;
+        padding: 30px;
+        background: linear-gradient(135deg, rgba(15, 23, 42, 0.95), rgba(30, 41, 59, 0.95));
+        backdrop-filter: blur(20px);
+        border-radius: 15px;
+        box-shadow: 0 20px 40px rgba(0,0,0,0.5);
+        transform: translate(-50%, -50%) scale(0.8);
+        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        border: 1px solid rgba(135, 206, 235, 0.3);
+    }
+
+    .member-overlay.active .member-popup {
+        transform: translate(-50%, -50%) scale(1);
+    }
+
+    .member-popup-close {
+        position: absolute;
+        top: 15px;
+        right: 15px;
+        background: none;
+        border: none;
+        color: skyblue;
+        font-size: 1.5rem;
+        cursor: pointer;
+        padding: 5px;
+        border-radius: 50%;
+        transition: all 0.3s ease;
+        width: 35px;
+        height: 35px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .member-popup-close:hover {
+        background: rgba(135, 206, 235, 0.2);
+        transform: rotate(90deg);
+    }
+
+    .member-popup-content {
+        text-align: center;
+        color: white;
+    }
+
+    .member-popup-image {
+        width: 120px;
+        height: 120px;
+        border-radius: 50%;
+        margin: 0 auto 20px;
+        border: 3px solid skyblue;
+        box-shadow: 0 0 20px rgba(135, 206, 235, 0.5);
+        object-fit: cover;
+    }
+
+    .member-popup-name {
+        font-size: 1.8rem;
+        font-weight: 700;
+        color: skyblue;
+        margin-bottom: 10px;
+        font-family: 'Orbitron', monospace;
+    }
+
+    .member-popup-position {
+        font-size: 1.1rem;
+        color: rgba(135, 206, 235, 0.8);
+        margin-bottom: 20px;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+    }
+
+    .member-popup-bio {
+        font-size: 1rem;
+        line-height: 1.6;
+        color: rgba(255, 255, 255, 0.9);
+        margin-bottom: 20px;
+    }
+
+    .member-popup-details {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 15px;
+        margin-top: 20px;
+        padding-top: 20px;
+        border-top: 1px solid rgba(135, 206, 235, 0.3);
+    }
+
+    .member-detail {
+        text-align: left;
+    }
+
+    .member-detail-label {
+        font-size: 0.9rem;
+        color: rgba(135, 206, 235, 0.7);
+        margin-bottom: 5px;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+    }
+
+    .member-detail-value {
+        font-size: 1rem;
+        color: white;
+        font-weight: 500;
+    }
+
+    /* Customizable text styles for member info */
+    .customizable-text {
+        font-size: var(--custom-font-size, 1rem);
+        color: var(--custom-color, #ffffff);
+        font-family: var(--custom-font, 'inherit');
+    }
+
+.section-watermark {
+    position: absolute !important;
+    top: 50% !important;
+    left: 50% !important;
+    transform: translate(-50%, -50%) rotate(-15deg) !important;
+    font-size: clamp(6rem, 12vw, 16rem) !important;
+    font-weight: 900 !important;
+    color: rgba(255, 252, 252, 0.08) !important;
+    font-family: 'Orbitron', monospace !important;
+    letter-spacing: 0.1em !important;
+    z-index: 1 !important;
+    user-select: none !important;
+    pointer-events: none !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    border: none !important;
+    outline: none !important;
+    text-decoration: none !important;
+    background: none !important;
+    box-shadow: none !important;
+    white-space: nowrap !important;
 }
+
+/* Individual letter styling for typewriter effect */
+.section-watermark .letter {
+    display: inline-block !important;
+    opacity: 0 !important;
+    transform: translateY(30px) scale(0.8) !important;
+    transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1) !important;
+}
+
+/* Letter appear animation - triggers on scroll */
+.section-watermark .letter.animate {
+    animation: letterAppear 0.8s cubic-bezier(0.4, 0, 0.2, 1) forwards !important;
+}
+
+/* Staggered animation delays for each letter */
+.section-watermark .letter:nth-child(1) { animation-delay: 0.1s !important; }
+.section-watermark .letter:nth-child(2) { animation-delay: 0.3s !important; }
+.section-watermark .letter:nth-child(3) { animation-delay: 0.5s !important; }
+.section-watermark .letter:nth-child(4) { animation-delay: 0.7s !important; }
+.section-watermark .letter:nth-child(5) { animation-delay: 0.9s !important; }
+
+/* After all letters appear, start infinite fade animation */
+.section-watermark.animate-complete {
+    animation: infiniteWatermarkFade 4s ease-in-out infinite !important;
+}
+
+/* ================================================== 
+   KEYFRAME ANIMATIONS
+================================================== */
+
+/* Letter-by-letter appearance animation */
+@keyframes letterAppear {
+    0% {
+        opacity: 0 !important;
+        transform: translateY(40px) scale(0.7) rotateX(90deg) !important;
+    }
+    30% {
+        opacity: 0.3 !important;
+        transform: translateY(20px) scale(0.9) rotateX(45deg) !important;
+    }
+    60% {
+        opacity: 0.7 !important;
+        transform: translateY(-10px) scale(1.1) rotateX(-10deg) !important;
+    }
+    80% {
+        opacity: 0.9 !important;
+        transform: translateY(-5px) scale(1.05) rotateX(5deg) !important;
+    }
+    100% {
+        opacity: 1 !important;
+        transform: translateY(0) scale(1) rotateX(0deg) !important;
+    }
+}
+
+/* Infinite fade in/out animation */
+@keyframes infiniteWatermarkFade {
+    0% {
+        opacity: 0.05 !important;
+        transform: translate(-50%, -50%) rotate(-15deg) scale(1) !important;
+        filter: blur(0px) !important;
+    }
+    15% {
+        opacity: 0.08 !important;
+        transform: translate(-50%, -50%) rotate(-13deg) scale(1.01) !important;
+        filter: blur(0.5px) !important;
+    }
+    25% {
+        opacity: 0.12 !important;
+        transform: translate(-50%, -50%) rotate(-12deg) scale(1.02) !important;
+        filter: blur(0px) !important;
+    }
+    40% {
+        opacity: 0.15 !important;
+        transform: translate(-50%, -50%) rotate(-14deg) scale(1.03) !important;
+        filter: blur(0.3px) !important;
+    }
+    50% {
+        opacity: 0.08 !important;
+        transform: translate(-50%, -50%) rotate(-18deg) scale(0.98) !important;
+        filter: blur(0px) !important;
+    }
+    65% {
+        opacity: 0.18 !important;
+        transform: translate(-50%, -50%) rotate(-16deg) scale(1.01) !important;
+        filter: blur(0.2px) !important;
+    }
+    75% {
+        opacity: 0.15 !important;
+        transform: translate(-50%, -50%) rotate(-14deg) scale(1.01) !important;
+        filter: blur(0px) !important;
+    }
+    90% {
+        opacity: 0.10 !important;
+        transform: translate(-50%, -50%) rotate(-13deg) scale(0.99) !important;
+        filter: blur(0.4px) !important;
+    }
+    100% {
+        opacity: 0.05 !important;
+        transform: translate(-50%, -50%) rotate(-15deg) scale(1) !important;
+        filter: blur(0px) !important;
+    }
+}
+
+/* ================================================== 
+   SECTION-SPECIFIC WATERMARK COLORS
+================================================== */
+
+/* Intro section - Sky blue watermark */
+#intro .section-watermark {
+    color: rgba(135, 206, 235, 0.1) !important;
+}
+
+/* About section - Soft white watermark */
+section#about .section-watermark {
+    color: rgba(255, 255, 255, 0.08) !important;
+}
+
+/* Curriculum section - Cosmic blue watermark */
+section#curriculum .section-watermark {
+    color: rgba(135, 206, 235, 0.09) !important;
+}
+
+/* Events section - Electric blue watermark */
+#events .section-watermark {
+    color: rgba(135, 206, 235, 0.08) !important;
+    text-shadow: 0 0 10px rgba(135, 206, 235, 0.1) !important;
+}
+
+/* Members section - Stellar blue watermark */
+#members .section-watermark {
+    color: rgba(135, 206, 235, 0.08) !important;
+    text-shadow: 0 0 15px rgba(135, 206, 235, 0.1) !important;
+}
+
+/* Footer section - Golden watermark */
+section#footer .section-watermark {
+    color: rgba(255, 215, 0, 0.1) !important;
+    text-shadow: 0 0 20px rgba(255, 215, 0, 0.1) !important;
+}
+
+/* ================================================== 
+   ENHANCED VISUAL EFFECTS
+================================================== */
+
+/* Add subtle glow effect during infinite animation */
+.section-watermark.animate-complete {
+    text-shadow: 0 0 20px currentColor !important;
+}
+
+/* Hover enhancement (optional - for interactive debugging) */
+.section-watermark:hover {
+    animation-play-state: paused !important;
+    opacity: 0.3 !important;
+    transition: opacity 0.3s ease !important;
+}
+
+/* ================================================== 
+   RESPONSIVE DESIGN
+================================================== */
+
+/* Mobile optimizations */
+@media (max-width: 768px) {
+    .section-watermark {
+        font-size: clamp(3rem, 15vw, 8rem) !important;
+        letter-spacing: 0.05em !important;
+    }
+    
+    /* Faster animations on mobile for better performance */
+    .section-watermark .letter.animate {
+        animation-duration: 0.6s !important;
+    }
+    
+    .section-watermark.animate-complete {
+        animation-duration: 3s !important;
+    }
+}
+
+/* Tablet optimizations */
+@media (max-width: 1024px) and (min-width: 769px) {
+    .section-watermark {
+        font-size: clamp(4rem, 10vw, 12rem) !important;
+    }
+}
+
+/* High DPI screens */
+@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
+    .section-watermark {
+        text-rendering: optimizeLegibility !important;
+        -webkit-font-smoothing: antialiased !important;
+        -moz-osx-font-smoothing: grayscale !important;
+    }
+}
+
+/* ================================================== 
+   ACCESSIBILITY & PERFORMANCE
+================================================== */
+
+/* Respect user's motion preferences */
+@media (prefers-reduced-motion: reduce) {
+    .section-watermark .letter.animate,
+    .section-watermark.animate-complete {
+        animation: none !important;
+        opacity: 0.1 !important;
+        transform: translate(-50%, -50%) rotate(-15deg) !important;
+    }
+}
+
+/* Improve performance on lower-end devices */
+@media (max-width: 480px) {
+    .section-watermark {
+        will-change: opacity, transform !important;
+        backface-visibility: hidden !important;
+        perspective: 1000px !important;
+    }
+}
+   /* ================================================== 
+      SECTION-SPECIFIC STYLES
+   ================================================== */
+   
+   /* INTRO SECTION */
+   #intro {
+       position: relative;
+       background: linear-gradient(rgba(0, 0, 0, 0.7)), 
+                   url(images/intro-bg.jpg) center center;
+       background-repeat: no-repeat;
+       background-size: cover;
+       overflow: hidden;
+       cursor: none;
+       min-height: 100vh;
+   }
+
+
+
+   /* ABOUT SECTION */
+   section#about {
+       position: relative !important;
+       background: url('imm2.png') center/cover no-repeat !important;
+       overflow: hidden !important;
+       padding: 80px 0 !important;
+       min-height: 100vh !important;
+       box-sizing: border-box !important;
+   }
+
+   /* CURRICULUM SECTION */
+   section#curriculum {
+       position: relative !important;
+       background: url('imm2.png') center/cover no-repeat !important;
+       overflow: hidden !important;
+       padding: 80px 0 !important;
+       min-height: 100vh !important;
+       box-sizing: border-box !important;
+   }
+
+   /* EVENTS SECTION */
+   #events {
+       position: relative;
+       background: linear-gradient(rgba(0, 0, 0, 0.8), rgba(15, 23, 42, 0.9)),
+                   linear-gradient(45deg, #1e3a8a 0%, #312e81 25%, #1e3a8a 50%, #4c1d95 75%, #1e3a8a 100%);
+       background-size: 60px 60px;
+       animation: eventShimmer 15s ease-in-out infinite;
+       overflow: hidden;
+       min-height: 100vh;
+   }
+
+   #events .section-watermark {
+       color: rgba(135, 206, 235, 0.08) !important;
+   }
+
+   /* MEMBERS SECTION */
+   #members {
+       position: relative;
+       background: url('imm2.png') center/cover no-repeat !important;
+       overflow: hidden;
+       min-height: 100vh;
+   }
+
+   #members .section-watermark {
+       color: rgba(135, 206, 235, 0.08) !important;
+   }
+
+   /* FOOTER SECTION */
+   section#footer {
+       position: relative;
+       background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.8)),
+                   url('imm2.png') center/cover no-repeat;
+       overflow: hidden;
+       padding: 60px 0;
+       min-height: 400px;
+       box-sizing: border-box;
+   }
+
+   section#footer .section-watermark {
+       color: rgba(255, 255, 255, 0.1) !important;
+   }
+
+   /* ================================================== 
+      SCROLL REVEAL ANIMATIONS
+   ================================================== */
+   .scroll-reveal {
+       opacity: 0;
+       transform: translateY(50px);
+       transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+   }
+   
+   .scroll-reveal.revealed {
+       opacity: 1;
+       transform: translateY(0);
+   }
+   
+   .fade-in-left {
+       opacity: 0;
+       transform: translateX(-60px);
+       transition: all 1s cubic-bezier(0.4, 0, 0.2, 1);
+   }
+   
+   .fade-in-left.revealed {
+       opacity: 1;
+       transform: translateX(0);
+   }
+   
+   .fade-in-right {
+       opacity: 0;
+       transform: translateX(60px);
+       transition: all 1s cubic-bezier(0.4, 0, 0.2, 1);
+   }
+   
+   .fade-in-right.revealed {
+       opacity: 1;
+       transform: translateX(0);
+   }
+   
+   .scale-in {
+       opacity: 0;
+       transform: scale(0.8);
+       transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+   }
+   
+   .scale-in.revealed {
+       opacity: 1;
+       transform: scale(1);
+   }
+
+   .rotate-in {
+       opacity: 0;
+       transform: rotate(-10deg) scale(0.9);
+       transition: all 1s cubic-bezier(0.4, 0, 0.2, 1);
+   }
+   
+   .rotate-in.revealed {
+       opacity: 1;
+       transform: rotate(0deg) scale(1);
+   }
+
+   .slide-up {
+       opacity: 0;
+       transform: translateY(80px);
+       transition: all 1.2s cubic-bezier(0.4, 0, 0.2, 1);
+   }
+   
+   .slide-up.revealed {
+       opacity: 1;
+       transform: translateY(0);
+   }
+
+   /* ================================================== 
+      ABOUT SECTION CONTENT STYLES
+   ================================================== */
+   .about-cosmic-grid {
+       display: grid;
+       grid-template-columns: 1fr 1fr;
+       gap: 50px;
+       margin: 20px 0;
+       z-index: 3;
+       position: relative;
+   }
+
+   .about-content-card {
+       background: linear-gradient(135deg, rgba(15, 23, 42, 0.8), rgba(30, 41, 59, 0.8));
+       backdrop-filter: blur(15px);
+       border-radius: 20px;
+       padding: 30px;
+       border: 1px solid rgba(135, 206, 235, 0.3);
+       box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3);
+       position: relative;
+       overflow: hidden;
+       transition: all 0.4s ease;
+   }
+
+   .about-content-card:hover {
+       transform: translateY(-5px);
+       box-shadow: 0 20px 40px rgba(135, 206, 235, 0.2);
+   }
+
+   .about-icon {
+       width: 100px;
+       height: 100px;
+       background: linear-gradient(135deg, #87ceeb, #4169e1);
+       border-radius: 50%;
+       display: flex;
+       align-items: center;
+       justify-content: center;
+       margin: 0 auto 20px auto;
+       box-shadow: 0 10px 20px rgba(135, 206, 235, 0.3);
+   }
+
+   .about-icon::after {
+       content: '🌟';
+       font-size: 50px;
+   }
+
+   .about-content-card h3 {
+       color: #87ceeb;
+       font-size: 2rem;
+       margin-bottom: 15px;
+       font-family: 'Orbitron', monospace;
+       text-align: center;
+   }
+
+   .about-content-card p {
+       color: rgba(255, 255, 255, 0.9);
+       line-height: 1.6;
+       font-size: 1rem;
+       margin: 0;
+       text-align: left;
+   }
+
+   .about-visual {
+       display: flex;
+       align-items: center;
+       justify-content: center;
+       position: relative;
+   }
+
+   .cosmic-visual {
+       width: 300px;
+       height: 300px;
+       position: relative;
+       animation: cosmicRotate 20s linear infinite;
+   }
+
+   .cosmic-ring {
+       position: absolute;
+       border: 2px solid rgba(135, 206, 235, 0.3);
+       border-radius: 50%;
+       animation: ringPulse 3s ease-in-out infinite;
+   }
+
+   .cosmic-ring:nth-child(1) {
+       width: 100%;
+       height: 100%;
+       top: 0;
+       left: 0;
+   }
+
+   .cosmic-ring:nth-child(2) {
+       width: 70%;
+       height: 70%;
+       top: 15%;
+       left: 15%;
+       animation-delay: -1s;
+   }
+
+   .cosmic-ring:nth-child(3) {
+       width: 40%;
+       height: 40%;
+       top: 30%;
+       left: 30%;
+       animation-delay: -2s;
+   }
+
+   .cosmic-center {
+       position: absolute;
+       top: 50%;
+       left: 50%;
+       transform: translate(-50%, -50%);
+       width: 120px;
+       height: 120px;
+       background: radial-gradient(circle, #87ceeb, #4169e1);
+       border-radius: 50%;
+       display: flex;
+       align-items: center;
+       justify-content: center;
+       font-size: 2rem;
+       box-shadow: 0 0 30px rgba(135, 206, 235, 0.6);
+   }
+
+   /* ================================================== 
+      CURRICULUM SECTION STYLES
+   ================================================== */
+   .curriculum-timeline {
+       position: relative;
+       max-width: 2000px;
+       margin: 40px auto;
+       padding: 0 20px;
+       z-index: 2;
+   }
+
+   .timeline-line {
+       position: absolute;
+       left: 50%;
+       top: 0;
+       bottom: 0;
+       width: 3px;
+       background: linear-gradient(to bottom, #87ceeb, #4169e1, #87ceeb);
+       transform: translateX(-50%);
+       box-shadow: 0 0 10px rgba(135, 206, 235, 0.5);
+       z-index: 1;
+   }
+
+   .curriculum-item {
+       display: flex;
+       justify-content: flex-end;
+       padding-right: 30px;
+       position: relative;
+       margin: 50px 0;
+       z-index: 3;
+   }
+
+   .curriculum-item:nth-child(even) {
+       justify-content: flex-start;
+       padding-right: 0;
+       padding-left: 30px;
+   }
+
+   .curriculum-card {
+       background: linear-gradient(135deg, rgba(15, 23, 42, 0.9), rgba(30, 41, 59, 0.9));
+       backdrop-filter: blur(20px);
+       border-radius: 15px;
+       padding: 25px;
+       max-width: 400px;
+       border: 1px solid rgba(135, 206, 235, 0.3);
+       box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3);
+       position: relative;
+       transition: all 0.4s ease;
+   }
+
+   .curriculum-card:hover {
+       transform: scale(1.05);
+       box-shadow: 0 20px 40px rgba(135, 206, 235, 0.3);
+   }
+
+   .curriculum-number {
+       position: absolute;
+       left: 50%;
+       top: 30px;
+       transform: translateX(-50%);
+       width: 50px;
+       height: 50px;
+       background: linear-gradient(135deg, #87ceeb, #4169e1);
+       border-radius: 50%;
+       display: flex;
+       align-items: center;
+       justify-content: center;
+       font-family: 'Orbitron', monospace;
+       font-weight: bold;
+       color: white;
+       font-size: 1.2rem;
+       box-shadow: 0 0 20px rgba(135, 206, 235, 0.6);
+       z-index: 10;
+   }
+
+   .curriculum-item:nth-child(even) .curriculum-number {
+       left: -25px;
+       transform: translateX(0);
+   }
+
+   .curriculum-item:nth-child(odd) .curriculum-number {
+       right: -25px;
+       left: auto;
+       transform: translateX(0);
+   }
+
+   .curriculum-card h3 {
+       color: #87ceeb;
+       font-size: 1.4rem;
+       margin-bottom: 15px;
+       font-family: 'Orbitron', monospace;
+   }
+
+   .curriculum-card p {
+       color: rgba(255, 255, 255, 0.9);
+       line-height: 1.6;
+       font-size: 0.95rem;
+       margin: 0;
+   }
+
+   .curriculum-topics {
+       margin-top: 15px;
+       padding-top: 15px;
+       border-top: 1px solid rgba(135, 206, 235, 0.2);
+   }
+
+   .topic-tag {
+       display: inline-block;
+       background: rgba(135, 206, 235, 0.2);
+       color: #87ceeb;
+       padding: 4px 12px;
+       border-radius: 15px;
+       font-size: 0.8rem;
+       margin: 3px;
+       border: 1px solid rgba(135, 206, 235, 0.3);
+   }
+
+   /* ================================================== 
+      GENERAL ANIMATIONS
+   ================================================== */
+   @keyframes cosmicRotate {
+       from { transform: rotate(0deg); }
+       to { transform: rotate(360deg); }
+   }
+
+   @keyframes ringPulse {
+       0%, 100% { 
+           border-color: rgba(135, 206, 235, 0.3);
+           transform: scale(1);
+       }
+       50% { 
+           border-color: rgba(135, 206, 235, 0.8);
+           transform: scale(1.05);
+       }
+   }
+
+   @keyframes eventShimmer {
+       0%, 100% { background-position: 0% 0%; }
+       50% { background-position: 100% 100%; }
+   }
+
+   /* ================================================== 
+      INTRO SECTION SPECIFIC STYLES
+   ================================================== */
+   #intro::before {
+       content: "";
+       position: absolute;
+       top: 0;
+       left: 0;
+       right: 0;
+       bottom: 0;
+       background: radial-gradient(circle 120px at var(--mouse-x, 50%) var(--mouse-y, 50%), 
+                                 transparent 0%, 
+                                 transparent 90%, 
+                                 rgba(0, 0, 0, 0.95) 100%);
+       z-index: 1;
+       transition: all 5s ease-out;
+       pointer-events: none;
+   }
+
+   .intro-content {
+       position: relative;
+       z-index: 3;
+       text-align: center;
+       padding-top: 30vh;
+   }
+
+   .intro-content h5 {
+       font-size: 1.2rem;
+       color: #87ceeb;
+       text-transform: uppercase;
+       letter-spacing: 3px;
+       margin-bottom: 20px;
+       opacity: 0;
+       animation: fadeInUp 1s ease-out 1s forwards;
+   }
+
+   .intro-content h1 {
+       font-size: 4rem;
+       font-weight: 900;
+       background: linear-gradient(135deg, #ffd700, #87ceeb);
+       -webkit-background-clip: text;
+       -webkit-text-fill-color: transparent;
+       background-clip: text;
+       margin-bottom: 30px;
+       opacity: 0;
+       animation: fadeInUp 1s ease-out 1.5s forwards;
+   }
+
+   @keyframes fadeInUp {
+       from {
+           opacity: 0;
+           transform: translateY(30px);
+       }
+       to {
+           opacity: 1;
+           transform: translateY(0);
+       }
+   }
+
+   /* ================================================== 
+      RESPONSIVE DESIGN
+   ================================================== */
+   @media (max-width: 768px) {
+       .section-watermark {
+           font-size: clamp(3rem, 15vw, 8rem) !important;
+       }
+       
+       .about-cosmic-grid {
+           grid-template-columns: 1fr;
+           gap: 30px;
+       }
+       
+       .timeline-line {
+           left: 30px;
+       }
+       
+       .curriculum-item,
+       .curriculum-item:nth-child(even) {
+           justify-content: flex-start;
+           padding-left: 80px;
+           padding-right: 0;
+       }
+       
+       .curriculum-number,
+       .curriculum-item:nth-child(even) .curriculum-number,
+       .curriculum-item:nth-child(odd) .curriculum-number {
+           left: 5px;
+           transform: translateX(0);
+       }
+   }
+
+   /* ================================================== 
+      CONTENT PROTECTION STYLES
+   ================================================== */
+   .row, .section-intro {
+       position: relative !important;
+       z-index: 10 !important;
+       color: #ffffff !important;
+       margin: 0 auto !important;
+       max-width: 1200px !important;
+       padding: 0 20px !important;
+       text-align: center !important;
+       background: none !important;
+   }
+
+    #events {
+        position: relative;
+        background: linear-gradient(rgba(0, 0, 0, 0.8), rgba(15, 23, 42, 0.9)),
+                    linear-gradient(45deg, #1e3a8a 0%, #312e81 25%, #1e3a8a 50%, #4c1d95 75%, #1e3a8a 100%);
+        background-size: 60px 60px;
+        animation: eventShimmer 15s ease-in-out infinite;
+        overflow: hidden;
+        min-height: 100vh;
+    }
+
+    #events::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-image: 
+            radial-gradient(circle at 10% 20%, rgba(255, 255, 255, 0.1) 0%, transparent 20%),
+            radial-gradient(circle at 90% 80%, rgba(135, 206, 235, 0.1) 0%, transparent 20%),
+            radial-gradient(circle at 40% 40%, rgba(255, 255, 255, 0.05) 0%, transparent 30%);
+        z-index: 1;
+    }
+
+    #events .section-watermark {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        right: 50%;
+        transform: translate(-50%, -50%) rotate(-10deg);
+        font-size: clamp(8rem, 15vw, 20rem);
+        font-weight: 900;
+        color: rgba(135, 206, 235, 0.08);
+        font-family: 'Orbitron', monospace;
+        letter-spacing: 0.1em;
+        z-index: 2;
+        user-select: none;
+        pointer-events: none;
+    }
+    
+
+    #members {
+        position: relative;
+        background: linear-gradient(rgba(0, 0, 0, 0.85), rgba(15, 23, 42, 0.9)),
+                    radial-gradient(ellipse at top, #1e1b4b 0%, transparent 50%),
+                    radial-gradient(ellipse at bottom, #312e81 0%, transparent 50%),
+                    linear-gradient(180deg, #0f172a 0%, #1e293b 50%, #0f172a 100%);
+        overflow: hidden;
+        min-height: 100vh;
+    }
+
+    #members::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-image: 
+            radial-gradient(1px 1px at 20px 30px, rgba(255,255,255,0.2), transparent),
+            radial-gradient(1px 1px at 40px 70px, rgba(135, 206, 235, 0.3), transparent),
+            radial-gradient(1px 1px at 90px 40px, rgba(255,255,255,0.1), transparent),
+            radial-gradient(1px 1px at 130px 80px, rgba(135, 206, 235, 0.2), transparent);
+        background-repeat: repeat;
+        background-size: 150px 100px;
+        animation: constellationTwinkle 8s ease-in-out infinite;
+        z-index: 1;
+    }
+
+    #members .section-watermark {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%) rotate(15deg);
+        font-size: clamp(8rem, 15vw, 20rem);
+        font-weight: 900;
+        color: rgba(135, 206, 235, 0.08);
+        font-family: 'Orbitron', monospace;
+        letter-spacing: 0.1em;
+        z-index: 2;
+        user-select: none;
+        pointer-events: none;
+    }
+    
+
+/* Footer Section */
+section#footer {
+    position: relative;
+    background: 
+        linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.8)),
+        url('imm2.png') center/cover no-repeat;
+    overflow: hidden;
+    padding: 60px 0;
+    min-height: 400px;
+    box-sizing: border-box;
+}
+
+/* Watermark Styling and Animations */
+section#footer .section-watermark {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) rotate(-15deg);
+    font-size: clamp(4rem, 12vw, 16rem);
+    font-weight: 900;
+    color: rgba(255, 255, 255, 0.1);
+    font-family: 'Arial', sans-serif;
+    letter-spacing: 0.2em;
+    z-index: 1;
+    user-select: none;
+    pointer-events: none;
+    margin: 0;
+    padding: 0;
+    white-space: nowrap;
+}
+
+/* Individual letter styling for typewriter effect */
+.section-watermark .letter {
+    display: inline-block;
+    opacity: 0;
+    animation: typeWriter 0.5s ease-in-out forwards;
+}
+
+.section-watermark .letter:nth-child(1) { animation-delay: 0.1s; }
+.section-watermark .letter:nth-child(2) { animation-delay: 0.3s; }
+.section-watermark .letter:nth-child(3) { animation-delay: 0.5s; }
+.section-watermark .letter:nth-child(4) { animation-delay: 0.7s; }
+
+/* After all letters appear, start infinite fade animation */
+.section-watermark.animate-complete {
+    animation: infiniteFade 3s ease-in-out infinite;
+}
+
+/* Footer Main Content */
+section#footer .footer-main {
+    position: relative;
+    z-index: 2;
+    color: #ffffff;
+    margin: 0 auto;
+    max-width: 1200px;
+    padding: 0 20px;
+    background: none;
+}
+
+.footer-main .row {
+    display: flex;
+    flex-wrap: wrap;
+    margin: 0 -15px;
+}
+
+.footer-main .col-six {
+    flex: 0 0 50%;
+    max-width: 50%;
+    padding: 0 15px;
+    box-sizing: border-box;
+}
+
+.footer-info p {
+    color: rgba(255, 255, 255, 0.8);
+    line-height: 1.8;
+    font-size: 1rem;
+    margin-bottom: 0;
+}
+
+.social-links ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.social-links ul li {
+    margin-bottom: 15px;
+}
+
+.social-links ul li h4 {
+    margin: 0 0 20px 0;
+    font-size: 1.2rem;
+    font-weight: 600;
+}
+
+.social-links ul li a {
+    color: rgba(255, 255, 255, 0.8);
+    text-decoration: none;
+    font-size: 1rem;
+    transition: color 0.3s ease;
+}
+
+.social-links ul li a:hover {
+    color: #64ffda;
+}
+
+/* Responsive Design */
+@media screen and (max-width: 768px) {
+    .footer-main .col-six {
+        flex: 0 0 100%;
+        max-width: 100%;
+        text-align: center !important;
+        margin-bottom: 30px;
+    }
+    
+    .footer-main .col-six:last-child {
+        margin-bottom: 0;
+    }
+    
+    .social-links {
+        text-align: center !important;
+    }
+    
+    section#footer .section-watermark {
+        font-size: clamp(3rem, 15vw, 8rem);
+    }
+}
+
+/* Keyframe Animations */
+@keyframes typeWriter {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes infiniteFade {
+    0% {
+        opacity: 0.1;
+    }
+    50% {
+        opacity: 0.3;
+    }
+    100% {
+        opacity: 0.1;
+    }
+}
+
+/* Intersection Observer Trigger Class */
+.section-watermark.visible .letter {
+    animation-play-state: running;
+}
+
+    /* Animations */
+    @keyframes starMovement {
+        from { transform: translateX(0); }
+        to { transform: translateX(-200px); }
+    }
+
+    @keyframes cosmicWebRotation {
+        from { background-position: 0% 0%; }
+        to { background-position: 100% 100%; }
+    }
+
+    @keyframes eventShimmer {
+        0%, 100% { background-position: 0% 0%; }
+        50% { background-position: 100% 100%; }
+    }
+
+    @keyframes constellationTwinkle {
+        0%, 100% { opacity: 0.4; }
+        50% { opacity: 0.8; }
+    }
+
+    /* Ensure content is above backgrounds */
+    .row, .section-intro {
+        position: relative;
+        z-index: 10;
+    }
+
  /* Dark overlay that covers everything initially */
        #intro::before {
            content: "";
@@ -150,7 +1251,26 @@
            opacity: 0;
            animation: fadeInUp 5s ease-out 5s forwards;
        }
+        .background-text {
+            position: relative;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: clamp(3rem, 8vw, 12rem);
+            font-weight: bold;
+            color: rgba(249, 249, 249, 0.03);
+            white-space: nowrap;
+            pointer-events: none;
+            user-select: none;
+            z-index: 1;
+            animation: fadeInOut 4s ease-in-out infinite;
+        }
 
+        @keyframes fadeInOut {
+            0% { opacity: 0; }
+            50% { opacity: 1; }
+            100% { opacity: 0; }
+        }
        @keyframes fadeInUp {
            from {
                opacity: 0;
@@ -511,7 +1631,317 @@
            right: -100vw;
        }
    }
+
+   /* Clickable member styles */
+   .member-clickable {
+       cursor: pointer;
+       transition: all 0.3s ease;
+   }
+
+   .member-clickable:hover {
+       transform: scale(1.05);
+   }
+
+   .member-author img {
+       cursor: pointer;
+   }
+
+   .member-author .author-info {
+       cursor: pointer;
+   }
    </style>
+   <script>
+// ================================================== 
+// ENHANCED WATERMARK ANIMATION SYSTEM
+// ================================================== 
+class WatermarkAnimator {
+    constructor() {
+        this.watermarks = document.querySelectorAll('.section-watermark');
+        this.animatedWatermarks = new Set();
+        this.init();
+    }
+
+    init() {
+        // Create intersection observer for watermarks
+        this.createWatermarkObserver();
+        
+        // Initialize scroll reveal for other elements
+        this.initScrollReveal();
+    }
+
+    createWatermarkObserver() {
+        const options = {
+            root: null,
+            rootMargin: '-20% 0px -20% 0px', // Trigger when 20% visible
+            threshold: 0.3
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting && !this.animatedWatermarks.has(entry.target)) {
+                    this.animateWatermark(entry.target);
+                    this.animatedWatermarks.add(entry.target);
+                }
+            });
+        }, options);
+
+        this.watermarks.forEach(watermark => {
+            observer.observe(watermark);
+        });
+    }
+
+    animateWatermark(watermark) {
+        const letters = watermark.querySelectorAll('.letter');
+        
+        // Reset all letters
+        letters.forEach(letter => {
+            letter.style.opacity = '0';
+            letter.style.transform = 'translateY(20px) scale(0.8)';
+        });
+
+        // Animate each letter with staggered delay
+        letters.forEach((letter, index) => {
+            setTimeout(() => {
+                letter.classList.add('animate');
+            }, index * 200); // 200ms delay between letters
+        });
+
+        // Start infinite fade animation after all letters are visible
+        setTimeout(() => {
+            watermark.classList.add('animate-complete');
+        }, letters.length * 200 + 600); // Wait for all letters + extra time
+    }
+
+    initScrollReveal() {
+        const elements = document.querySelectorAll(
+            '.scroll-reveal, .fade-in-left, .fade-in-right, .scale-in, .rotate-in, .slide-up'
+        );
+        
+        const options = {
+            root: null,
+            rootMargin: '-10% 0px -10% 0px',
+            threshold: 0.1
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    // Add staggered delay for elements in the same container
+                    const container = entry.target.closest('.row, .about-cosmic-grid, .curriculum-timeline');
+                    if (container) {
+                        const elementsInContainer = container.querySelectorAll(
+                            '.scroll-reveal, .fade-in-left, .fade-in-right, .scale-in, .rotate-in, .slide-up'
+                        );
+                        const index = Array.from(elementsInContainer).indexOf(entry.target);
+                        
+                        setTimeout(() => {
+                            entry.target.classList.add('revealed');
+                        }, index * 100); // 100ms stagger
+                    } else {
+                        entry.target.classList.add('revealed');
+                    }
+                }
+            });
+        }, options);
+
+        elements.forEach(element => {
+            observer.observe(element);
+        });
+    }
+}
+
+// ================================================== 
+// INTRO SECTION SPOTLIGHT EFFECT
+// ================================================== 
+class SpotlightEffect {
+    constructor() {
+        this.introSection = document.getElementById('intro');
+        this.init();
+    }
+
+    init() {
+        if (!this.introSection) return;
+
+        this.introSection.addEventListener('mousemove', (e) => {
+            const rect = this.introSection.getBoundingClientRect();
+            const x = ((e.clientX - rect.left) / rect.width) * 100;
+            const y = ((e.clientY - rect.top) / rect.height) * 100;
+            
+            this.introSection.style.setProperty('--mouse-x', x + '%');
+            this.introSection.style.setProperty('--mouse-y', y + '%');
+        });
+        
+        this.introSection.addEventListener('mouseleave', () => {
+            this.introSection.style.setProperty('--mouse-x', '50%');
+            this.introSection.style.setProperty('--mouse-y', '50%');
+        });
+    }
+}
+
+// ================================================== 
+// SMOOTH SCROLLING NAVIGATION
+// ================================================== 
+class SmoothScrolling {
+    constructor() {
+        this.init();
+    }
+
+    init() {
+        const smoothScrollLinks = document.querySelectorAll('a.smoothscroll');
+        
+        smoothScrollLinks.forEach(link => {
+            link.addEventListener('click', (e) => {
+                e.preventDefault();
+                
+                const targetId = link.getAttribute('href');
+                const targetSection = document.querySelector(targetId);
+                
+                if (targetSection) {
+                    const headerHeight = document.querySelector('header')?.offsetHeight || 0;
+                    const targetPosition = targetSection.offsetTop - headerHeight;
+                    
+                    window.scrollTo({
+                        top: targetPosition,
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+    }
+}
+
+// ================================================== 
+// ENHANCED CURRICULUM CARD ANIMATIONS
+// ================================================== 
+class CurriculumAnimations {
+    constructor() {
+        this.cards = document.querySelectorAll('.curriculum-card');
+        this.init();
+    }
+
+    init() {
+        this.cards.forEach((card, index) => {
+            // Add hover effects
+            card.addEventListener('mouseenter', () => {
+                this.animateCardHover(card, true);
+            });
+
+            card.addEventListener('mouseleave', () => {
+                this.animateCardHover(card, false);
+            });
+
+            // Add sequential reveal animation
+            setTimeout(() => {
+                card.style.animationDelay = `${index * 0.2}s`;
+            }, 100);
+        });
+    }
+
+    animateCardHover(card, isHover) {
+        const topics = card.querySelectorAll('.topic-tag');
+        
+        topics.forEach((topic, index) => {
+            if (isHover) {
+                setTimeout(() => {
+                    topic.style.transform = 'scale(1.1) translateY(-2px)';
+                    topic.style.boxShadow = '0 5px 15px rgba(135, 206, 235, 0.3)';
+                }, index * 50);
+            } else {
+                topic.style.transform = 'scale(1) translateY(0)';
+                topic.style.boxShadow = 'none';
+            }
+        });
+    }
+}
+
+// ================================================== 
+// PERFORMANCE OPTIMIZATION
+// ================================================== 
+class PerformanceOptimizer {
+    constructor() {
+        this.init();
+    }
+
+    init() {
+        // Debounce scroll events
+        let scrollTimeout;
+        const originalScrollHandler = window.onscroll;
+        
+        window.onscroll = () => {
+            if (scrollTimeout) {
+                clearTimeout(scrollTimeout);
+            }
+            
+            scrollTimeout = setTimeout(() => {
+                if (originalScrollHandler) {
+                    originalScrollHandler();
+                }
+            }, 16); // ~60fps
+        };
+
+        // Preload critical animations
+        this.preloadAnimations();
+    }
+
+    preloadAnimations() {
+        // Force browser to prepare CSS animations
+        const style = document.createElement('style');
+        style.textContent = `
+            .preload-animation {
+                animation: letterAppear 0.01s, infiniteWatermarkFade 0.01s;
+                opacity: 0;
+                pointer-events: none;
+                position: absolute;
+                top: -9999px;
+            }
+        `;
+        document.head.appendChild(style);
+
+        const preloader = document.createElement('div');
+        preloader.className = 'preload-animation';
+        document.body.appendChild(preloader);
+
+        setTimeout(() => {
+            document.body.removeChild(preloader);
+            document.head.removeChild(style);
+        }, 100);
+    }
+}
+
+// ================================================== 
+// INITIALIZE ALL SYSTEMS
+// ================================================== 
+document.addEventListener('DOMContentLoaded', () => {
+    console.log('🌟 SOAC Enhanced Animations Loading...');
+    
+    // Initialize all animation systems
+    new WatermarkAnimator();
+    new SpotlightEffect();
+    new SmoothScrolling();
+    new CurriculumAnimations();
+    new PerformanceOptimizer();
+    
+    console.log('✨ SOAC Enhanced Animations Loaded Successfully!');
+});
+
+// ================================================== 
+// ACCESSIBILITY & REDUCED MOTION SUPPORT
+// ================================================== 
+if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    const style = document.createElement('style');
+    style.textContent = `
+        *, *::before, *::after {
+            animation-duration: 0.01ms !important;
+            animation-iteration-count: 1 !important;
+            transition-duration: 0.01ms !important;
+            scroll-behavior: auto !important;
+        }
+    `;
+    document.head.appendChild(style);
+}
+</script>
+
+
    <!-- script
    ================================================== -->
 	<script src="js/modernizr.js"></script>
@@ -531,7 +1961,8 @@
             <ul class="main-navigation">
                 <li class="current"><a class="smoothscroll" href="#intro" title="">Home</a></li>
                 <li><a class="smoothscroll" href="#about" title="">About Us</a></li>
-                <li><a class="smoothscroll" href="#events" title="">Events</a></li>
+                <li><a class="smoothscroll" href="#curriculum" title="">Curriculum</a></li>
+                <!--<li><a class="smoothscroll" href="#events" title="">Events</a></li>-->
                 <li><a class="smoothscroll" href="#members" title="">Members</a></li>
                 <li><a class="smoothscroll" href="#footer" title="">Contact</a></li>
                 <li class="highlight with-sep"><a href="solar.html" title="">OUR SOLAR SYSTEM - A Special Presentation</a></li>
@@ -556,7 +1987,7 @@
    <div class="sidebar-overlay"></div>
    <div class="sidebar">
        <div class="sidebar-header">
-           <h3 class="sidebar-title">SOAC Menu</h3>
+           <h3 class="sidebar-title" style="animation: ease-in-out infinite;">SOAC Menu</h3>
            <button class="sidebar-close" aria-label="Close sidebar">&times;</button>
        </div>
        <ul class="sidebar-menu">
@@ -584,112 +2015,46 @@
            <li><a href="games/space-mission/index.html">Space Mission Simulator</a></li>
            <li><a href="games/asteroid-dodge/index.html">Asteroid Dodge</a></li>
        </ul>
-   </div> <!-- /header -->
-    <script>
-   document.addEventListener('DOMContentLoaded', function() {
-       const sidebarToggle = document.querySelector('.sidebar-toggle');
-       const sidebar = document.querySelector('.sidebar');
-       const sidebarOverlay = document.querySelector('.sidebar-overlay');
-       const sidebarClose = document.querySelector('.sidebar-close');
+   </div>
 
-       // Open sidebar
-       function openSidebar() {
-           sidebar.classList.add('active');
-           sidebarOverlay.classList.add('active');
-           sidebarToggle.classList.add('active');
-           document.body.style.overflow = 'hidden'; // Prevent background scrolling
-       }
+   <!-- Member Popup Overlay -->
+   <div class="member-overlay" id="memberOverlay">
+       <div class="member-popup">
+           <button class="member-popup-close">&times;</button>
+           <div class="member-popup-content">
+               <img class="member-popup-image" id="memberPopupImage" src="" alt="Member Image">
+               <h2 class="member-popup-name customizable-text" id="memberPopupName" 
+                   style="--custom-font-size: 1.8rem; --custom-color: #87ceeb; --custom-font: 'Orbitron', monospace;"></h2>
+               <p class="member-popup-position customizable-text" id="memberPopupPosition"
+                  style="--custom-font-size: 1.1rem; --custom-color: rgba(135, 206, 235, 0.8); --custom-font: inherit;"></p>
+               <p class="member-popup-bio customizable-text" id="memberPopupBio"
+                  style="--custom-font-size: 1rem; --custom-color: rgba(255, 255, 255, 0.9); --custom-font: inherit;"></p>
+               <div class="member-popup-details">
+                   <div class="member-detail">
+                       <div class="member-detail-label">Email</div>
+                       <div class="member-detail-value customizable-text" id="memberPopupEmail"
+                            style="--custom-font-size: 0.9rem; --custom-color: #ffffff; --custom-font: inherit;"></div>
+                   </div>
+                   <div class="member-detail">
+                       <div class="member-detail-label">Year</div>
+                       <div class="member-detail-value customizable-text" id="memberPopupYear"
+                            style="--custom-font-size: 0.9rem; --custom-color: #ffffff; --custom-font: inherit;"></div>
+                   </div>
+                   <div class="member-detail">
+                       <div class="member-detail-label">Interests</div>
+                       <div class="member-detail-value customizable-text" id="memberPopupInterests"
+                            style="--custom-font-size: 0.9rem; --custom-color: #ffffff; --custom-font: inherit;"></div>
+                   </div>
+                   <div class="member-detail">
+                       <div class="member-detail-label">Joined</div>
+                       <div class="member-detail-value customizable-text" id="memberPopupJoined"
+                            style="--custom-font-size: 0.9rem; --custom-color: #ffffff; --custom-font: inherit;"></div>
+                   </div>
+               </div>
+           </div>
+       </div>
+   </div>
 
-       // Close sidebar
-       function closeSidebar() {
-           sidebar.classList.remove('active');
-           sidebarOverlay.classList.remove('active');
-           sidebarToggle.classList.remove('active');
-           document.body.style.overflow = ''; // Restore scrolling
-       }
-
-       // Toggle sidebar on hamburger button click
-       sidebarToggle.addEventListener('click', function(e) {
-           e.stopPropagation();
-           if (sidebar.classList.contains('active')) {
-               closeSidebar();
-           } else {
-               openSidebar();
-           }
-       });
-
-       // Close sidebar when clicking close button
-       sidebarClose.addEventListener('click', closeSidebar);
-
-       // Close sidebar when clicking overlay
-       sidebarOverlay.addEventListener('click', closeSidebar);
-
-       // Close sidebar when pressing Escape key
-       document.addEventListener('keydown', function(e) {
-           if (e.key === 'Escape' && sidebar.classList.contains('active')) {
-               closeSidebar();
-               sidebarToggle.focus(); // Return focus to toggle button
-           }
-       });
-
-       // Handle keyboard navigation for hamburger button
-       sidebarToggle.addEventListener('keydown', function(e) {
-           if (e.key === 'Enter' || e.key === ' ') {
-               e.preventDefault();
-               if (sidebar.classList.contains('active')) {
-                   closeSidebar();
-               } else {
-                   openSidebar();
-               }
-           }
-       });
-
-       // Add smooth scroll behavior for internal links
-       const sidebarLinks = document.querySelectorAll('.sidebar-menu a[href^="#"]');
-       sidebarLinks.forEach(link => {
-           link.addEventListener('click', function() {
-               closeSidebar();
-           });
-       });
-
-       // Add staggered animation to menu items
-       const menuItems = document.querySelectorAll('.sidebar-menu li:not(.sidebar-category)');
-       sidebar.addEventListener('transitionend', function(e) {
-           if (e.target === sidebar && sidebar.classList.contains('active')) {
-               menuItems.forEach((item, index) => {
-                   setTimeout(() => {
-                       item.style.animation = `slideInFromRight 0.3s ease-out forwards`;
-                   }, index * 50);
-               });
-           }
-       });
-
-       // Reset animations when sidebar closes
-       sidebar.addEventListener('transitionstart', function(e) {
-           if (e.target === sidebar && !sidebar.classList.contains('active')) {
-               menuItems.forEach(item => {
-                   item.style.animation = '';
-               });
-           }
-       });
-   });
-
-   // Add CSS animation keyframes dynamically
-   const style = document.createElement('style');
-   style.textContent = `
-       @keyframes slideInFromRight {
-           from {
-               opacity: 0;
-               transform: translateX(20px);
-           }
-           to {
-               opacity: 1;
-               transform: translateX(0);
-           }
-       }
-   `;
-   document.head.appendChild(style);
-   </script>
 	<!-- intro section
    ================================================== -->
    <section id="intro">
@@ -703,36 +2068,154 @@
     </div>
   </section>
    <!-- /intro -->
+
    <!-- about Section
    ================================================== -->
    <section id="about">
-   	<div class="row section-intro">
-   		<div class="col-twelve with-bottom-line" >
-   			<h5 class="scale-in">About Us</h5>
-            <br/>
-            <h2 class="h01 scale-in">Who Are We?</h2>
-            <br/>
-   			<p class="lead fade-in-right">
-                <strong>The science of astronomy is an adventure, a quest in the universe where meaning can be found among the stars. At STEM High School for Boys - 6th of October, the Astronomy Club was initiated to unite the learners that look and gaze at the night sky and see questions that they are eager to answer. We are a group of curious peers who love to explore the celestials, the processes taking place in the universe and the unknown secrets in the beyond. We are either gazing at the far away planets by a telescope or talking about the life cycle of a star, all united through our interest of exploring the vast universe.
+        <div class="section-watermark">SOAC</div>
 
-            </strong></p>
+    <div class="row section-intro">
+        <div class="col-twelve with-bottom-line">
+            <h5 class="scale-in" style="color: #f0f0f0; font-weight: bold; font-size: larger; margin-top: 10px;">About Us</h5>
             <br/>
-            <h2 class="h01 scale-in">What We Do?</h2>
+            <h2 class="h01 rotate-in" style="color: #87ceeb; text-align: center;">Exploring the Infinite Cosmos Together</h2>
             <br/>
-            <p class="lead fade-in-left">
-            <strong>Our club is a combination of theory and literature with practice. We conduct observation sessions, astronomy lectures, and group discussions regularly to extend our knowledge on astrophysics and space science. Members are involved in stargazing nights, competitions, research and collaborative projects, making sure the curiosity and creativity of the involved members are harnessed.
-<br/><br/>We are now almost done with our telescope set-up and are making preparations for stargazing parties in September. Also, we have two special programs, one of them is ISAC, a program where the students learn how to monitor and report on real data on asteroids and the other one is an astrophotography workshop where the members will be taught on how to edit raw astro images provided by observatories. This is just a notion about the numerous opportunities we provide to ignite passion to the cosmos in a lifetime.</strong>
-            </p>
-   		</div>   		
-   	</div>
-   </section> <!-- /about-->   
-   <!-- events Section
+            
+            <div class="about-cosmic-grid">
+                <div class="about-content-card fade-in-left">
+                    <div class="about-icon scale-in"></div>
+                    <h3 class="slide-up" style="font-size: 3rem;">Who Are We?</h3>
+                    <p class="fade-in-left" style="font-size: 2rem;">Found among the stars. At STEM High School for Boys - 6th of October, the Astronomy Club was initiated to unite the learners that look and gaze at the night sky and see questions that they are eager to answer. We are a group of curious peers who love to explore the celestials, the processes taking place in the universe and the unknown secrets in the beyond.</p>
+                </div>
+                
+                <div class="about-visual fade-in-right">
+                    <div class="cosmic-visual scale-in">
+                        <div class="cosmic-ring"></div>
+                        <div class="cosmic-ring"></div>
+                        <div class="cosmic-ring"></div>
+                        <div class="cosmic-center" style="font-size: 40px;">🌌</div>
+                    </div>
+                </div>
+                
+                <div class="about-visual fade-in-left">
+                    <div class="cosmic-visual scale-in">
+                        <div class="cosmic-ring"></div>
+                        <div class="cosmic-ring"></div>
+                        <div class="cosmic-ring"></div>
+                        <div class="cosmic-center" style="font-size: 40px;">🔭</div>
+                    </div>
+                </div>
+                
+                <div class="about-content-card fade-in-right">
+                    <div class="about-icon scale-in"></div>
+                    <h3 class="slide-up">What We Do?</h3>
+                    <p class="fade-in-right">Our club is a combination of theory and literature with practice. We conduct observation sessions, astronomy lectures, and group discussions regularly to extend our knowledge on astrophysics and space science. Members are involved in stargazing nights, competitions, research and collaborative projects.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section><!-- /about-->
+
+   <!-- curriculum Section
    ================================================== -->
+   <section id="curriculum">
+    <div class="section-watermark">SOAC</div>
+    <div class="row section-intro">
+        <div class="col-twelve with-bottom-line">
+            <h5 class="scale-in" style="color: white;">Curriculum</h5>
+            <br/>
+            <h2 class="h01 rotate-in" style="color: #87ceeb; text-align: center;">Our Cosmic Learning Journey</h2>
+            <br/>
+            <p class="lead fade-in-right" style="color: rgba(255, 255, 255, 0.9); text-align: center; font-size: 1.7rem;">
+                Through 25 interactive sessions, we guide club members through the fundamental areas of astronomy and astrophysics:
+            </p>
+            <br/>
+            
+            <div class="curriculum-timeline">
+                <div class="timeline-line"></div>
+                
+                <div class="curriculum-item scale-in">
+                    <div class="curriculum-card">
+                        <div class="curriculum-number">I</div>
+                        <h3 class="slide-up">Introducing Astronomy</h3>
+                        <p class="fade-in-left">Explore the fundamentals of astronomy, from the motion of celestial bodies to the tools we use to study them. This section covers the basics of light, telescopes, gravitation, and the cultural significance of astronomy.</p>
+                        <div class="curriculum-topics">
+                            <span class="topic-tag scale-in">Light & Telescopes</span>
+                            <span class="topic-tag scale-in">Celestial Motion</span>
+                            <span class="topic-tag scale-in">Gravitation</span>
+                            <span class="topic-tag scale-in">History</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="curriculum-item scale-in">
+                    <div class="curriculum-card">
+                        <div class="curriculum-number">II</div>
+                        <h3 class="slide-up">Planets and Moons</h3>
+                        <p class="fade-in-right">Deep dive into the diverse planets of our solar system, comparing their geology, atmospheres, and origins. From Earth's dynamic systems to the icy moons of Jupiter and Saturn.</p>
+                        <div class="curriculum-topics">
+                            <span class="topic-tag scale-in">Solar System</span>
+                            <span class="topic-tag scale-in">Planetary Geology</span>
+                            <span class="topic-tag scale-in">Atmospheres</span>
+                            <span class="topic-tag scale-in">Moons</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="curriculum-item scale-in">
+                    <div class="curriculum-card">
+                        <div class="curriculum-number">III</div>
+                        <h3 class="slide-up">Stars and Stellar Evolution</h3>
+                        <p class="fade-in-left">Explore the life cycles of stars, from their fiery birth in nebulae to their dramatic deaths as supernovae, neutron stars, or black holes. Learn about the Sun's structure and the forces that shape stellar evolution.</p>
+                        <div class="curriculum-topics">
+                            <span class="topic-tag scale-in">Stellar Birth</span>
+                            <span class="topic-tag scale-in">Nuclear Fusion</span>
+                            <span class="topic-tag scale-in">Supernovae</span>
+                            <span class="topic-tag scale-in">Black Holes</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="curriculum-item scale-in">
+                    <div class="curriculum-card">
+                        <div class="curriculum-number">IV</div>
+                        <h3 class="slide-up">Galaxies and Cosmology</h3>
+                        <p class="fade-in-right">Journey through the vast structures of the universe, from our Milky Way to active quasars and the expanding cosmos. This section examines dark matter, the Big Bang, and the search for extraterrestrial life.</p>
+                        <div class="curriculum-topics">
+                            <span class="topic-tag scale-in">Milky Way</span>
+                            <span class="topic-tag scale-in">Dark Matter</span>
+                            <span class="topic-tag scale-in">Big Bang</span>
+                            <span class="topic-tag scale-in">Exoplanets</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="curriculum-item scale-in">
+                    <div class="curriculum-card">
+                        <div class="curriculum-number">V</div>
+                        <h3 class="slide-up">Modern Astrophysics</h3>
+                        <p class="fade-in-left">A focused section from Introduction to Modern Astrophysics bridges core concepts with advanced theories, deepening your understanding of the physical laws governing the universe.</p>
+                        <div class="curriculum-topics">
+                            <span class="topic-tag scale-in">Quantum Physics</span>
+                            <span class="topic-tag scale-in">Relativity</span>
+                            <span class="topic-tag scale-in">Gravitational Waves</span>
+                            <span class="topic-tag scale-in">Research</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section><!-- /curriculum-->
+   <!---->
+   <!-- events Section
+   ================================================== 
 	<section id="events">
+    <div class="section-watermark">SOAC</div>
 		<div class="row section-intro">
    		<div class="col-twelve with-bottom-line scroll-reveal">
    			<h5>Events</h5><br/>
-   			<p class="lead">Lorem ipsum dolor sit amet consectetur adipisicing elit. Quasi nihil sequi quia tempora aut vero a totam enim quibusdam blanditiis ullam fuga dignissimos hic, libero suscipit rem repellat asperiores laudantium!</strong></p>
+   			<p class="lead">Discover the exciting events and activities that make our astronomy club a vibrant community of space enthusiasts and future astronomers.</p>
    		</div>   		
    	</div>
    	<div class="row events-content">
@@ -744,7 +2227,7 @@
 		            <p>Fate of humanity in yours Hand.
 	         		</p>
 	         	</div> 	         	 
-				</div> <!-- /bgrid -->
+				</div> <!-- /bgrid 
 				<div class="bgrid feature scroll-reveal">	
 					<span class="icon"><br/><a href="#popup2"><img src="./images/astrohunt.png" style="height:30%; width:30%;"/></a></span>
 	            <div class="service-content">	
@@ -752,7 +2235,7 @@
 		            <p>Solve the mysteries of Universe!
 	         		</p>
 	            </div>	                          
-			   </div> <!-- /bgrid -->
+			   </div> <!-- /bgrid 
 			   <div class="bgrid feature fade-in-right">
 			   	<span class="icon"><br/><a href="#popup3"><img src="./images/startrek.png" style="height:25%; width:25%;"/></a></span>
 	            <div class="service-content">
@@ -760,14 +2243,14 @@
 		            <p>Voyage to different celestial bodies
 	        			</p> 
 	            </div> 	            	               
-			   </div> <!-- /bgrid -->
+			   </div> <!-- /bgrid --
 			   <div class="bgrid feature fade-in-left">
 			   	<span class="icon"><br/><a href="#popup4"><img src="./images/sambharlake.png" style="height:34%; width:34%;"/></a></span>
 	            <div class="service-content">	
 	            	<h3 class="h05"><a href="#popup4">Sambhar Lake Trip</a></h3>
 		            <p>An extended version of Yuri's Night in an exciting trip.</p>
 	            </div>	               
-               </div> <!-- /bgrid -->
+               </div> <!-- /bgrid --
                <div class="bgrid feature scroll-reveal">
                    <span class="icon"><br/><a href="#popup5"><img src="./images/yurisnight.png" style="height:30%; width:30%;"/></a></span>
                    <div class="service-content">
@@ -775,7 +2258,7 @@
                        <p>Star shine in the Healing Darkness of the Midnight.
                        </p> 
                    </div>                
-               </div> <!-- /bgrid -->
+               </div> <!-- /bgrid --
                <div class="bgrid feature fade-in-right">
 			   	<span class="icon"><br/><a href="#popup6"><img src="./images/presentation.png" style="height:30%; width:30%;"/></a></span>
 	            <div class="service-content">
@@ -783,226 +2266,79 @@
 		            <p>Making new members familiar with Astronomy, in an innovative yet informative way.
 	        			</p> 
 	            </div>	               
-			   </div> <!-- /bgrid -->
-	      </div> <!-- events-list -->
-   	</div> <!-- events-content -->
-    <div id="popup1" class="overlayevents">
-        <div class="popupevents"><div class="contentevents">
-            <div class=" col-six mob-full tab-full"><img src="./images/armageddon.png" style="height:30%; width:30%; position:relative; left:60%;"/></div><div class="col-six tab-full mob-full" style="color:#0f0f0f"><br/><p style="font-size:20px; font-family: raleway-heavy;">ARMAGEDDON</p>Date : 18th - 19th Jan 2017<br/>Venue : The LNMIIT, Jaipur</div>
-            <a class="closeevents" href="#popup1.close()">&times;</a>
-            <div class="col-twelve mob-full tab-full" style="color:#000000;">
-                <br/><h3>Synopsis</h3>Scientists at NASA have discovered an asteroid 65 miles wide, named as Destroyer786. It is composed of large quantities of carbon molecules as well as the more usual rocks and metals.It has it's collision course set with Earth. The asteroid is supposed to make its impact 1.5 years from today. Destroyer786 is travelling at a speed of 30,000 miles per hour and is approaching the earth from the direction of the sun. Keeping the estimated flyby distance in mind, it is supposed to cause a mass destruction if not total wipeout of humanity from the face of Earth.<br/>All countries have come together, understanding the grim situation and are ready to take extreme measures to stop the 'end of the world'. You are chosen to be a part of core team of scientists that is going to save the humanity.<br/>Devise a plan to save Earth and humanity.
-                Fate of humanity lies in your hand.
-                This event consists of two rounds. First round will be online. The participants have to submit a report before the given deadline. After the date of submission, we will select the teams for the second round on the basis of their report. All the teams selected teams will have to present their report in front of the judges during plinth.
-                <br/><br/><br/><h3>Event Description</h3><h4><u>Problem Statement</u></h4>
-                <ul>
-                    <li>You have no economic constraints as all countries are willing to pool their resources in an attempt to save humanity.</li>
-                    <li>You have 547 days in total to save earth, delay of even an hour will lead to human extinction.</li>
-                    <li>Level of technology is not much advance than today, therefore make assumptions that are almost realistic.</li>
-                </ul>
-                The final project report should be mailed to <a href"mailto:astronomy.lnmiit@gmail.com">astronomy.lnmiit@gmail.com</a> with the subject:<br/>Plinth: Armageddon Project Report: TeamId.
-                <br/><br/><br/><h3>Rules</h3><h4><u>General Rules</u></h4>
-                <ul>
-                    <li>Any form of copying of textual material would lead to disqualification.</li>
-                    <li>You can work alone or in a team of at most five.</li>
-                    <li>One project should be submitted by only one team/individual. If same project is submitted by two teams/individuals, first one would be evaluated and second would be disqualified.</li>
-                </ul>
-                <h4><u>Format of the project</u></h4>
-                <ul>
-                    <li>The project should be submitted in a pdf.</li>
-                    <li>There is no strict format that you need to stick to. Make it as comprehensible as possible.</li>
-                </ul>
-                <br/><h3>Judging Basis</h3><h4><u>Evaluation Methodology</u></h4>
-                <ul>
-                    <li>Your report would be evaluated on how many different aspects you have deliberated upon and how many of these are in line with the physics of the planet.</li>
-                    <li>The more descriptive you are, the more points your report will score.</li>
-                    <li>You can use diagrams and pictures.</li>
-                </ul>
-            </div></div>
-        </div>
-    </div> <!-- /popup1 -->
-    <div id="popup2" class="overlayevents">
-        <div class="popupevents"><div class="contentevents">
-            <div class=" col-six mob-full tab-full"><img src="./images/astrohunt.png" style="height:30%; width:30%; position:relative; left:60%;"/></div><div class="col-six tab-full mob-full" style="color:#0f0f0f"><br/><p style="font-size:20px; font-family: raleway-heavy;">ASTRO HUNT</p>Date : 18th - 19th Jan 2017<br/>Venue : The LNMIIT, Jaipur</div>
-            <a class="closeevents" href="#popup2.close()">&times;</a>
-            <div class="contentevents  col-twelve mob-full tab-full" style="color:#000000;">
-                <br/><h3>Synopsis</h3>Foresee the unfathomable and explore the mysteries of the universe. Only the sharp, intelligent and astronomy enthusiasts will make it to the end. The route to solve the mysteries of the universe lies within the depths of the dark sky and your imagination. It’s time to bring out the Galileo Galilee in you and look into the infinite cosmic depths.
-                <br/><br/><br/><h3>Event Description</h3>
-                <ul>
-                    <li>At the beginning of the Astro Hunt each team will be given a map of the LNMIIT Campus and a Sky chart.</li>
-                    <li>Astro Hunt will consist of 4 rounds.</li>
-                    <li>At the beginning of each round every team will receive an identical set of clues or puzzles which must be solved in order to find a piece of information. This information could be words from a historical astronomical event, name of a star, planet or any other celestial body, cosmic theories or just a name of a person. The clues and puzzles will be related to astronomy in some manner and will lead to a location/check point within walking distance where players will use a vital piece of information to answer a question.</li>
-                    <li>After completing a round by solving the puzzles/clues and reaching the check point the teams will get a flag and the clues/puzzles for the next round.</li>
-                    <li>Each flag will also consist of some information/clue. After collecting all the 4 flags the participants will have to solve the final puzzle.</li>
-                    <li>The team which will collect all the 4 flags and solve the final puzzle in minimum time will be the winner.</li>
-                </ul>
-                <br/><h3>Rules</h3><h4><u>General Rules</u></h4>
-                <ul>
-                    <li>Members per team: 3 -5</li>
-                    <li>Each team should have unique participants i.e. no two teams can have even one common name registered</li>
-                    <li>The participants have to reach the starting point 15 minutes before the event schedule.</li>
-                    <li>All the team members should be present at each check point while receiving a token.</li>
-                    <li>Decision of the volunteers at each check point will be final.</li>
-                    <li>Usage of Internet is allowed.</li>
-                </ul>
-            </div></div>
-        </div>
-    </div> <!-- /popup2 -->
-    <div id="popup3" class="overlayevents">
-        <div class="popupevents"><div class="contentevents">
-            <div class=" col-six mob-full tab-full"><img src="./images/startrek.png" style="height:25%; width:25%; position:relative; left:60%;"/></div><div class="col-six tab-full mob-full" style="color:#0f0f0f"><br/><p style="font-size:20px; font-family: raleway-heavy;">STAR TREK</p>Date : 18th - 19th Jan 2017<br/>Venue : The LNMIIT, Jaipur</div>
-            <a class="closeevents" href="#popup3.close()">&times;</a>
-            <div class="contentevents  col-twelve mob-full tab-full" style="color:#000000;">
-                <br/><h3>Synopsis</h3>This event consists of 2 rounds: Spacewalk and Messier marathon. Detailed description of the event are as follows.
-                <br/><br/><h4><u>1st Round: Spacewalk</u></h4>It will be an audio-visual quiz related to astronomy.Pictures and videos would be projected in front and participants have to answer the questions that follow.
-                <br/><br/><h4><u>2nd Round: Messier Marathon</u></h4>So are you one of those who sneak out of your rooms during night hours and wander long gazing at the sky, trying to build up your imagination. Well folks then this is a perfect game for you to play, a hunt for the stars. Participants need to set themselves on a voyage of different celestial bodies and conquer to best of their capabilities. So, are you ready for this mission to get kicked off? See you at the battle field . A basic tutorial session would be held on handling of telescope and any further enhancements of the skills would be student’s personal interest.
-                <br/><br/><br/><h3>Event Description</h3><h4><u>Spacewalk</u></h4>
-                <ul>
-                    <li>Participants will have 1 minute to answer each question by writing it down on the given sheet.</li>
-                    <li>These questions will be objective or one word.</li>
-                    <li>Each question will carry 2 points.</li>
-                    <li>Marks will be allotted to each question individually.</li>
-                    <li>Only top 50% teams will go to the next round.</li>
-                    <li>Teams will be provided with certain token numbers and called upon on its basis.</li>
-                    <li>A star map, a laser pointer and telescope shall be provided to the team</li>
-                    <li>The teams which had qualified in the quiz would be required to point at certain celestial objects through pointer and telescope</li>
-                    <li>Minimum time shall be provided, based on which points are to be rewarded.</li>
-                    <li>Team with maximum score would be declared winner.</li>
-                    <li>Teams are suppose to restrain themselves from using any android application such as Google Sky Map or any other lectronic media.</li>
-                    <li>Points will be given for locating the objects precisely only on first attempt.</li>
-                </ul>
-                <br/><h3>Rules</h3><h4><u>General Rules</u></h4>
-                <ul>
-                    <li>Participants can form team of up to three.</li>
-                    <li>Individual participants are also allowed.</li>
-                    <li>Using mobile phones is not allowed.</li>
-                </ul>
-            </div></div>
-        </div>
-    </div> <!-- /popup3 -->
-    <div id="popup4" class="overlayevents">
-        <div class="popupevents"><div class="contentevents">
-            <div class=" col-six mob-full tab-full"><img src="./images/sambharlake.png" style="height:34%; width:34%; position:relative; left:60%;"/></div><div class="col-six tab-full mob-full" style="color:#0f0f0f"><br/><p style="font-size:20px; font-family: raleway-heavy;">SAMBHAR LAKE TRIP</p>Date : 4th - 5th Nov 2016<br/>Venue : Sambhar Lake, Rajasthan</div>
-            <a class="closeevents" href="#popup4.close()">&times;</a>
-            <div class="contentevents  col-twelve mob-full tab-full" style="color:#000000;">
-                <br/>Will be updated soon.
-            </div></div>
-        </div>
-    </div> <!-- /popup4 -->
-    <div id="popup5" class="overlayevents">
-        <div class="popupevents"><div class="contentevents">
-            <div class=" col-six mob-full tab-full"><img src="./images/yurisnight.png" style="height:30%; width:30%; position:relative; left:60%;"/></div><div class="col-six tab-full mob-full" style="color:#0f0f0f"><br/><p style="font-size:20px; font-family: raleway-heavy;">YURI'S NIGHT</p>Venue : The LNMIIT, Jaipur</div>
-            <a class="closeevents" href="#popup5.close()">&times;</a>
-            <div class="col-twelve mob-full tab-full" style="color:#000000; text-align:justify;">
-                <br/><br/>Night Camp basically is a night out session aimed at analysing basic constellations, stellar objects and planets which are prominently visible for a time period or after midnight. Till date we had two night outs aiming bloody moon and also Saturn, Mars and Jupiter. Along with this we keep short telescope handling activities too, and brief discussions about recent happenings in the field of astronomy as well.
-            </div></div>
-        </div>
-    </div> <!-- /popup5 -->
-    <div id="popup6" class="overlayevents">
-        <div class="popupevents"><div class="contentevents">
-            <div class=" col-six mob-full tab-full"><img src="./images/presentation.png" style="height:30%; width:30%; position:relative; left:60%;"/></div><div class="col-six tab-full mob-full" style="color:#0f0f0f"><br/><p style="font-size:20px; font-family: raleway-heavy;">PRESENTATION SERIES</p>Date : 3rd - 21st October 2016<br/>Venue : The LNMIIT, Jaipur</div>
-            <a class="closeevents" href="#popup6.close()">&times;</a>
-            <div class="contentevents  col-twelve mob-full tab-full" style="color:#000000;">
-                <br/>To make the new members familiar with what Astronomy is all about ,the Astronomy Club was there with the first event of the coming year. Different Presentations were presented by all the new members. The topics and the presentations of all the members are listed below.<br/>
-                <ul>
-                    <li><a href="https://drive.google.com/open?id=0B05rGku7sdi0V0ZMeFd6TE9WUnc" target="_blank">The BIG BANG THEORY</a>  -by Yashashwi Sidharth (3rd Oct 2016)</li>
-                    <li><a href="https://drive.google.com/drive/folders/0B7FV2c68UM4oY3ZUckF1RXhwR28?usp=sharing" target="_blank">COMETS</a>  -by Malvika Maloo (6th Oct 2016)</li>
-                    <li><a href="https://drive.google.com/drive/folders/0B7FV2c68UM4oY3ZUckF1RXhwR28?usp=sharing" target="_blank">GALAXIES: FORMATION AND EVOLUTION</a>  -by Khyati Doshi (6th Oct 2016)</li>
-                    <li><a href="https://drive.google.com/drive/folders/0B7FV2c68UM4oY3ZUckF1RXhwR28?usp=sharing" target="_blank">BLACK HOLES</a>  -by Aarshi Chaurasia (13th Oct 2016)</li>
-                    <li><a href="https://drive.google.com/drive/folders/0B7FV2c68UM4oY3ZUckF1RXhwR28?usp=sharing" target="_blank">EXTRATERRESTRIALS</a>  -by Abhinav Binjola (13th Oct 2016)</li>
-                    <li><a href="https://drive.google.com/open?id=0Bw9JLT4B3oF6MC1GVmJMVWxtX0E" target="_blank">EXOPLANETS</a>  -by Pragya Jha (14th Oct 2016)</li>
-                    <li><a href="https://drive.google.com/drive/folders/0B7FV2c68UM4oY3ZUckF1RXhwR28?usp=sharing" target="_blank">PHOENIX PROJECT</a>  -by Karthik Sankaravaram (14th Oct 2016)</li>
-                    <li><a href="https://drive.google.com/drive/folders/0B7FV2c68UM4oY3ZUckF1RXhwR28?usp=sharing" target="_blank">GENERAL RELATIVITY</a>  -by Shitanshu Kumar Pandey (17th Oct 2016)</li>
-                    <li><a href="https://drive.google.com/drive/folders/0B7FV2c68UM4oY3ZUckF1RXhwR28?usp=sharing" target="_blank">ASTRONOMICAL BODIES</a>  -by Saurabh Jain (17th Oct 2016)</li>
-                    <li><a href="https://drive.google.com/drive/folders/0B7FV2c68UM4oY3ZUckF1RXhwR28?usp=sharing" target="_blank">CLUSTERS AND NEBULAE</a>  -by Akshat Jethlia (18th Oct 2016)</li>
-                    <li><a href="https://drive.google.com/drive/folders/0B7FV2c68UM4oY3ZUckF1RXhwR28?usp=sharing" target="_blank">WORM HOLES</a>  -by Anadya Chaturvedi (19th Oct 2016)</li>
-                    <li><a href="https://drive.google.com/open?id=0B8utXKaV6HLuSS1DQ3NCRzF2c2s">HISTORY OF ASTRONOMY</a>  -by J.Saisreeram Ruchith (19th Oct 2016)</li>
-                    <li><a href="https://drive.google.com/open?id=0Bx3RR40-slK3am90M1FPMjlxajA">STELLAR EVOLUTION</a>  -by Monil Narang (20th Oct 2016)</li>
-                    <li><a href="https://drive.google.com/drive/folders/0B7FV2c68UM4oY3ZUckF1RXhwR28?usp=sharing" target="_blank">STRING THEORY AND MULTIVERSE</a>  -by Sahil Shrivastava (20th Oct 2016)</li>
-                    <li><a href="https://drive.google.com/drive/folders/0B7FV2c68UM4oY3ZUckF1RXhwR28?usp=sharing" target="_blank">DARK MATTER AND ANTI MATTER</a>  -by Maharshi Mishra (21st Oct 2016)</li>
-                    <li><a href="https://drive.google.com/open?id=0B7FV2c68UM4oYm1Dd3FpWFZwRlU" target="_blank">PARADOXES IN ASTRONOMY</a>  -by Yashovardhan Agrawal (21st Oct 2016)</li>
-                </ul>
-            </div></div>
-        </div>
-    </div> <!-- /popup6 -->
-    <br>
-    <section id="about events">
-   	<div class="row section-intro">
-   		<div class="col-twelve with-bottom-line" >
-            <br/>
-            <h2 class="h01 scale-in" style="color: rgb(240, 25, 25); ">Who Are We?</h2>
-            <br/>
-   			<p class="lead fade-in-right">
-                <strong>ASTRONOMY, a natural science, is the study of celestial objects and aboutes, the physics, chemistry, and evolution of such objects and aboutes, and more generally all phenomena that originate outside the atmosphere of Earth. So we at <strong>STEM High School for Boys - 6th of October</strong> made a club for the astronomy enthusiasts to quench their thirst for knowledge here only.<br/><br/>We are a bunch of people enthusiastic towards astronomy. Fascinated with the mysteries of the night sky and majestic views of telescope.<br/><br/>The LNMIIT Astronomy Club was founded by Y10 Batch students : Rishabh Baid, Rajat Vyas, Samarth Mathur and Shasak Raina. The club aims to create awareness in the field of amateur astronomy by indulging in night-sky observations, talks and various competitions.
-            </strong></p>
-            <br/>
-            <h2 class="h01 scale-in">What We Do?</h2>
-            <br/>
-            <p class="lead fade-in-left">
-            <strong>“Astronomy compels us to look upwards and leads us from this world to another.” - Plato.<br/><br/>Astronomy is not limited to theoretical concepts but involves practical observation of what lies beyond our horizon. It questions the origin and existence of our universe. This keeps us driving and entices the desire to learn.<br/><br/>The club has successfully built an environment of healthy exchange of knowledge about astronomy and astrophysics. The dedicated team has made the college proud by winning various astronomical competitions held across the nation. We aim higher!</strong>
-            </p>
-   		</div>   		
-   	</div>
-   </section> <!-- /about-->   
-
-
-
+			   </div> <!-- /bgrid --
+	      </div> <!-- events-list --
+   	</div> <!-- events-content --
     </section> <!-- /events -->
-	   <!-- members Section
+
+    <!-- members Section
    ================================================== -->
    <section id="members">
+    <div class="section-watermark" style="animation: easeInOut 2s ease-in-out infinite;
+    @keyframes easeInOut {
+      0% {
+        transform: scale(1);
+        opacity: 1;
+      }
+      50% {
+        transform: scale(1.2);
+        opacity: 0.5;
+      }
+      100% {
+        transform: scale(1);
+        opacity: 1;
+      }
+    }
+      ">SOAC</div>
    	<div class="row section-intro">
-        <h5 class="scale-in">MEMBERS</h5><br/>
+        <h5 class="scale-in" style="color: #e2e2e2;">MEMBERS</h5><br/>
    		<div class="col-twelve">
-   			<h2 class="scroll-reveal">Astronomy Club has a team of 30+ students who passionately handle all the club activities.</h2><h2 class="h01"/>
+   			<h2 class="scroll-reveal" style="color: #5c4b4b;">Astronomy Club has a team of 30+ students who passionately handle all the club activities.</h2><h2 class="h01"/>
    		</div>   		
    	</div>   	
       <div class="row flex-container">
          <div id="member-slider" class="flexslider scale-in">
             <ul class="slides">
                <li>
-               	<div class="member-author">
-                    	<img src="" alt="Prezident image">
+               	<div class="member-author member-clickable" data-member="farouk">
+                    	<img src="members/farouk.jpg" alt="President image">
                     	<div class="author-info">
                     		Farouk Mohammed Farouk
-                    		<span class="position">Prezident</span>
+                    		<span class="position" style="color: white;">President</span>
                     	</div>
                   </div>
-                  <p></p>
              	</li> <!-- /slide -->
                <li> 
-               	<div class="member-author">
-                    	<img src="" alt="Vice-Prezident image">
+               	<div class="member-author member-clickable" data-member="mohammed">
+                    	<img src="members/mohammedosama.png" alt="Vice-President image">
                     	<div class="author-info">
                     		Mohammed Osama
-                    		<span>Vice-Prezident</span>
+                    		<span style="color: white;">Vice-President</span>
                     	</div>
                   </div> 
-<p>Astronomy is all about exploring the unfathomable reaches of universe. It's a continuous learning about where mankind progresses as the cosmos evolves. The mystery of our evolution and descent can be resolved to a great extent by what we learn and what we perceive. The sky’s the limit!</p>
                </li> <!-- /slide -->
                <li>
-                   <div class="member-author">
-                       <img src="" alt="Vice-Prezident image">
+                   <div class="member-author member-clickable" data-member="aly">
+                       <img src="members/alyalgendy.jpg" alt="Vice-President image">
                            <div class="author-info">
-                               Aly-Algendy
-                               <span>Vice-Prezident</span>
+                               Aly Al-Gendy
+                               <span style="color: white;">Vice-President</span>
                            </div>
                            </div>
-                   <p>I think astronomy is all about curiosity of mind. It is about knowing the unknown and to get that in our reach. After all Rome wasn’t built in a day so it will take decades or maybe centuries to attain what we see in science fiction but yes one day we will achieve it.</p>
                </li> <!-- /slide -->
                
                <li>
-                   <div class="member-author">
+                   <div class="member-author member-clickable" data-member="mentors">
                            <div class="author-info">
                                Mentors<br/><br/>
-                               <span>Tarak Khalil</span>
-			                   <span>Loay Alaa</span>
+                               <span style="color: white;">Tarak Khalil</span>
+			                   <span style="color: white;">Loay Alaa</span>
 			       <span></span>
                            </div>
                            </div>                  
                </li> <!-- /slide -->       
                <li>
-                   <div class="member-author">
+                   <div class="member-author member-clickable" data-member="webmaster">
                            <div class="author-info">
                                Web Master<br/><br/>
                                <span>Tarak Khalil</span>
@@ -1010,8 +2346,8 @@
                            </div>
                            </div>                  
                </li> <!-- /slide -->            
-               <li>                   
-                   <div class="member-author">
+               <!--<li>                   
+                   <div class="member-author member-clickable" data-member="s25">
                            <div class="author-info">
                                s'25 Members<br/><br/>
                                <span>Ayush Sharma</span>
@@ -1020,9 +2356,9 @@
                                <span>Samyak Dutt Gupta</span>
                            </div>
                            </div>                  
-               </li> <!-- /slide -->               
+               </li> <!-- /slide --              
                <li>                   
-                   <div class="member-author">
+                   <div class="member-author member-clickable" data-member="s26">
                            <div class="author-info">
                                S'26 Members<br/><br/>
                                <span>Arunima Mangal</span>
@@ -1037,9 +2373,9 @@
                                <span>Tapish Gupta</span>
                            </div>
                            </div>                   
-               </li> <!-- /slide -->              
+               </li> <!-- /slide --            
                <li>                   
-                   <div class="member-author">
+                   <div class="member-author member-clickable" data-member="s27">
                            <div class="author-info">
                                S'27 Members<br/><br/>
                                
@@ -1050,9 +2386,78 @@
          </div> <!-- /member-slider -->                 
       </div> <!-- /flex-container -->
    </section> <!-- /members -->
+
+   <!-- Event Popups -->
+   <div id="popup1" class="overlayevents">
+       <div class="popupevents">
+           <a class="closeevents" href="#">&times;</a>
+           <div class="contentevents">
+               <h2>Armageddon Event</h2>
+               <p>Step into the shoes of planetary defenders! In this thrilling simulation event, participants work together to devise strategies to save Earth from approaching asteroids. Using real astronomical data and physics calculations, teams compete to find the most effective solutions to prevent cosmic catastrophes.</p>
+               <p>This event combines scientific accuracy with excitement, as members learn about orbital mechanics, impact dynamics, and space mission planning while racing against time to save humanity.</p>
+           </div>
+       </div>
+   </div>
+
+   <div id="popup2" class="overlayevents">
+       <div class="popupevents">
+           <a class="closeevents" href="#">&times;</a>
+           <div class="contentevents">
+               <h2>Astro Hunt</h2>
+               <p>Embark on an intellectual journey through the cosmos! Astro Hunt is our signature treasure hunt event where participants solve astronomical puzzles, decode celestial coordinates, and follow star maps to uncover hidden clues.</p>
+               <p>Each clue challenges your knowledge of constellations, planetary motion, stellar evolution, and space exploration history. Teams race across campus, solving riddles that lead them deeper into the mysteries of the universe.</p>
+           </div>
+       </div>
+   </div>
+
+   <div id="popup3" class="overlayevents">
+       <div class="popupevents">
+           <a class="closeevents" href="#">&times;</a>
+           <div class="contentevents">
+               <h2>Star Trek</h2>
+               <p>Join us for an immersive virtual voyage through our solar system and beyond! Using advanced simulation software and VR technology, participants can explore different celestial bodies, walk on alien worlds, and experience the wonders of space exploration firsthand.</p>
+               <p>From the volcanic landscapes of Io to the methane lakes of Titan, Star Trek offers an unforgettable journey that brings astronomy textbooks to life.</p>
+           </div>
+       </div>
+   </div>
+
+   <div id="popup4" class="overlayevents">
+       <div class="popupevents">
+           <a class="closeevents" href="#">&times;</a>
+           <div class="contentevents">
+               <h2>Sambhar Lake Trip</h2>
+               <p>Experience astronomy under some of the darkest skies available! Our annual trip to Sambhar Lake provides the perfect opportunity for serious stargazing, astrophotography, and deep sky observation.</p>
+               <p>Away from city lights, members can observe faint galaxies, nebulae, and star clusters while learning practical telescope operation and astronomical imaging techniques. This extended Yuri's Night celebration combines adventure with serious astronomical observation.</p>
+           </div>
+       </div>
+   </div>
+
+   <div id="popup5" class="overlayevents">
+       <div class="popupevents">
+           <a class="closeevents" href="#">&times;</a>
+           <div class="contentevents">
+               <h2>Night Camp</h2>
+               <p>Immerse yourself in the healing darkness of the midnight sky. Our overnight camping events combine astronomy with outdoor adventure, creating unforgettable experiences under the stars.</p>
+               <p>Participants engage in night-long observation sessions, learn about circumpolar constellations, track satellite passes, and share stories around the campfire while waiting for the perfect shot of the Milky Way.</p>
+           </div>
+       </div>
+   </div>
+
+   <div id="popup6" class="overlayevents">
+       <div class="popupevents">
+           <a class="closeevents" href="#">&times;</a>
+           <div class="contentevents">
+               <h2>Presentation Series</h2>
+               <p>Our comprehensive presentation series introduces new members to the fascinating world of astronomy through engaging, interactive sessions.</p>
+               <p>Each presentation covers fundamental concepts using innovative visual aids, hands-on demonstrations, and real-time observations. From basic telescope operation to advanced astrophysics concepts, these sessions provide a solid foundation for budding astronomers.</p>
+           </div>
+       </div>
+   </div>
+
    <!-- footer
    ================================================== -->
    <section id="footer">
+    <div class="section-watermark">SOAC</div>
    	<div class="footer-main">
    		<div class="row">  
 	      	<div class="col-six tab-full mob-full footer-info" style="text-align: left;">
@@ -1103,6 +2508,246 @@
     <script src="js/jquery.ripples-min.js"></script>
 
 <script>
+// Member data - you can easily modify this
+const memberData = {
+    farouk: {
+        name: "Farouk Mohammed Farouk",
+        position: "President",
+        bio: "I'm a 16-year-old student at STEM High School for Boys – 6th of October, fascinated by astronomy and astrophysics, with a focus on physics. My dedication has led me to achieve a silver medal at the Open World Astronomy Olympiad (OWAO). As president of the STEM October Astronomy Club, I strive to foster curiosity, exploration, and scientific excellence in our community.",
+        email: "mhmdfarwqfarwq615@gmail.com",
+        year: "Year 12",
+        interests: "Black Holes, Exoplanets, Cosmology",
+        joined: "September 2023",
+        image: "members/farouk.jpg"
+    },
+    mohammed: {
+        name: "Mohammed Osama",
+        position: "Vice-President",
+        bio: "I am Mohamed Osama, a 17-year-old student passionate about astronomy and math. This passion was demonstrated in achieving bronze medal in my school's math Olympiad and various medals in different competitions.",
+        email: "mo7amedosama141@gmail.com",
+        year: "Year 12",
+        interests: "Planetary Science, Telescopes, Astrophotography",
+        joined: "September 2023",
+        image: "members/mohammedosama.png"
+    },
+    aly: {
+        name: "Aly Al-Gendy",
+        position: "Vice-President",
+        bio: "A teenage passionate in Astrophysics",
+        email: "aly.algendy.2008@gmail.com",
+        year: "Year 12",
+        interests: "Space Technology, Mars Exploration, Physics",
+        joined: "September 2023",
+        image: "members/alyalgendy.jpg"
+    },
+    mentors: {
+        name: "Club Mentors",
+        position: "Faculty Advisors",
+        bio: "Experienced educators guiding our astronomical journey and providing invaluable support to club activities and learning initiatives.",
+        email: "mentors@soac.club",
+        year: "Faculty",
+        interests: "Education, Research, Student Development",
+        joined: "Founding Members",
+        image: "https://via.placeholder.com/150x150/1e293b/87ceeb?text=MT"
+    },
+    webmaster: {
+        name: "Tarak Khalil",
+        position: "Web Master",
+        bio: "Managing our digital presence and creating innovative web experiences to share our passion for astronomy with the world.",
+        email: "tarak@soac.club",
+        year: "Year 11",
+        interests: "Web Development, Digital Design, Space Tech",
+        joined: "October 2023",
+        image: "https://via.placeholder.com/150x150/1e293b/87ceeb?text=TK"
+    },
+    s25: {
+        name: "Class of 2025",
+        position: "Senior Members",
+        bio: "Our senior members leading various club initiatives and mentoring newer members in their astronomical journey.",
+        email: "s25@soac.club",
+        year: "Year 12",
+        interests: "Leadership, Mentoring, Advanced Astronomy",
+        joined: "2023-2024",
+        image: "https://via.placeholder.com/150x150/1e293b/87ceeb?text=25"
+    },
+    s26: {
+        name: "Class of 2026",
+        position: "Active Members",
+        bio: "Enthusiastic members actively participating in observations, competitions, and club activities with great passion for space science.",
+        email: "s26@soac.club",
+        year: "Year 11",
+        interests: "Observations, Competitions, Research",
+        joined: "2024",
+        image: "https://via.placeholder.com/150x150/1e293b/87ceeb?text=26"
+    },
+    s27: {
+        name: "Class of 2027",
+        position: "New Members",
+        bio: "Our newest members bringing fresh energy and perspectives to the club. Currently learning the fundamentals of astronomy and space science.",
+        email: "s27@soac.club",
+        year: "Year 10",
+        interests: "Learning, Exploration, Discovery",
+        joined: "2024",
+        image: "https://via.placeholder.com/150x150/1e293b/87ceeb?text=27"
+    }
+};
+
+// Member popup functionality
+function showMemberPopup(memberKey) {
+    const member = memberData[memberKey];
+    if (!member) return;
+
+    document.getElementById('memberPopupImage').src = member.image;
+    document.getElementById('memberPopupName').textContent = member.name;
+    document.getElementById('memberPopupPosition').textContent = member.position;
+    document.getElementById('memberPopupBio').textContent = member.bio;
+    document.getElementById('memberPopupEmail').textContent = member.email;
+    document.getElementById('memberPopupYear').textContent = member.year;
+    document.getElementById('memberPopupInterests').textContent = member.interests;
+    document.getElementById('memberPopupJoined').textContent = member.joined;
+
+    document.getElementById('memberOverlay').classList.add('active');
+    document.body.style.overflow = 'hidden';
+}
+
+function hideMemberPopup() {
+    document.getElementById('memberOverlay').classList.remove('active');
+    document.body.style.overflow = '';
+}
+
+// Initialize member popup events
+document.addEventListener('DOMContentLoaded', function() {
+    // Add click events to member elements
+    document.querySelectorAll('.member-clickable').forEach(element => {
+        element.addEventListener('click', function() {
+            const memberKey = this.getAttribute('data-member');
+            showMemberPopup(memberKey);
+        });
+    });
+
+    // Close popup events
+    document.querySelector('.member-popup-close').addEventListener('click', hideMemberPopup);
+    document.getElementById('memberOverlay').addEventListener('click', function(e) {
+        if (e.target === this) {
+            hideMemberPopup();
+        }
+    });
+
+    // Close with Escape key
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape' && document.getElementById('memberOverlay').classList.contains('active')) {
+            hideMemberPopup();
+        }
+    });
+});
+
+// Sidebar functionality
+document.addEventListener('DOMContentLoaded', function() {
+    const sidebarToggle = document.querySelector('.sidebar-toggle');
+    const sidebar = document.querySelector('.sidebar');
+    const sidebarOverlay = document.querySelector('.sidebar-overlay');
+    const sidebarClose = document.querySelector('.sidebar-close');
+
+    // Open sidebar
+    function openSidebar() {
+        sidebar.classList.add('active');
+        sidebarOverlay.classList.add('active');
+        sidebarToggle.classList.add('active');
+        document.body.style.overflow = 'hidden';
+    }
+
+    // Close sidebar
+    function closeSidebar() {
+        sidebar.classList.remove('active');
+        sidebarOverlay.classList.remove('active');
+        sidebarToggle.classList.remove('active');
+        document.body.style.overflow = '';
+    }
+
+    // Toggle sidebar on hamburger button click
+    sidebarToggle.addEventListener('click', function(e) {
+        e.stopPropagation();
+        if (sidebar.classList.contains('active')) {
+            closeSidebar();
+        } else {
+            openSidebar();
+        }
+    });
+
+    // Close sidebar when clicking close button
+    sidebarClose.addEventListener('click', closeSidebar);
+
+    // Close sidebar when clicking overlay
+    sidebarOverlay.addEventListener('click', closeSidebar);
+
+    // Close sidebar when pressing Escape key
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape' && sidebar.classList.contains('active')) {
+            closeSidebar();
+            sidebarToggle.focus();
+        }
+    });
+
+    // Handle keyboard navigation for hamburger button
+    sidebarToggle.addEventListener('keydown', function(e) {
+        if (e.key === 'Enter' || e.key === ' ') {
+            e.preventDefault();
+            if (sidebar.classList.contains('active')) {
+                closeSidebar();
+            } else {
+                openSidebar();
+            }
+        }
+    });
+
+    // Add smooth scroll behavior for internal links
+    const sidebarLinks = document.querySelectorAll('.sidebar-menu a[href^="#"]');
+    sidebarLinks.forEach(link => {
+        link.addEventListener('click', function() {
+            closeSidebar();
+        });
+    });
+
+    // Add staggered animation to menu items
+    const menuItems = document.querySelectorAll('.sidebar-menu li:not(.sidebar-category)');
+    sidebar.addEventListener('transitionend', function(e) {
+        if (e.target === sidebar && sidebar.classList.contains('active')) {
+            menuItems.forEach((item, index) => {
+                setTimeout(() => {
+                    item.style.animation = `slideInFromRight 0.3s ease-out forwards`;
+                }, index * 50);
+            });
+        }
+    });
+
+    // Reset animations when sidebar closes
+    sidebar.addEventListener('transitionstart', function(e) {
+        if (e.target === sidebar && !sidebar.classList.contains('active')) {
+            menuItems.forEach(item => {
+                item.style.animation = '';
+            });
+        }
+    });
+});
+
+// Add CSS animation keyframes dynamically
+const style = document.createElement('style');
+style.textContent = `
+    @keyframes slideInFromRight {
+        from {
+            opacity: 0;
+            transform: translateX(20px);
+        }
+        to {
+            opacity: 1;
+            transform: translateX(0);
+        }
+    }
+`;
+document.head.appendChild(style);
+</script>
+
+<script>
         // JavaScript for scroll reveal functionality
         class ScrollReveal {
             constructor() {
@@ -1142,36 +2787,10 @@
         document.addEventListener('DOMContentLoaded', () => {
             new ScrollReveal();
         });
-        
-        // Alternative simple function approach (use this if you prefer)
-        function initScrollReveal() {
-            const elements = document.querySelectorAll('.scroll-reveal, .fade-in-left, .fade-in-right, .scale-in');
-            
-            function checkElements() {
-                elements.forEach(element => {
-                    const elementTop = element.getBoundingClientRect().top;
-                    const windowHeight = window.innerHeight;
-                    
-                    if (elementTop < windowHeight - 100) {
-                        element.classList.add('revealed');
-                    }
-                });
-            }
-            
-            // Check on scroll
-            window.addEventListener('scroll', checkElements);
-            
-            // Check on load
-            checkElements();
-        }
-        
-        // Uncomment this line if you want to use the simple function instead
-        // initScrollReveal();
-    </script>
-<script>
-                // STEM October Astronomy Club (SOAC) Website JavaScript
+</script>
 
-// Wait for DOM to be fully loaded
+<script>
+// STEM October Astronomy Club (SOAC) Website JavaScript
 document.addEventListener('DOMContentLoaded', function() {
     
     // ==========================================
@@ -1221,79 +2840,6 @@ document.addEventListener('DOMContentLoaded', function() {
     });
     
     // ==========================================
-    // DROPDOWN MENU FUNCTIONALITY
-    // ==========================================
-    const moreToggle = document.getElementById('more-toggle');
-    const moreOptions = document.getElementById('more-options');
-    
-    if (moreToggle && moreOptions) {
-        moreToggle.addEventListener('click', function(e) {
-            e.stopPropagation();
-            const isVisible = moreOptions.style.display === 'block';
-            moreOptions.style.display = isVisible ? 'none' : 'block';
-        });
-        
-        // Close dropdown when clicking outside
-        document.addEventListener('click', function() {
-            moreOptions.style.display = 'none';
-        });
-        
-        // Prevent dropdown from closing when clicking inside it
-        moreOptions.addEventListener('click', function(e) {
-            e.stopPropagation();
-        });
-    }
-    
-    // ==========================================
-    // MOBILE MENU TOGGLE
-    // ==========================================
-    const menuToggle = document.querySelector('.menu-toggle');
-    const mainNavWrap = document.getElementById('main-nav-wrap');
-    
-    if (menuToggle && mainNavWrap) {
-        menuToggle.addEventListener('click', function(e) {
-            e.preventDefault();
-            mainNavWrap.classList.toggle('active');
-            this.classList.toggle('active');
-        });
-    }
-    
-    // ==========================================
-    // SCROLL ANIMATIONS
-    // ==========================================
-    const observerOptions = {
-        threshold: 0.1,
-        rootMargin: '0px 0px -50px 0px'
-    };
-    
-    const observer = new IntersectionObserver(function(entries) {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                entry.target.classList.add('animate');
-            }
-        });
-    }, observerOptions);
-    
-    // Observe all fade-in-up elements
-    const fadeElements = document.querySelectorAll('.fade-in-up');
-    fadeElements.forEach(element => {
-        observer.observe(element);
-    });
-    
-    // ==========================================
-    // HEADER BACKGROUND ON SCROLL
-    // ==========================================
-    const header = document.querySelector('header');
-    
-    window.addEventListener('scroll', function() {
-        if (window.scrollY > 100) {
-            header.classList.add('scrolled');
-        } else {
-            header.classList.remove('scrolled');
-        }
-    });
-    
-    // ==========================================
     // EVENT POPUP FUNCTIONALITY
     // ==========================================
     const eventLinks = document.querySelectorAll('a[href^="#popup"]');
@@ -1308,7 +2854,7 @@ document.addEventListener('DOMContentLoaded', function() {
             if (targetPopup) {
                 targetPopup.style.visibility = 'visible';
                 targetPopup.style.opacity = '1';
-                document.body.style.overflow = 'hidden'; // Prevent background scrolling
+                document.body.style.overflow = 'hidden';
             }
         });
     });
@@ -1321,12 +2867,12 @@ document.addEventListener('DOMContentLoaded', function() {
             if (popup) {
                 popup.style.visibility = 'hidden';
                 popup.style.opacity = '0';
-                document.body.style.overflow = ''; // Restore scrolling
+                document.body.style.overflow = '';
             }
         });
     });
     
-    // Close popup when clicking on overlay (but not on popup content)
+    // Close popup when clicking on overlay
     overlays.forEach(overlay => {
         overlay.addEventListener('click', function(e) {
             if (e.target === this) {
@@ -1349,206 +2895,8 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
     
-    // ==========================================
-    // ENHANCED ANIMATIONS FOR EVENTS GRID
-    // ==========================================
-    const eventCards = document.querySelectorAll('.bgrid.feature');
-    
-    eventCards.forEach((card, index) => {
-        // Add staggered animation delay
-        card.style.animationDelay = `${index * 0.1}s`;
-        
-        // Add hover sound effect (optional - requires audio files)
-        card.addEventListener('mouseenter', function() {
-            // You can add sound effects here if desired
-            // const hoverSound = new Audio('path/to/hover-sound.mp3');
-            // hoverSound.play();
-        });
-    });
-    
-    // ==========================================
-    // PARALLAX SCROLLING EFFECT
-    // ==========================================
-    window.addEventListener('scroll', function() {
-        const scrolled = window.pageYOffset;
-        const parallaxElements = document.querySelectorAll('[data-parallax]');
-        
-        parallaxElements.forEach(element => {
-            const speed = element.dataset.parallax;
-            const yPos = -(scrolled * speed / 100);
-            element.style.transform = `translateY(${yPos}px)`;
-        });
-    });
-    
-    // ==========================================
-    // CONSTELLATION ANIMATION (OPTIONAL)
-    // ==========================================
-    function createStarField() {
-        const starField = document.createElement('div');
-        starField.className = 'star-field';
-        starField.style.cssText = `
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            pointer-events: none;
-            z-index: -1;
-        `;
-        
-        // Create random stars
-        for (let i = 0; i < 100; i++) {
-            const star = document.createElement('div');
-            star.className = 'star';
-            star.style.cssText = `
-                position: absolute;
-                width: 2px;
-                height: 2px;
-                background: #fff;
-                border-radius: 50%;
-                top: ${Math.random() * 100}%;
-                left: ${Math.random() * 100}%;
-                animation: twinkle ${2 + Math.random() * 3}s infinite;
-            `;
-            starField.appendChild(star);
-        }
-        
-        document.body.appendChild(starField);
-    }
-    
-    // Add CSS for twinkling animation
-    const style = document.createElement('style');
-    style.textContent = `
-        @keyframes twinkle {
-            0%, 100% { opacity: 0.3; }
-            50% { opacity: 1; }
-        }
-        
-        header.scrolled {
-            background: rgba(15, 23, 42, 0.98) !important;
-            backdrop-filter: blur(15px);
-        }
-        
-        .main-navigation.active {
-            display: block;
-        }
-        
-        @media (max-width: 768px) {
-            #main-nav-wrap {
-                display: none;
-            }
-            
-            #main-nav-wrap.active {
-                display: block;
-                position: absolute;
-                top: 100%;
-                left: 0;
-                right: 0;
-                background: rgba(15, 23, 42, 0.98);
-                backdrop-filter: blur(10px);
-                border-top: 1px solid var(--accent-color);
-            }
-            
-            .main-navigation {
-                flex-direction: column;
-                padding: 20px;
-            }
-            
-            .main-navigation li {
-                margin: 10px 0;
-            }
-        }
-    `;
-    document.head.appendChild(style);
-    
-    // Initialize star field (uncomment if desired)
-    // createStarField();
-    
-    // ==========================================
-    // PERFORMANCE OPTIMIZATION
-    // ==========================================
-    
-    // Throttle scroll events for better performance
-    let ticking = false;
-    
-    function updateScrollEffects() {
-        // Update header background
-        if (window.scrollY > 100) {
-            header.classList.add('scrolled');
-        } else {
-            header.classList.remove('scrolled');
-        }
-        
-        ticking = false;
-    }
-    
-    function requestTick() {
-        if (!ticking) {
-            requestAnimationFrame(updateScrollEffects);
-            ticking = true;
-        }
-    }
-    
-    window.addEventListener('scroll', requestTick);
-    
     console.log('SOAC Website JavaScript loaded successfully! 🌟');
 });
-
-// ==========================================
-// UTILITY FUNCTIONS
-// ==========================================
-
-// Function to preload images for better performance
-function preloadImages() {
-    const images = [
-        'intro-bg.jpg'
-    ];
-    
-    images.forEach(src => {
-        const img = new Image();
-        img.src = src;
-    });
-}
-
-// Initialize image preloading
-preloadImages();
-
-// Function to handle form submissions (if forms are added later)
-function handleFormSubmission(formId, callback) {
-    const form = document.getElementById(formId);
-    if (form) {
-        form.addEventListener('submit', function(e) {
-            e.preventDefault();
-            const formData = new FormData(this);
-            callback(formData);
-        });
-    }
-}
-
-// Function to add loading states to buttons
-function addLoadingState(button, loadingText = 'Loading...') {
-    const originalText = button.textContent;
-    button.textContent = loadingText;
-    button.disabled = true;
-    
-    return function() {
-        button.textContent = originalText;
-        button.disabled = false;
-    };
-}
-
-// Export functions for potential use in other scripts
-window.SOACUtils = {
-    preloadImages,
-    handleFormSubmission,
-    addLoadingState
-};
-            </script>
-   <script>
-	document.getElementById("more-toggle").addEventListener("click", function () {
-		const options = document.getElementById("more-options");
-		options.style.display = options.style.display === "none" ? "block" : "none";
-	});
 </script>
 </body>
 </html>

@@ -1799,6 +1799,487 @@ section#footer .footer-main {
    .member-author .author-info {
        cursor: pointer;
    }
+   
+   /* ================================================== 
+   SOAC RESPONSIVE CSS - ADD TO YOUR EXISTING STYLE SECTION
+   Place this code inside your existing <style> tags, after all other CSS
+================================================== */
+
+/* ================================================== 
+   MOBILE FIRST - EXTRA SMALL DEVICES (320px - 575px)
+================================================== */
+@media screen and (max-width: 575px) {
+    /* Header and Navigation */
+    header {
+        padding: 10px 15px !important;
+        height: auto !important;
+    }
+    
+    .logo {
+        width: auto !important;
+        margin: 0 !important;
+    }
+    
+    .main-navigation {
+        display: none !important;
+    }
+    
+    .menu-toggle {
+        display: block !important;
+        position: absolute !important;
+        right: 15px !important;
+        top: 15px !important;
+    }
+    
+    /* Intro Section */
+    #intro {
+        min-height: 100vh !important;
+        padding: 60px 0 !important;
+    }
+    
+    .intro-content {
+        padding-top: 20vh !important;
+        padding-left: 15px !important;
+        padding-right: 15px !important;
+    }
+    
+    .intro-content h1 {
+        font-size: 2rem !important;
+        line-height: 1.2 !important;
+        margin-bottom: 20px !important;
+    }
+    
+    .intro-content h5 {
+        font-size: 0.9rem !important;
+        letter-spacing: 1px !important;
+        margin-bottom: 15px !important;
+    }
+    
+    /* About Section */
+    section#about {
+        padding: 40px 0 !important;
+    }
+    
+    .about-cosmic-grid {
+        grid-template-columns: 1fr !important;
+        gap: 30px !important;
+        margin: 20px 0 !important;
+    }
+    
+    .about-content-card {
+        padding: 20px !important;
+        margin: 0 15px !important;
+    }
+    
+    .about-content-card h3 {
+        font-size: 1.8rem !important;
+    }
+    
+    .about-content-card p {
+        font-size: 1.2rem !important;
+    }
+    
+    .cosmic-visual {
+        width: 200px !important;
+        height: 200px !important;
+    }
+    
+    /* Curriculum Section */
+    section#curriculum {
+        padding: 40px 0 !important;
+    }
+    
+    .curriculum-timeline {
+        padding: 0 15px !important;
+    }
+    
+    .curriculum-item,
+    .curriculum-item.curriculum-left,
+    .curriculum-item.curriculum-right,
+    .curriculum-item.curriculum-center {
+        flex-direction: column !important;
+        text-align: center !important;
+        align-items: center !important;
+        margin: 30px 0 !important;
+        min-height: auto !important;
+    }
+    
+    .curriculum-card {
+        width: 100% !important;
+        max-width: 350px !important;
+        height: auto !important;
+        margin: 0 0 20px 0 !important;
+        order: 1 !important;
+        padding: 15px !important;
+    }
+    
+    .curriculum-card h3 {
+        font-size: 1.8rem !important;
+    }
+    
+    .curriculum-card p {
+        font-size: 1rem !important;
+    }
+    
+    .curriculum-number {
+        font-size: 1.8rem !important;
+    }
+    
+    .curriculum-image-container {
+        order: 2 !important;
+        margin: 0 !important;
+    }
+    
+    .curriculum-image {
+        width: 250px !important;
+        height: 250px !important;
+    }
+    
+    .topic-tag {
+        font-size: 0.8rem !important;
+        padding: 4px 8px !important;
+    }
+    
+    /* Members Section */
+    #members {
+        padding: 40px 0 !important;
+    }
+    
+    .flexslider {
+        margin: 0 15px !important;
+    }
+    
+    .member-author img {
+        width: 120px !important;
+        height: 120px !important;
+    }
+    
+    .author-info {
+        font-size: 1rem !important;
+    }
+    
+    /* Footer Section */
+    section#footer {
+        padding: 40px 0 !important;
+    }
+    
+    .footer-main .row {
+        flex-direction: column !important;
+    }
+    
+    .footer-main .col-six {
+        flex: 0 0 100% !important;
+        max-width: 100% !important;
+        text-align: center !important;
+        margin-bottom: 20px !important;
+        padding: 0 15px !important;
+    }
+    
+    .footer-main .col-six:last-child {
+        margin-bottom: 0 !important;
+    }
+    
+    /* Sidebar */
+    .sidebar {
+        width: 100vw !important;
+        right: -100vw !important;
+    }
+    
+    .sidebar.active {
+        right: 0 !important;
+    }
+    
+    /* Watermarks */
+    .section-watermark {
+        font-size: clamp(2rem, 12vw, 5rem) !important;
+        letter-spacing: 0.05em !important;
+    }
+    
+    /* Popups */
+    .member-popup {
+        width: 95% !important;
+        max-width: 350px !important;
+        padding: 20px !important;
+    }
+    
+    .member-popup-name {
+        font-size: 1.4rem !important;
+    }
+    
+    .member-popup-details {
+        grid-template-columns: 1fr !important;
+        gap: 10px !important;
+    }
+    
+    .popupevents {
+        width: 95% !important;
+        height: 90% !important;
+        margin: 5% auto !important;
+        padding: 15px !important;
+    }
+}
+
+/* ================================================== 
+   SMALL DEVICES (576px - 767px)
+================================================== */
+@media screen and (min-width: 576px) and (max-width: 767px) {
+    /* Header */
+    header {
+        padding: 15px 20px !important;
+    }
+    
+    /* Intro */
+    .intro-content h1 {
+        font-size: 2.5rem !important;
+    }
+    
+    .intro-content h5 {
+        font-size: 1rem !important;
+    }
+    
+    /* About */
+    .about-content-card h3 {
+        font-size: 2.2rem !important;
+    }
+    
+    .about-content-card p {
+        font-size: 1.4rem !important;
+    }
+    
+    .cosmic-visual {
+        width: 250px !important;
+        height: 250px !important;
+    }
+    
+    /* Curriculum */
+    .curriculum-card {
+        max-width: 400px !important;
+        padding: 18px !important;
+    }
+    
+    .curriculum-image {
+        width: 300px !important;
+        height: 300px !important;
+    }
+    
+    /* Sidebar */
+    .sidebar {
+        width: 320px !important;
+        right: -340px !important;
+    }
+    
+    /* Watermarks */
+    .section-watermark {
+        font-size: clamp(3rem, 10vw, 8rem) !important;
+    }
+}
+
+/* ================================================== 
+   MEDIUM DEVICES (768px - 991px)
+================================================== */
+@media screen and (min-width: 768px) and (max-width: 991px) {
+    /* Header */
+    header {
+        padding: 20px 30px !important;
+    }
+    
+    /* About */
+    .about-cosmic-grid {
+        gap: 40px !important;
+    }
+    
+    .about-content-card h3 {
+        font-size: 2.5rem !important;
+    }
+    
+    .about-content-card p {
+        font-size: 1.6rem !important;
+    }
+    
+    /* Curriculum */
+    .curriculum-item {
+        margin: 40px 0 !important;
+    }
+    
+    .curriculum-card {
+        max-width: 500px !important;
+    }
+    
+    .curriculum-image {
+        width: 350px !important;
+        height: 350px !important;
+    }
+    
+    /* Watermarks */
+    .section-watermark {
+        font-size: clamp(4rem, 8vw, 12rem) !important;
+    }
+}
+
+/* ================================================== 
+   LARGE DEVICES (992px - 1199px)
+================================================== */
+@media screen and (min-width: 992px) and (max-width: 1199px) {
+    /* Sections */
+    section#about,
+    section#curriculum,
+    #events,
+    #members {
+        padding: 60px 0 !important;
+    }
+    
+    /* About */
+    .about-content-card h3 {
+        font-size: 2.8rem !important;
+    }
+    
+    .about-content-card p {
+        font-size: 1.8rem !important;
+    }
+    
+    /* Curriculum */
+    .curriculum-card h3 {
+        font-size: 2.2rem !important;
+    }
+    
+    .curriculum-card p {
+        font-size: 1.2rem !important;
+    }
+}
+
+/* ================================================== 
+   EXTRA LARGE DEVICES (1200px and up)
+================================================== */
+@media screen and (min-width: 1200px) {
+    /* Container max-width */
+    .row,
+    .section-intro {
+        max-width: 1400px !important;
+        margin: 0 auto !important;
+        padding: 0 30px !important;
+    }
+    
+    /* Curriculum specific adjustments */
+    .curriculum-timeline {
+        max-width: 1600px !important;
+    }
+}
+
+/* ================================================== 
+   LANDSCAPE ORIENTATION FIXES
+================================================== */
+@media screen and (orientation: landscape) and (max-height: 500px) {
+    .intro-content {
+        padding-top: 10vh !important;
+    }
+    
+    .intro-content h1 {
+        font-size: 2rem !important;
+    }
+    
+    .intro-content h5 {
+        font-size: 0.9rem !important;
+        margin-bottom: 10px !important;
+    }
+}
+
+/* ================================================== 
+   HIGH DPI SCREENS
+================================================== */
+@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
+    .section-watermark {
+        text-rendering: optimizeLegibility !important;
+        -webkit-font-smoothing: antialiased !important;
+        -moz-osx-font-smoothing: grayscale !important;
+    }
+    
+    .curriculum-image,
+    .member-author img {
+        image-rendering: -webkit-optimize-contrast !important;
+        image-rendering: crisp-edges !important;
+    }
+}
+
+/* ================================================== 
+   ACCESSIBILITY - REDUCED MOTION
+================================================== */
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+    }
+    
+    .section-watermark .letter.animate,
+    .section-watermark.animate-complete {
+        animation: none !important;
+        opacity: 0.1 !important;
+        transform: translate(-50%, -50%) rotate(-15deg) !important;
+    }
+}
+
+/* ================================================== 
+   PERFORMANCE OPTIMIZATIONS FOR MOBILE
+================================================== */
+@media (max-width: 768px) {
+    .section-watermark {
+        will-change: opacity, transform !important;
+        backface-visibility: hidden !important;
+        perspective: 1000px !important;
+    }
+    
+    .section-watermark .letter.animate {
+        animation-duration: 0.6s !important;
+    }
+    
+    .section-watermark.animate-complete {
+        animation-duration: 3s !important;
+    }
+}
+
+/* ================================================== 
+   TOUCH DEVICE OPTIMIZATIONS
+================================================== */
+@media (pointer: coarse) {
+    .member-clickable,
+    .sidebar-toggle,
+    .topic-tag {
+        min-height: 44px !important;
+        min-width: 44px !important;
+        touch-action: manipulation !important;
+    }
+    
+    .sidebar-menu a {
+        padding: 18px 25px !important;
+        font-size: 1.1rem !important;
+    }
+}
+
+/* ================================================== 
+   PRINT STYLES
+================================================== */
+@media print {
+    .sidebar,
+    .sidebar-overlay,
+    .sidebar-toggle,
+    .member-overlay,
+    .overlayevents,
+    #go-top {
+        display: none !important;
+    }
+    
+    .section-watermark {
+        opacity: 0.1 !important;
+    }
+    
+    * {
+        background: white !important;
+        color: black !important;
+    }
+}
    </style>
    <script>
 // ================================================== 
@@ -2148,22 +2629,22 @@ if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
            <li><a href="simulations/solar-system/index.html">Solar System 3D</a></li>-->
            
            <li class="sidebar-category">Events</li>
-           <li><a href="#stargazing-events">Stargazing Nights</a></li>
+           <!--<li><a href="#stargazing-events">Stargazing Nights</a></li>
            <li><a href="#telescope-workshops">Telescope Workshops</a></li>
            <li><a href="#guest-lectures">Guest Lectures</a></li>
-           <li><a href="#observatory-visits">Observatory Visits</a></li>
+           <li><a href="#observatory-visits">Observatory Visits</a></li>-->
            
            <li class="sidebar-category">Competitions</li>
-           <li><a href="#astronomy-olympiad">Astronomy Olympiad</a></li>
+           <!--<li><a href="#astronomy-olympiad">Astronomy Olympiad</a></li>
            <li><a href="#astrophotography-contest">Astrophotography Contest</a></li>
            <li><a href="#rocket-design">Rocket Design Challenge</a></li>
-           <li><a href="#space-quiz">Space Knowledge Quiz</a></li>
+           <li><a href="#space-quiz">Space Knowledge Quiz</a></li>-->
            
            <li class="sidebar-category">Games</li>
            <li><a href="SpaceOdyssey-main/SpaceOdyssey-main/index.html">A Treasure Hunt</a></li>
-           <li><a href="games/planet-explorer/index.html">Planet Explorer</a></li>
+           <!--<li><a href="games/planet-explorer/index.html">Planet Explorer</a></li>
            <li><a href="games/space-mission/index.html">Space Mission Simulator</a></li>
-           <li><a href="games/asteroid-dodge/index.html">Asteroid Dodge</a></li>
+           <li><a href="games/asteroid-dodge/index.html">Asteroid Dodge</a></li>-->
        </ul>
    </div>
 
@@ -2235,7 +2716,7 @@ if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
                 <div class="about-content-card fade-in-left">
                     <div class="about-icon scale-in"></div>
                     <h3 class="slide-up" style="font-size: 3rem;">Who Are We?</h3>
-                    <p class="fade-in-left" style="font-size: 2rem;">Found among the stars. At STEM High School for Boys - 6th of October, the Astronomy Club was initiated to unite the learners that look and gaze at the night sky and see questions that they are eager to answer. We are a group of curious peers who love to explore the celestials, the processes taking place in the universe and the unknown secrets in the beyond.</p>
+                    <p class="fade-in-left" style="font-size: 2rem;">The science of astronomy is an adventure, a quest in the universe where meaning can be found among the stars. At STEM High School for Boys - 6th of October, the Astronomy Club was initiated to unite the learners that look and gaze at the night sky and see questions that they are eager to answer. We are a group of curious peers who love to explore the celestials, the processes taking place in the universe and the unknown secrets in the beyond. We are either gazing at the far away planets by a telescope or talking about the life cycle of a star, all united through our interest of exploring the vast universe.</p>
                 </div>
                 
                 <div class="about-visual fade-in-right">
@@ -2531,11 +3012,20 @@ document.addEventListener('DOMContentLoaded', function() {
                            </div>                  
                </li> <!-- /slide -->  
                <li>
+                   <div class="member-author member-clickable" data-member="game_developer">
+                    <img src="members/dsmans.png" alt="Game-Developer image" style="width: 150px;height: 150px; border-radius: 10%; object-fit: cover;">
+                           <div class="author-info"  style="color: #87ceeb;">
+                               Mohammed Abdelaziz<br/><br/>
+                               <span style="margin-top: 0px; color: white; font-size: 2rem;">Game Developer</span>
+                           </div>
+                           </div>                  
+               </li> <!-- /slide -->  
+               <li>
                    <div class="member-author" data-member="mentors">
                            <div class="author-info" style="color: #87ceeb;">
                                
 			                   <span style="color: white;">Academic Mentors</span><br/>
-                               Tareq Khalil<br>Loay Alaa<br/>
+                               Tareq Khalil<br>Loay Alaa<br/>Ahmed Awd<br>
                            </div>
                            </div>                  
                </li> <!-- /slide -->       
@@ -2753,6 +3243,17 @@ const memberData = {
         interests: "Web Development, Astronomy, Game Development, Japanese Cluture",
         joined: "October 2024",
         image: "members/tareqins.png"
+    },
+    game_developer:
+    {
+        name: "Mohammed Abdelaziz",
+        position: "Game Developer",
+        bio: "Meow",
+        email: "medozizo008@gmail.com",
+        year: "Grade 12",
+        interests: "Gaming, Chess, Coding, Game developing, Cybersecurity",
+        joined: " August 2025",
+        image: "members/dsmans.png"
     },
     s25: {
         name: "Class of 2025",
@@ -3094,5 +3595,3 @@ document.addEventListener('DOMContentLoaded', function() {
 </script>
 </body>
 </html>
-
-

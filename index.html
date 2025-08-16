@@ -7,11 +7,11 @@
    ================================================== -->
    <meta charset="utf-8">
 	<title>STEM October Astronomy Club (SOAC)</title>
-	<meta name="description" content="">
-	<meta name="author" content="">
+	<meta name="description" content="SOAC (STEM October Astronomy Club) is a student-led community of passionate high school astronomers. Explore space science through hands-on interactive activities, games, competitions, simulations, and free educational resources. Join our cosmic journey today!">
+	<meta name="author" content="Tareq Khalil">
    <!-- mobile specific metas
    ================================================== -->
-	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+	<meta name="viewport" content="SOAC (STEM October Astronomy Club) is a student-led community of passionate high school astronomers. Explore space science through hands-on interactive activities, games, competitions, simulations, and free educational resources. Join our cosmic journey today!">
  	<!-- CSS
    ================================================== -->
    <link rel="stylesheet" href="css/base.css">
@@ -440,22 +440,23 @@ section#footer .section-watermark {
 
    /* ABOUT SECTION */
    section#about {
-       position: relative !important;
        background: url('imm2.png') center/cover no-repeat !important;
        overflow: hidden !important;
        padding: 80px 0 !important;
        min-height: 100vh !important;
        box-sizing: border-box !important;
+       background-attachment: fixed !important;
    }
 
    /* CURRICULUM SECTION */
    section#curriculum {
-       position: relative !important;
        background: url('imm2.png') center/cover no-repeat !important;
        overflow: hidden !important;
        padding: 50px 0 !important;
        min-height: 100vh !important;
        box-sizing: border-box !important;
+       background-attachment: fixed !important;
+
    }
 
    /* EVENTS SECTION */
@@ -475,10 +476,10 @@ section#footer .section-watermark {
 
    /* MEMBERS SECTION */
    #members {
-       position: relative;
        background: url('imm2.png') center/cover no-repeat !important;
        overflow: hidden;
        min-height: 100vh;
+       background-attachment: fixed !important;
    }
 
    #members .section-watermark {
@@ -487,13 +488,13 @@ section#footer .section-watermark {
 
    /* FOOTER SECTION */
    section#footer {
-       position: relative;
        background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.8)),
                    url('imm2.png') center/cover no-repeat;
        overflow: hidden;
        padding: 60px 0;
        min-height: 400px;
        box-sizing: border-box;
+       background-attachment: fixed !important;
    }
 
    section#footer .section-watermark {
@@ -2543,7 +2544,7 @@ class PerformanceOptimizer {
 // INITIALIZE ALL SYSTEMS
 // ================================================== 
 document.addEventListener('DOMContentLoaded', () => {
-    console.log('🌟 SOAC Enhanced Animations Loading...');
+    console.log('ðŸŒŸ SOAC Enhanced Animations Loading...');
     
     // Initialize all animation systems
     new WatermarkAnimator();
@@ -2552,7 +2553,7 @@ document.addEventListener('DOMContentLoaded', () => {
     new CurriculumAnimations();
     new PerformanceOptimizer();
     
-    console.log('✨ SOAC Enhanced Animations Loaded Successfully!');
+    console.log('âœ¨ SOAC Enhanced Animations Loaded Successfully!');
 });
 
 // ================================================== 
@@ -2622,7 +2623,7 @@ if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
            <button class="sidebar-close" aria-label="Close sidebar">&times;</button>
        </div>
        <ul class="sidebar-menu">
-           <a href="Astronomy-Toolkit-master/Astronomy-Toolkit-master/index.html"><li class="sidebar-category">Simulations</li></a>
+           <a href="Astronomy-Toolkit-master/Astronomy-Toolkit-master/index.html" target="_blank"><li class="sidebar-category">Simulations</li></a>
            <!--<li><a href="simulations/curved-spacetime-main/index.html">Curved Spacetime</a></li>
            <li><a href="simulations/orbits/index.html">Orbital Mechanics</a></li>
            <li><a href="simulations/black-hole/index.html">Black Hole Visualization</a></li>
@@ -2635,13 +2636,13 @@ if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
            <li><a href="#observatory-visits">Observatory Visits</a></li>-->
            
            <li class="sidebar-category">Competitions</li>
-           <!--<li><a href="#astronomy-olympiad">Astronomy Olympiad</a></li>
-           <li><a href="#astrophotography-contest">Astrophotography Contest</a></li>
+           <li><a href="cosmicquest.html" target="_blank">Cosmic Quest</a></li>
+           <!--<li><a href="#astrophotography-contest">Astrophotography Contest</a></li>
            <li><a href="#rocket-design">Rocket Design Challenge</a></li>
            <li><a href="#space-quiz">Space Knowledge Quiz</a></li>-->
            
            <li class="sidebar-category">Games</li>
-           <li><a href="SpaceOdyssey-main/SpaceOdyssey-main/index.html">A Treasure Hunt</a></li>
+           <li><a href="SpaceOdyssey-main/SpaceOdyssey-main/index.html" target="_blank">A Treasure Hunt</a></li>
            <!--<li><a href="games/planet-explorer/index.html">Planet Explorer</a></li>
            <li><a href="games/space-mission/index.html">Space Mission Simulator</a></li>
            <li><a href="games/asteroid-dodge/index.html">Asteroid Dodge</a></li>-->
@@ -2703,8 +2704,6 @@ if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
    <!-- about Section
    ================================================== -->
    <section id="about">
-        <div class="section-watermark">SOAC</div>
-
     <div class="row section-intro">
         <div class="col-twelve with-bottom-line">
             <h5 class="scale-in" style="color: #f0f0f0; font-weight: bold; font-size: larger; margin-top: 10px;">About Us</h5>
@@ -2887,7 +2886,6 @@ document.addEventListener('DOMContentLoaded', function() {
    <!-- events Section
    ================================================== 
 	<section id="events">
-    <div class="section-watermark">SOAC</div>
 		<div class="row section-intro">
    		<div class="col-twelve with-bottom-line scroll-reveal">
    			<h5>Events</h5><br/>
@@ -2988,7 +2986,7 @@ document.addEventListener('DOMContentLoaded', function() {
                	<div class="member-author member-clickable" data-member="mohammed">
                     	<img src="members/mohammedosama.png" alt="Vice-President image" style="width: 150px;height: 150px; border-radius: 10%; object-fit: cover;">
                     	<div class="author-info" style="color: #87ceeb;">
-                    		Mohammed Osama
+                    		Mohamed Osama
                     		<span style="color: white;">Vice-President</span>
                     	</div>
                   </div> 
@@ -3147,16 +3145,18 @@ document.addEventListener('DOMContentLoaded', function() {
 	      	<div class="col-six tab-full mob-full footer-info" style="text-align: left;">
 	            <div class="footer-logo"></div>
 	            <p>STEM October Astronomy Club<br>
-                Farouk Diab, Aly Al-Gendy, Mohammed Osama, Egypt<br>
-		        	astronomyclub.october@gmail.com <br/> +20 111 816 7723
+                Farouk Diab, Aly Al-Gendy, Mohamed Osama, Egypt<br>
+		        	info@soac.club <br/> +20 111 816 7723
 		        	</p>
 		      </div> <!-- /footer-info -->
 	      	<div class="col-six tab-full mob-full social-links" style="text-align: right;">
 	      		<ul>
                         <li><h4 style="color:#aaaaaa">Links</h4></li>
-				<li><a href="https://www.linkedin.com/company/stem-october-astronomy-club/">LinkedIn</a></li>
-				<li><a href="https://t.me/+gyrc6ocbBcw0MjA0">Telegram Channel</a></li>
-                        	<li><a href="https://whatsapp.com/channel/0029Vb6S6iQ2phHPPp4U1B32">ًWhatsapp Channel</a></li>
+						<li><a href="https://www.linkedin.com/company/stem-october-astronomy-club/">LinkedIn</a></li>
+                        <li><a href="https://whatsapp.com/channel/0029Vb6S6iQ2phHPPp4U1B32">ًWhatsapp Channel</a></li>
+                        <li><a href="https://t.me/+gyrc6ocbBcw0MjA0">Telegram Channel</a></li>
+                        <li><a href="https://www.instagram.com/soac_astro?igsh=MTFjOHY1ajBjZ3V4aQ==">Instagram Page</a></li>
+                        <li><a href="https://www.facebook.com/share/14KfU2FQT6B/">Facebook Page</a></li>
 					</ul>	      	           	
 	      	</div> <!-- /social -->
 	      </div> <!-- /row -->
@@ -3167,7 +3167,7 @@ document.addEventListener('DOMContentLoaded', function() {
            <div class="row">
                <div class="col-twelve">
                    <div class="copyright">
-                       <span>© Astronomy Club, SOAC</span>
+                       <span>© STEM October Astronomy Club, SOAC</span>
                        <span>Designed by: Tareq Khalil</span>
                    </div>
                    <div id="go-top" style="display: block;">
@@ -3206,7 +3206,7 @@ const memberData = {
         image: "members/farouk.jpg"
     },
     mohammed: {
-        name: "Mohammed Osama",
+        name: "Mohamed Osama",
         position: "Vice-President",
         bio: "I am Mohamed Osama, a 17-year-old student passionate about astronomy and math. This passion was demonstrated in achieving bronze medal in my school's math Olympiad and various medals in different competitions.",
         email: "mo7amedosama141@gmail.com",
@@ -3591,10 +3591,8 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
     
-    console.log('SOAC Website JavaScript loaded successfully! 🌟');
+    console.log('SOAC Website JavaScript loaded successfully! ðŸŒŸ');
 });
 </script>
 </body>
 </html>
-
-

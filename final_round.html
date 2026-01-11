@@ -1,0 +1,635 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cosmic Quest - Leaderboard</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #0a0e27;
+            color: #fff;
+            min-height: 100vh;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        /* Animated starfield background */
+        @keyframes twinkle {
+            0%, 100% { opacity: 0.3; }
+            50% { opacity: 1; }
+        }
+
+        @keyframes shooting-star {
+            0% {
+                transform: translateX(0) translateY(0);
+                opacity: 1;
+            }
+            100% {
+                transform: translateX(-1000px) translateY(500px);
+                opacity: 0;
+            }
+        }
+
+        .stars {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .star {
+            position: absolute;
+            background: white;
+            border-radius: 50%;
+            animation: twinkle 3s infinite;
+        }
+
+        .shooting-star {
+            position: absolute;
+            width: 2px;
+            height: 2px;
+            background: white;
+            border-radius: 50%;
+            box-shadow: 0 0 10px 2px rgba(255, 255, 255, 0.8);
+            animation: shooting-star 3s linear infinite;
+        }
+
+        header {
+            text-align: center;
+            padding: 60px 20px 40px;
+            background: linear-gradient(135deg, #1a1f4d 0%, #0a0e27 100%);
+            border-bottom: 2px solid #4a5fd9;
+            position: relative;
+            z-index: 1;
+        }
+
+        h1 {
+            font-size: 3.5em;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 15px;
+            text-shadow: 0 0 30px rgba(102, 126, 234, 0.5);
+            animation: glow 2s ease-in-out infinite;
+        }
+
+        @keyframes glow {
+            0%, 100% { filter: drop-shadow(0 0 20px rgba(102, 126, 234, 0.5)); }
+            50% { filter: drop-shadow(0 0 30px rgba(102, 126, 234, 0.8)); }
+        }
+
+        .subtitle {
+            font-size: 1.3em;
+            color: #a0a8d9;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+        }
+
+        .stats-container {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            padding: 30px 20px;
+            flex-wrap: wrap;
+            position: relative;
+            z-index: 1;
+        }
+
+        .stat-card {
+            background: linear-gradient(135deg, #1e2551 0%, #141938 100%);
+            border: 2px solid #4a5fd9;
+            border-radius: 15px;
+            padding: 25px 40px;
+            min-width: 200px;
+            text-align: center;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .stat-card::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(45deg, transparent, rgba(102, 126, 234, 0.1), transparent);
+            transform: rotate(45deg);
+            animation: shimmer 3s infinite;
+        }
+
+        @keyframes shimmer {
+            0% { transform: translateX(-100%) translateY(-100%) rotate(45deg); }
+            100% { transform: translateX(100%) translateY(100%) rotate(45deg); }
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(102, 126, 234, 0.4);
+            border-color: #667eea;
+        }
+
+        .stat-label {
+            font-size: 0.9em;
+            color: #a0a8d9;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 10px;
+        }
+
+        .stat-value {
+            font-size: 2.5em;
+            font-weight: bold;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .leaderboard-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 40px 20px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .filters {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .filter-btn {
+            background: linear-gradient(135deg, #1e2551 0%, #141938 100%);
+            border: 2px solid #4a5fd9;
+            color: #fff;
+            padding: 12px 30px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 1em;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-weight: bold;
+        }
+
+        .filter-btn:hover {
+            background: linear-gradient(135deg, #4a5fd9 0%, #667eea 100%);
+            box-shadow: 0 5px 20px rgba(102, 126, 234, 0.5);
+            transform: translateY(-2px);
+        }
+
+        .filter-btn.active {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-color: #667eea;
+            box-shadow: 0 5px 20px rgba(102, 126, 234, 0.6);
+        }
+
+        .search-box {
+            width: 100%;
+            max-width: 500px;
+            margin: 0 auto 30px;
+            position: relative;
+        }
+
+        .search-box input {
+            width: 100%;
+            padding: 15px 50px 15px 20px;
+            background: linear-gradient(135deg, #1e2551 0%, #141938 100%);
+            border: 2px solid #4a5fd9;
+            border-radius: 30px;
+            color: #fff;
+            font-size: 1em;
+            outline: none;
+            transition: all 0.3s ease;
+        }
+
+        .search-box input:focus {
+            border-color: #667eea;
+            box-shadow: 0 0 20px rgba(102, 126, 234, 0.5);
+        }
+
+        .search-box input::placeholder {
+            color: #6b7299;
+        }
+
+        .search-icon {
+            position: absolute;
+            right: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #667eea;
+            font-size: 1.2em;
+        }
+
+        .leaderboard-table {
+            background: linear-gradient(135deg, #1e2551 0%, #141938 100%);
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+            border: 2px solid #4a5fd9;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        thead {
+            background: linear-gradient(135deg, #4a5fd9 0%, #667eea 100%);
+        }
+
+        th {
+            padding: 25px 20px;
+            font-size: 1.1em;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            font-weight: bold;
+            vertical-align: middle;
+        }
+
+        th.rank-col { 
+            width: 10%; 
+            text-align: center;
+            padding-left: 20px;
+            padding-right: 20px;
+        }
+        th.team-col { 
+            width: 65%;
+            text-align: left;
+            padding-left: 20px;
+        }
+        th.matches-col { 
+            width: 25%; 
+            text-align: center;
+            padding-right: 20px;
+        }
+        
+        td {
+            padding: 20px;
+            vertical-align: middle;
+        }
+        
+        td.rank { 
+            text-align: center;
+            width: 10%;
+            font-size: 1.3em;
+            font-weight: bold;
+            padding-left: 20px;
+            padding-right: 20px;
+        }
+        td.team { 
+            text-align: left;
+            width: 65%;
+            padding-left: 20px;
+        }
+        td.matches { 
+            text-align: center;
+            width: 25%;
+            font-size: 1.4em;
+            font-weight: bold;
+            color: #667eea;
+            padding-right: 20px;
+        }
+
+        tbody tr {
+            border-bottom: 1px solid #2a3166;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        tbody tr:first-child {
+            border-top: 2px solid #2a3166;
+        }
+
+        tbody tr::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 0;
+            height: 100%;
+            background: linear-gradient(90deg, rgba(102, 126, 234, 0.1), transparent);
+            transition: width 0.3s ease;
+        }
+
+        tbody tr:hover::before {
+            width: 100%;
+        }
+
+        tbody tr:hover {
+            background: rgba(102, 126, 234, 0.05);
+            transform: scale(1.01);
+        }
+
+        .rank-1 { 
+            color: #ffd700;
+            text-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
+            font-size: 1.8em;
+        }
+        .rank-2 { 
+            color: #c0c0c0;
+            text-shadow: 0 0 10px rgba(192, 192, 192, 0.5);
+            font-size: 1.6em;
+        }
+        .rank-3 { 
+            color: #cd7f32;
+            text-shadow: 0 0 10px rgba(205, 127, 50, 0.5);
+            font-size: 1.5em;
+        }
+
+        .team-info {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .team-avatar {
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5em;
+            font-weight: bold;
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+        }
+
+        .team-name {
+            font-weight: bold;
+            font-size: 1.1em;
+        }
+
+        footer {
+            text-align: center;
+            padding: 40px 20px;
+            color: #6b7299;
+            position: relative;
+            z-index: 1;
+            margin-top: 60px;
+            border-top: 1px solid #2a3166;
+        }
+
+        .trophy-animation {
+            font-size: 3em;
+            animation: float 3s ease-in-out infinite;
+            margin: 20px 0;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            h1 { font-size: 2em; }
+            .subtitle { font-size: 1em; }
+            .stats-container { gap: 15px; }
+            .stat-card { min-width: 150px; padding: 20px; }
+            .stat-value { font-size: 2em; }
+            th, td { padding: 12px 8px; font-size: 0.9em; }
+            .team-avatar { width: 40px; height: 40px; }
+            .team-name { font-size: 1em; }
+        }
+    </style>
+</head>
+<body>
+    <div class="stars" id="starfield"></div>
+
+    <header>
+        <div class="trophy-animation"></div>
+        <h1>COSMIC QUEST</h1>
+        <p class="subtitle">Leaderboard Rankings</p>
+    </header>
+
+    <div class="stats-container">
+        <div class="stat-card">
+            <div class="stat-label">Total Teams</div>
+            <div class="stat-value" id="totalTeams">32</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-label">Total Matches</div>
+            <div class="stat-value">31</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-label">Champion</div>
+            <div class="stat-value" style="font-size: 1.5em;">The Bears</div>
+        </div>
+    </div>
+
+    <div class="leaderboard-container">
+        <div class="search-box">
+            <input type="text" id="searchInput" placeholder="Search teams...">
+            <span class="search-icon">🔍</span>
+        </div>
+
+        <div class="filters">
+            <button class="filter-btn active" data-filter="all">All Teams</button>
+            <button class="filter-btn" data-filter="top10">Top 10</button>
+            <button class="filter-btn" data-filter="top5">Top 5</button>
+        </div>
+
+        <div class="leaderboard-table">
+            <table>
+                <thead>
+                    <tr>
+                        <th class="rank-col">Rank</th>
+                        <th class="team-col">Team</th>
+                        <th class="matches-col">Matches Won</th>
+                    </tr>
+                </thead>
+                <tbody id="leaderboardBody">
+                    <!-- Will be populated by JavaScript -->
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <footer>
+        <p>May the cosmos guide the worthy</p>
+        <p style="margin-top: 10px; font-size: 0.9em;">Tournament Season 2025</p>
+    </footer>
+
+    <script>
+        // Tournament data - calculating matches won from the matches array
+        const teams = [
+            { name: "Gargantua", matches: [12, 15, 15, 1, 13] },
+            { name: "The Bears", matches: [1, 5, 20, 15, 10] },
+            { name: "Sabtheke Boroloks", matches: [17, 49, 20] },
+            { name: "Alioth", matches: [15, 4, 17] },
+            { name: "Astroknigts", matches: [20, 20] },
+            { name: "Matrix", matches: [11, 18] },
+            { name: "XX", matches: [10, 10] },
+            { name: "AstroForge", matches: [5, 5] },
+            { name: "Astroguy", matches: [4] },
+            { name: "OVERLAND ASTRONOMY", matches: [3] },
+            { name: "Astropheria", matches: [5] },
+            { name: "The MilkyWay Explorers", matches: [2] },
+            { name: "Kellem Center", matches: [1] },
+            { name: "Astrotopia Founders", matches: [1] },
+            { name: "Treza talaat", matches: [0] },
+            { name: "Cosmo Squad", matches: [0] },
+            { name: "Space Rats", matches: [] },
+            { name: "Cosmic Quartet", matches: [] },
+            { name: "Biologinooo", matches: [] },
+            { name: "Maria", matches: [] },
+            { name: "M", matches: [] },
+            { name: "Future Pioneers", matches: [] },
+            { name: "The Cosmos Explorers", matches: [0] },
+            { name: "Orbitra", matches: [] },
+            { name: "Leo?", matches: [] },
+            { name: "Platonic", matches: [] },
+            { name: "Passenger", matches: [] },
+            { name: "Luo 17", matches: [] },
+            { name: "Joy", matches: [] },
+            { name: "Celestial Sparks Junior", matches: [] },
+            { name: "The Nebular Force", matches: [] },
+            { name: "JMH 3", matches: [] }
+        ];
+
+        // Calculate matches won (count non-zero matches)
+        teams.forEach(team => {
+            team.matchesWon = team.matches.filter(m => m > 0).length;
+        });
+
+        // Sort teams by matches won (descending), then by total score as tiebreaker
+        teams.forEach(team => {
+            team.totalScore = team.matches.reduce((sum, m) => sum + m, 0);
+        });
+        
+        teams.sort((a, b) => {
+            if (b.matchesWon !== a.matchesWon) {
+                return b.matchesWon - a.matchesWon;
+            }
+            return b.totalScore - a.totalScore;
+        });
+
+        // Generate starfield
+        const starfield = document.getElementById('starfield');
+        for (let i = 0; i < 200; i++) {
+            const star = document.createElement('div');
+            star.className = 'star';
+            star.style.width = Math.random() * 3 + 'px';
+            star.style.height = star.style.width;
+            star.style.left = Math.random() * 100 + '%';
+            star.style.top = Math.random() * 100 + '%';
+            star.style.animationDelay = Math.random() * 3 + 's';
+            starfield.appendChild(star);
+        }
+
+        // Add shooting stars
+        for (let i = 0; i < 3; i++) {
+            const shootingStar = document.createElement('div');
+            shootingStar.className = 'shooting-star';
+            shootingStar.style.left = Math.random() * 100 + '%';
+            shootingStar.style.top = Math.random() * 50 + '%';
+            shootingStar.style.animationDelay = Math.random() * 5 + 's';
+            shootingStar.style.animationDuration = (2 + Math.random() * 2) + 's';
+            starfield.appendChild(shootingStar);
+        }
+
+        // Get team initials for avatar
+        function getInitials(name) {
+            const words = name.split(' ');
+            if (words.length >= 2) {
+                return words[0][0] + words[1][0];
+            }
+            return name.substring(0, 2).toUpperCase();
+        }
+
+        // Render leaderboard
+        function renderLeaderboard(filteredTeams = teams) {
+            const tbody = document.getElementById('leaderboardBody');
+            tbody.innerHTML = '';
+
+            filteredTeams.forEach((team, index) => {
+                const rank = teams.indexOf(team) + 1;
+                const tr = document.createElement('tr');
+                
+                let rankDisplay = rank;
+                let medalClass = '';
+                if (rank === 1) {
+                    rankDisplay = '🥇';
+                    medalClass = 'rank-1';
+                } else if (rank === 2) {
+                    rankDisplay = '🥈';
+                    medalClass = 'rank-2';
+                } else if (rank === 3) {
+                    rankDisplay = '🥉';
+                    medalClass = 'rank-3';
+                }
+
+                tr.innerHTML = `
+                    <td class="rank ${medalClass}">${rankDisplay}</td>
+                    <td class="team">
+                        <div class="team-info">
+                            <div class="team-avatar">${getInitials(team.name)}</div>
+                            <span class="team-name">${team.name}</span>
+                        </div>
+                    </td>
+                    <td class="matches">${team.matchesWon}</td>
+                `;
+                
+                tbody.appendChild(tr);
+            });
+        }
+
+        // Filter functionality
+        const filterBtns = document.querySelectorAll('.filter-btn');
+        filterBtns.forEach(btn => {
+            btn.addEventListener('click', function() {
+                filterBtns.forEach(b => b.classList.remove('active'));
+                this.classList.add('active');
+                
+                const filter = this.dataset.filter;
+                let filtered = teams;
+                
+                if (filter === 'top10') {
+                    filtered = teams.slice(0, 10);
+                } else if (filter === 'top5') {
+                    filtered = teams.slice(0, 5);
+                }
+                
+                renderLeaderboard(filtered);
+            });
+        });
+
+        // Search functionality
+        const searchInput = document.getElementById('searchInput');
+        searchInput.addEventListener('input', function() {
+            const searchTerm = this.value.toLowerCase();
+            const filtered = teams.filter(team => 
+                team.name.toLowerCase().includes(searchTerm)
+            );
+            renderLeaderboard(filtered);
+        });
+
+        // Update stats
+        const totalMatches = teams.reduce((sum, team) => sum + team.matches.length, 0);
+        document.getElementById('totalTeams').textContent = teams.length;
+        document.getElementById('totalMatches').textContent = totalMatches;
+
+        // Initial render
+        renderLeaderboard();
+    </script>
+</body>
+</html>

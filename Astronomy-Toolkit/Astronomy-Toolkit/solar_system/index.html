@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<htm>
+  <head>
+    <title>Solar System</title>
+    <link rel="stylesheet" type="text/css" href="../res/threeStylesheet.css" />
+  </head>
+  <body>
+    <script src = "../lib/three.js/three.min.js"></script>
+    <script src = "../lib/randomColor.js"></script>
+    <script src = "../lib/jquery-2.1.4.js"></script>
+    <script src = "../lib/dat.gui.min.js"></script>
+    <script src = "../lib/Utils.js"></script>
+    <script src = "../lib/three.js/TrackballControls.js"></script>
+    <script src = "../lib/three.js/Projector.js"></script>
+
+
+    <script src = "CelestialBody.js"></script>
+    <script src = "CelestialBodySprite.js"></script>
+    <script src = "main.js"></script>
+    <script src = "Orbit.js"></script>
+    <script src = "selectBody.js"></script>
+    <script src = "input.js"></script>
+
+    <div id = "bellowAbout">
+      <div id = "error">
+        <h1>Error! There seems to be a problem :/</h1>
+        <h2>Please <a href = "http://www.wikihow.com/Update-Your-Video-Card-Drivers-on-Windows-7">upgrade your video card drivers </a>
+           or download the recommended browsers:</h2>
+        <a href = "https://www.google.com/chrome/browser/desktop/"><img src = "../res/logos/chrome.png"></a>
+        <a href = "https://www.mozilla.org/en-US/firefox/new/"><img src = "../res/logos/firefox.png"></a>
+      </div>
+
+
+      <div id = "guiContainer"></div>
+
+      <div id = "info">
+        <p>FPS: <span id="fps">00</span>fps</p>
+        <p>Date: <span id="date"></span></p>
+      </div>
+
+    </div>
+
+    <div id = "about">
+      <h1>THREE.js Solar System</h1>
+      <h2>How to use</h2>
+      <h3>Controls</h3>
+      <ul>
+        <li>Rotate - Left Click</li>
+        <li>Pan - Right Click</li>
+        <li>Zoom - Scroll or Middle Click</li>
+        <li>Fullscreen mode - F11</li>
+        <li>Increase Speed - Right Arrow</li>
+        <li>Decrease Speed - Left Arrow</li>
+
+      </ul>
+
+      <h3>Options</h3>
+      <ul>
+        <li>Speed - speed of the simulation in centuries/second</li>
+        <li>Pause/Start - pause or start the simulation</li>
+        <li>Show Belts - toogle asteroid belts</li>
+        <li>Show Skybox - toogle milky way skybox</li>
+        <li>Follow - select object to follow</li>
+        <li>Designation - name of the body you want to search in database(it can be an asteroid e.g. Ceres, Juno,
+           Pallas or a commet e.g. 1P/Halley, 67P/Churyumov–Gerasimenko, C/1995 O1)</li>
+        <li>Search - Start search</li>
+
+      </ul>
+
+      <h2>References and acknowledgements</h2>
+      <ul>
+        <li>Planet orbital elements from NASA's <a href = "http://ssd.jpl.nasa.gov/horizons.cgi">Horizon</a></li>
+        <li>Small Body orbital elements from <a href = "http://ssd.jpl.nasa.gov/?sb_elem">NASA's database</a></li>
+        <li>Milky Way skybox texture from ESO's <a href = "https://www.eso.org/public/images/eso0932a/">panorama</a></li>
+        <li>Rendered using <a href = "https://github.com/mrdoob/three.js/">THREE.js</a></li>
+        <li>Random colors generated using <a href = "https://github.com/davidmerfield/randomColor">randomColor</a></li>
+        <li><a href="https://github.com/jquery/jquery">JQuery</a></li>
+      </ul>
+
+      <a  href = "javascript:void(0)" onclick = "closeHelp();" id = "aboutClose">Close</a>
+    </div>
+
+  </body>
+</htm>

@@ -1,0 +1,507 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cosmo's Space Adventure</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Space+Mono:wght@400;700&display=swap');
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Space Mono', monospace;
+            background: linear-gradient(135deg, #0c0c0c 0%, #1a1a2e 50%, #16213e 100%);
+            min-height: 100vh;
+            overflow-x: hidden;
+            position: relative;
+            cursor: none; /* Hide default cursor */
+        }
+        
+        /* Custom Cursor */
+        .cursor {
+            position: fixed;
+            width: 20px;
+            height: 20px;
+            background: radial-gradient(circle, #00ffff 0%, #0066cc 70%, transparent 100%);
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 10000;
+            mix-blend-mode: screen;
+            transition: transform 0.1s ease;
+        }
+        
+        .cursor-trail {
+            position: fixed;
+            width: 8px;
+            height: 8px;
+            background: radial-gradient(circle, #00ffff 0%, transparent 70%);
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 9999;
+            opacity: 0.8;
+            animation: trailFade 0.8s ease-out forwards;
+        }
+        
+        @keyframes trailFade {
+            0% {
+                transform: scale(1);
+                opacity: 0.8;
+            }
+            100% {
+                transform: scale(0.3);
+                opacity: 0;
+            }
+        }
+        
+        .cosmic-particle {
+            position: fixed;
+            width: 4px;
+            height: 4px;
+            background: #fff;
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 9998;
+            animation: particleFloat 2s ease-out forwards;
+        }
+        
+        @keyframes particleFloat {
+            0% {
+                opacity: 1;
+                transform: scale(1) rotate(0deg);
+            }
+            100% {
+                opacity: 0;
+                transform: scale(0) rotate(360deg) translate(40px, -40px);
+            }
+        }
+        
+        /* Hover effects for interactive elements */
+        button:hover, a:hover {
+            cursor: none;
+        }
+        
+        .cursor.hover {
+            transform: scale(1.5);
+            background: radial-gradient(circle, #ff6b35 0%, #f7931e 70%, transparent 100%);
+        }
+        
+        /* Animated stars background */
+        .stars {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+        }
+        
+        .star {
+            position: absolute;
+            background: white;
+            border-radius: 50%;
+            animation: twinkle 3s infinite alternate;
+        }
+        
+        @keyframes twinkle {
+            0% { opacity: 0.3; transform: scale(0.8); }
+            100% { opacity: 1; transform: scale(1.2); }
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .scene {
+            background: rgba(0, 0, 0, 0.7);
+            border: 2px solid #00ffff;
+            border-radius: 15px;
+            padding: 40px;
+            margin: 20px 0;
+            min-height: 80vh;
+            display: none;
+            position: relative;
+            overflow: hidden;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 0 30px rgba(0, 255, 255, 0.3);
+        }
+        
+        .scene.active {
+            display: block;
+            animation: fadeIn 0.8s ease-in;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .scene-image {
+            width: 100%;
+            max-width: 600px;
+            height: 300px;
+            object-fit: cover;
+            border-radius: 10px;
+            margin: 0 auto 30px;
+            display: block;
+            border: 2px solid #00ffff;
+            box-shadow: 0 0 20px rgba(0, 255, 255, 0.5);
+        }
+        
+        .story-text {
+            color: #ffffff;
+            font-size: 18px;
+            line-height: 1.8;
+            margin-bottom: 40px;
+            text-align: center;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        
+        .typewriter {
+            border-right: 2px solid #00ffff;
+            animation: blink 1s infinite;
+        }
+        
+        @keyframes blink {
+            0%, 50% { border-color: transparent; }
+            51%, 100% { border-color: #00ffff; }
+        }
+        
+        .next-btn {
+            background: linear-gradient(45deg, #00ffff, #0066cc);
+            color: white;
+            border: none;
+            padding: 15px 40px;
+            font-size: 18px;
+            font-family: 'Orbitron', sans-serif;
+            font-weight: 700;
+            border-radius: 30px;
+            cursor: none;
+            transition: all 0.3s ease;
+            display: block;
+            margin: 20px auto;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            box-shadow: 0 5px 15px rgba(0, 255, 255, 0.4);
+            opacity: 0;
+            transform: translateY(20px);
+        }
+        
+        .next-btn.show {
+            opacity: 1;
+            transform: translateY(0);
+            transition: opacity 0.5s ease, transform 0.5s ease;
+        }
+        
+        .next-btn:hover {
+            background: linear-gradient(45deg, #00ccff, #0088ff);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(0, 255, 255, 0.6);
+        }
+        
+        .next-btn:active {
+            transform: translateY(0);
+        }
+        
+        .title {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 48px;
+            font-weight: 900;
+            color: #00ffff;
+            text-align: center;
+            margin-bottom: 30px;
+            text-shadow: 0 0 20px rgba(0, 255, 255, 0.8);
+            animation: glow 2s ease-in-out infinite alternate;
+        }
+        
+        @keyframes glow {
+            from { text-shadow: 0 0 20px rgba(0, 255, 255, 0.8); }
+            to { text-shadow: 0 0 30px rgba(0, 255, 255, 1), 0 0 40px rgba(0, 255, 255, 0.8); }
+        }
+        
+        .register-btn {
+            background: linear-gradient(45deg, #ff6b35, #f7931e);
+            color: white;
+            border: none;
+            padding: 20px 50px;
+            font-size: 20px;
+            font-family: 'Orbitron', sans-serif;
+            font-weight: 700;
+            border-radius: 35px;
+            cursor: none;
+            transition: all 0.3s ease;
+            display: block;
+            margin: 30px auto;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            text-decoration: none;
+            box-shadow: 0 8px 25px rgba(255, 107, 53, 0.4);
+            width:auto;
+        }
+        
+        .register-btn:hover {
+            background: linear-gradient(45deg, #ff8c42, #ffa500);
+            transform: translateY(-3px);
+            box-shadow: 0 12px 35px rgba(255, 107, 53, 0.6);
+        }
+        
+        .scene-1 { background-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><rect fill="%23000" width="100" height="100"/><circle fill="%23fff" cx="20" cy="30" r="1"/><circle fill="%23fff" cx="80" cy="20" r="1.5"/><circle fill="%23fff" cx="60" cy="70" r="1"/></svg>'); }
+        
+        /* Responsive design */
+        @media (max-width: 768px) {
+            body {
+                cursor: auto; /* Show default cursor on mobile */
+            }
+            
+            .cursor, .cursor-trail, .cosmic-particle {
+                display: none; /* Hide custom cursor on mobile */
+            }
+            
+            .container {
+                padding: 10px;
+            }
+            
+            .scene {
+                padding: 20px;
+                margin: 10px 0;
+            }
+            
+            .title {
+                font-size: 32px;
+            }
+            
+            .story-text {
+                font-size: 16px;
+            }
+            
+            .scene-image {
+                height: 200px;
+            }
+            
+            .next-btn, .register-btn {
+                padding: 12px 30px;
+                font-size: 16px;
+                cursor: pointer; /* Restore cursor on mobile */
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="cursor" id="cursor"></div>
+    <div class="stars" id="stars"></div>
+    
+    <div class="container">
+        <!-- Scene 1: Mission X -->
+        <div class="scene active" id="scene1">
+            <img src="https://hc-cdn.hel1.your-objectstorage.com/s/v3/d1afd00ee0bf8d198da80bbce10601467f0f9e6f_whatsapp_image_2025-09-26_at_23.25.15_4df17ac8.jpg" alt="Cosmo in his rocket" class="scene-image">
+            <div class="story-text" id="text1">
+                <span class="typewriter"></span>
+            </div>
+            <button class="next-btn" id="next1" onclick="showScene(2)">NEXT</button>
+        </div>
+        
+        <!-- Scene 2: Asteroid Hit -->
+        <div class="scene" id="scene2">
+            <img src="https://hc-cdn.hel1.your-objectstorage.com/s/v3/31c9262d6e1492c5ced37553dbd268af9da60077_whatsapp_image_2025-09-26_at_23.25.18_da70f69d.jpg" alt="Asteroid hitting rocket" class="scene-image">
+            <div class="story-text" id="text2">
+                <span class="typewriter"></span>
+            </div>
+            <button class="next-btn" id="next2" onclick="showScene(3)">NEXT</button>
+        </div>
+        
+        <!-- Scene 3: Analysis -->
+        <div class="scene" id="scene3">
+            <img src="https://hc-cdn.hel1.your-objectstorage.com/s/v3/8244b68d1ca890241df75226bf81bfab32999309_whatsapp_image_2025-09-26_at_23.25.23_20c1ccbb.jpg" alt="Mysterious planet surface" class="scene-image">
+            <div class="story-text" id="text3">
+                <span class="typewriter"></span>
+            </div>
+            <button class="next-btn" id="next3" onclick="showScene(4)">NEXT</button>
+        </div>
+        
+        <!-- Scene 4: Call to Action -->
+        <div class="scene" id="scene4">
+            <img src="https://www.hindustantimes.com/ht-img/img/2024/01/16/1600x900/Stargazing_guide_1705427342212_1705427372325.jpg" alt="Starry night sky" class="scene-image">
+            <div class="title">STAR GAZING NIGHT</div>
+            <div class="story-text" id="text4">
+                <span class="typewriter"></span>
+            </div>
+            <a href="https://docs.google.com/forms/d/e/1FAIpQLSfjc6lJIxUAsdqTHLIuqOlzSwyWGvBvAji2Kr7FukQRxI7zAg/viewform?usp=dialog" class="register-btn" target="_blank" id="registerBtn">
+                🚀 REGISTER TO HELP RESCUE COSMO 🚀
+            </a>
+        </div>
+    </div>
+
+    <script>
+        // Mouse cursor effect
+        const cursor = document.getElementById('cursor');
+        let mouseX = 0;
+        let mouseY = 0;
+        let trailArray = [];
+        
+        // Track mouse movement
+        document.addEventListener('mousemove', (e) => {
+            mouseX = e.clientX;
+            mouseY = e.clientY;
+            
+            // Update cursor position
+            cursor.style.left = mouseX - 10 + 'px';
+            cursor.style.top = mouseY - 10 + 'px';
+            
+            // Create trail effect
+            createTrail(mouseX, mouseY);
+            
+            // Create cosmic particles occasionally
+            if (Math.random() < 0.3) {
+                createCosmicParticle(mouseX, mouseY);
+            }
+        });
+        
+        // Create cursor trail
+        function createTrail(x, y) {
+            const trail = document.createElement('div');
+            trail.className = 'cursor-trail';
+            trail.style.left = (x - 4) + 'px';
+            trail.style.top = (y - 4) + 'px';
+            document.body.appendChild(trail);
+            
+            // Remove trail after animation
+            setTimeout(() => {
+                if (trail.parentNode) {
+                    trail.parentNode.removeChild(trail);
+                }
+            }, 800);
+        }
+        
+        // Create cosmic particles
+        function createCosmicParticle(x, y) {
+            const particle = document.createElement('div');
+            particle.className = 'cosmic-particle';
+            
+            // Random offset from cursor position
+            const offsetX = (Math.random() - 0.5) * 30;
+            const offsetY = (Math.random() - 0.5) * 30;
+            
+            particle.style.left = (x + offsetX) + 'px';
+            particle.style.top = (y + offsetY) + 'px';
+            
+            // Random colors for particles
+            const colors = ['#00ffff', '#ffffff', '#ff6b35', '#f7931e', '#0066cc'];
+            const randomColor = colors[Math.floor(Math.random() * colors.length)];
+            particle.style.background = randomColor;
+            particle.style.boxShadow = `0 0 6px ${randomColor}`;
+            
+            document.body.appendChild(particle);
+            
+            // Remove particle after animation
+            setTimeout(() => {
+                if (particle.parentNode) {
+                    particle.parentNode.removeChild(particle);
+                }
+            }, 2000);
+        }
+        
+        // Hover effects for interactive elements
+        const interactiveElements = document.querySelectorAll('button, a, .scene-image');
+        
+        interactiveElements.forEach(element => {
+            element.addEventListener('mouseenter', () => {
+                cursor.classList.add('hover');
+            });
+            
+            element.addEventListener('mouseleave', () => {
+                cursor.classList.remove('hover');
+            });
+        });
+        
+        // Create animated stars
+        function createStars() {
+            const starsContainer = document.getElementById('stars');
+            const numberOfStars = 100;
+            
+            for (let i = 0; i < numberOfStars; i++) {
+                const star = document.createElement('div');
+                star.className = 'star';
+                star.style.left = Math.random() * 100 + '%';
+                star.style.top = Math.random() * 100 + '%';
+                star.style.width = star.style.height = Math.random() * 3 + 1 + 'px';
+                star.style.animationDelay = Math.random() * 3 + 's';
+                star.style.animationDuration = (Math.random() * 3 + 2) + 's';
+                starsContainer.appendChild(star);
+            }
+        }
+        
+        // Story texts for each scene
+        const storyTexts = {
+            1: "Meet Cosmo, a brave astronaut embarking on the most important mission of his career. The International Space Agency has assigned him Mission X - a classified operation that could change humanity's understanding of the cosmos forever. As his rocket soars through the vast emptiness of space, Cosmo feels the weight of responsibility on his shoulders. Little does he know, his greatest adventure is about to begin...",
+            
+            2: "IMPACT! Without warning, a massive asteroid collides with Cosmo's rocket, sending him spiraling through space. Alarms blare as his ship loses control, hurtling toward an unknown celestial body. Emergency systems activate, but it's too late - Cosmo crash-lands on a mysterious planet, his communication systems damaged and his location unknown to mission control. Alone and stranded, he must find a way to survive and signal for help...",
+            
+            3: "Using the remaining operational tools from his damaged spacecraft, Cosmo begins analyzing this strange new world. His scanners reveal unusual atmospheric compositions, peculiar mineral formations, and energy signatures unlike anything in Earth's databases. With determination, he compiles his findings and manages to send a weak transmission back to the International Space Agency. The data packet travels through the cosmos, carrying hope and crucial information about his whereabouts...",
+            
+            4: "Now it's your time to help the ISA find Cosmo! The International Space Agency has received his transmission and needs skilled volunteers to analyze the data and triangulate his position. Register below to join the search and rescue mission - every detail could be the key to bringing our hero home safely. The stars are calling, and Cosmo is counting on you!"
+        };
+        
+        let currentScene = 1;
+        
+        // Typewriter effect
+        function typeWriter(text, element, speed = 50) {
+            let i = 0;
+            element.innerHTML = '';
+            const timer = setInterval(() => {
+                if (i < text.length) {
+                    element.innerHTML += text.charAt(i);
+                    i++;
+                } else {
+                    clearInterval(timer);
+                    element.classList.remove('typewriter');
+                    showNextButton(currentScene);
+                }
+            }, speed);
+        }
+        
+        function showNextButton(sceneNum) {
+            const button = document.getElementById(`next${sceneNum}`) || document.getElementById('registerBtn');
+            if (button) {
+                setTimeout(() => {
+                    button.classList.add('show');
+                }, 500);
+            }
+        }
+        
+        function showScene(sceneNum) {
+            // Hide current scene
+            document.getElementById(`scene${currentScene}`).classList.remove('active');
+            
+            // Show new scene
+            setTimeout(() => {
+                currentScene = sceneNum;
+                const newScene = document.getElementById(`scene${sceneNum}`);
+                newScene.classList.add('active');
+                
+                // Start typewriter effect for the new scene
+                const textElement = document.getElementById(`text${sceneNum}`).querySelector('.typewriter');
+                typeWriter(storyTexts[sceneNum], textElement);
+            }, 300);
+        }
+        
+        // Initialize the page
+        document.addEventListener('DOMContentLoaded', function() {
+            createStars();
+            
+            // Start first scene typewriter effect
+            const firstTextElement = document.getElementById('text1').querySelector('.typewriter');
+            typeWriter(storyTexts[1], firstTextElement);
+        });
+    </script>
+</body>
+</html>

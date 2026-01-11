@@ -1,0 +1,1 @@
+<img width="150" height="100" src="{{ asset('/logo/TruWealth.png') }}" alt="Blogify Logo">

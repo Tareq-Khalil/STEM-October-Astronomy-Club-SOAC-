@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html>
+ <head>
+  <meta charset="utf-8"/>
+  <title>
+   Lunar Phase Simulator
+  </title>
+  <link crossorigin="anonymous" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" rel="stylesheet"/>
+  <style type="text/css">
+   body>.container {
+            width: 960px;
+        }
+        #sim-container {
+            -webkit-touch-callout: none;
+            -webkit-user-select: none;
+            -khtml-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+            width: 930px;
+        }
+
+        #CelestialSphere>canvas {
+            width: 228px;
+            height: 228px;
+        }
+        .increment-area button {
+            font-weight: bold;
+            width: 27px;
+        }
+  .MainView>canvas {
+      width: 600px;
+      height: 460px;
+  }
+  </style>
+ </head>
+ <body>
+  <div class="container">
+   <div id="sim-container">
+   </div>
+  </div>
+  <div aria-hidden="true" aria-labelledby="helpModalLabel" class="modal" id="helpModal" role="dialog" tabindex="-1">
+   <div class="modal-dialog" role="document">
+    <div class="modal-content">
+     <div class="modal-header">
+      <h5 class="modal-title" id="helpModalLabel">
+       Help
+      </h5>
+      <button aria-label="Close" class="close" data-dismiss="modal" type="button">
+       <span aria-hidden="true">
+        ×
+       </span>
+      </button>
+     </div>
+     <div class="modal-body">
+      <p>
+       This simulator demonstrates the
+                            correspondence between the moon's position
+                            in its orbit, its phase, and its position
+                            in an observer's sky at different times of
+                            day.
+      </p>
+      <p>
+       The upper left panel shows the orbit
+                            visualization. The moon can be dragged
+                            around to change its position, and the
+                            earth can be dragged around to change its
+                            rotation. You can also use the
+       <strong>
+        Animation and Time
+                            Controls
+       </strong>
+       panel to control the
+                            simulation.
+      </p>
+      <p>
+       The
+       <strong>
+        Moon Phase
+       </strong>
+       panel
+                            shows how the moon would appear from earth
+                            given the geometry shown in the
+                            visualization panel. The
+       <strong>
+        Horizon
+                            Diagram
+       </strong>
+       panel shows how the sky
+                            would appear for the stickfigure shown
+                            standing on the globe. Note that this
+                            horizon diagram assumes an observer in the
+                            mid-northern latitudes (e.g. the
+                            continental US).
+      </p>
+      <p>
+       Checking the
+       <strong>
+        show angle
+       </strong>
+       checkbox in the
+       <strong>
+        Diagram
+                            Options
+       </strong>
+       panel will show the
+                            elongation angle of the moon in the
+                            visualization panel as well as the horizon
+                            diagram. The lunar landmark option lets
+                            you see a reference point on the moon's
+                            near side, which also shows up in the
+       <strong>
+        Moon Phase
+       </strong>
+       panel. The
+                            time tickmarks show the time of day for
+                            various positions around the globe.
+      </p>
+      <p>
+       You may notice that the
+       <strong>
+        Moon
+                            Phase
+       </strong>
+       and
+       <strong>
+        Horizon
+                            Diagram
+       </strong>
+       panels have a
+       <strong>
+        show/hide
+       </strong>
+       button. This
+                            feature can be useful when using the
+                            simulator as a demonstration tool in the
+                            classroom. For answering questions in the
+                            student guide you will want to keep the
+                            panel contents shown.
+      </p>
+     </div>
+    </div>
+   </div>
+  </div>
+  <div aria-hidden="true" aria-labelledby="aboutModalLabel" class="modal" id="aboutModal" role="dialog" tabindex="-1">
+   <div class="modal-dialog" role="document">
+    <div class="modal-content">
+     <div class="modal-header">
+      <h5 class="modal-title" id="aboutModalLabel">
+       About
+      </h5>
+      <button aria-label="Close" class="close" data-dismiss="modal" type="button">
+       <span aria-hidden="true">
+        ×
+       </span>
+      </button>
+     </div>
+     <div class="modal-body">
+      <p class="sim-version">
+       lunar-phase-simulator 1.0.1 (build date: 2023-08-31)
+      </p>
+      <p>
+       See
+       <a href="https://github.com/ccnmtl/astro-interactives">
+        github.com/ccnmtl/astro-interactives
+       </a>
+       for more info.
+      </p>
+     </div>
+    </div>
+   </div>
+  </div>
+  <script crossorigin="anonymous" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" src="https://code.jquery.com/jquery-3.5.1.slim.min.js">
+  </script>
+  <script crossorigin="anonymous" integrity="sha384-Piv4xVNRyMGpqkS2by6br4gNJ7DXjqk09RmUpJ8jgGtD7zP9yug3goQfGII0yAns" src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js">
+  </script>
+  <script src="dist/bundle.js">
+  </script>
+ </body>
+</html>

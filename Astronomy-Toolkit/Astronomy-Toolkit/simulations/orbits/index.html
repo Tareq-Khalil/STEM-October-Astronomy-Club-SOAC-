@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0">
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+		<title>Orbits</title>
+		<style>
+		html,body {
+			height: 100%;
+			width: 100%;
+			border: 0;
+			margin:0;
+			padding: 0;
+		  box-sizing: border-box;
+		}
+		*, *:before, *:after {
+		  box-sizing: inherit;
+		}
+		#ham{
+			color:white;
+			widows:;
+		}
+		.overlay{
+			position: absolute;
+			left:10px;
+			font-size: 15pt;
+			font-family: "sans";
+			text-align: left;
+			z-index: 2;
+			color:#E1E1CE;
+			-webkit-touch-callout: none; /* iOS Safari */
+		  -webkit-user-select: none;   /* Chrome/Safari/Opera */
+		  -khtml-user-select: none;    /* Konqueror */
+		  -moz-user-select: none;      /* Firefox */
+		  -ms-user-select: none;       /* Internet Explorer/Edge */
+		  user-select: none; 
+		  cursor: default;
+		}
+		.overlay.menu{
+			top:10px;
+		}
+		.overlay.text{
+			left: 50px;
+			top:10px;
+		}
+		.overlay.text2{
+			left: 200px;
+			top:10px;
+		}
+		.overlay.text3{
+			left: 200px;
+			bottom: 10px;
+			text-align: center;
+			border-left: 3px solid white;
+			border-right: 3px solid white;
+			width: 100px;
+			height: 20px;
+		}
+		#menuitems{display: none;}
+		#canvas{
+			margin: 0;
+			padding: 0;
+			position: absolute;
+			background-color: black;
+			z-index: 1;
+		}
+		#speed{
+		}
+		</style>
+		<script>
+			$(document).ready(function(){
+		  	$('#menu').click(function(){
+		      $('#menuitems').toggle();
+	      });
+		  });
+		</script>
+		<script>
+		    window.addEventListener("load", function(){
+		      var query = new URLSearchParams(window.location.search)
+		      var elements = document.querySelectorAll('.overlay')
+		      
+		      if (query.get("hideui")) {
+		        elements.forEach(el => {
+		          el.style.cssText = "display:none;"
+		        })
+		      }
+		    });
+		</script>
+	</head>
+	<body id="body">
+
+	<div id="mass" class="overlay text">3e+24</div>
+	<div id="time" class="overlay text2">9 earthdays / second</div>
+	<!-- <div id="scale" class="overlay text3">1 AU</div> -->
+	<canvas id="canvas" width="800" height="800"></canvas>
+	<div class="overlay menu">
+		<img id="menu" src="assets/ham.svg">
+		<div id="menuitems">
+			<div>[Click and drag] - shoot planetary bodies</div>
+			<div>[0-9] - set shot body mass</div>
+			<div>[space] - spawn 2 new Suns</div>
+			<div>[b] - spawn blackhole on mouse</div>
+			<div>[+/-] - zoom map</div>
+			<div>[arrow keys] - move map</div>
+			<div>[p] - pause</div>
+			<div>r - reset state</div>
+			<br>
+			<div>speed - faster speed will make orbits less accurate</div>
+			<input type="range" id="speed" min="0.1" max="10" step="0.1" value="5" onChange="changespeed(this.value)"></input>
+			<div>fps</div>
+			<input type="number" value="45" onChange="changefps(this.value)"></input>
+		</div>
+	</div>
+	</body>
+	<script src="orbits.bundle.js"></script>
+</html>

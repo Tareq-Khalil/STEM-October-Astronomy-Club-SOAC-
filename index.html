@@ -1,23 +1,30 @@
-<!DOCTYPE html>
-<!--[if IE 8 ]><html class="no-js oldie ie8" lang="en"> <![endif]-->
-<!--[if IE 9 ]><html class="no-js oldie ie9" lang="en"> <![endif]-->
-<!--[if (gte IE 9)|!(IE)]><!--><html class="no-js" lang="en"> <!--<![endif]-->
 <head>
-   <!--- basic page needs
-   ================================================== -->
    <meta charset="utf-8">
-	<title>STEM October Astronomy Club (SOAC)</title>
-	<meta name="description" content="SOAC (STEM October Astronomy Club) is a student-led community of passionate high school astronomers. Explore space science through hands-on interactive activities, games, competitions, simulations, and free educational resources. Join our cosmic journey today!">
-	<meta name="author" content="Tareq Khalil">
-   <!-- mobile specific metas
-   ================================================== -->
-	<meta name="viewport" content="SOAC (STEM October Astronomy Club) is a student-led community of passionate high school astronomers. Explore space science through hands-on interactive activities, games, competitions, simulations, and free educational resources. Join our cosmic journey today!">
- 	<!-- CSS
-   ================================================== -->
+   <title>STEM October Astronomy Club (SOAC)</title>
+   <meta name="description" content="SOAC (STEM October Astronomy Club) is a student-led community of passionate high school astronomers. Explore space science through hands-on interactive activities, games, competitions, simulations, and free educational resources. Join our cosmic journey today!">
+   <meta name="author" content="Tareq Khalil">
+
+   <!-- Correct viewport -->
+   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+   <!-- Styles -->
    <link rel="stylesheet" href="css/base.css">
    <link rel="stylesheet" href="css/main.css">
    <link rel="stylesheet" href="css/vendor.css">
-   <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&display=swap" rel="stylesheet">
+   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&display=swap">
+   <!-- Favicon -->
+   <link rel="icon" href="https://www.soac.club/images/favicon.png" type="image/png">
+
+   <!-- Structured Data for Google -->
+   <script type="application/ld+json">
+   {
+     "@context": "https://schema.org",
+     "@type": "Organization",
+     "url": "https://soac.club/",
+     "logo": "https://www.soac.club/images/black.png"
+   }
+   </script>
+
    <style>
        .overlayevents {
            position: fixed;
@@ -427,8 +434,7 @@ section#footer .section-watermark {
    /* INTRO SECTION */
    #intro {
        position: relative;
-       background: linear-gradient(rgba(0, 0, 0, 0.7)), 
-                   url(images/intro-bg.jpg) center center;
+       background: url(images/intro-bg.jpg);
        background-repeat: no-repeat;
        background-size: cover;
        overflow: hidden;
@@ -2579,7 +2585,6 @@ if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
 	<script src="js/modernizr.js"></script>
    <!-- favicons
 	================================================== -->
-	<link rel="icon" type="image/png" href="./images/favicon.png">
 </head>
 <body id="top">
 	<!-- header 
@@ -2602,11 +2607,11 @@ if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
                 <!-- Unique Cosmic Sidebar Toggle -->
                 <li>
                     <button class="sidebar-toggle" type="button" aria-label="Open sidebar menu">
-                        <div class="cosmic-toggle">
-                            <div class="cosmic-line"></div>
-                            <div class="cosmic-line"></div>
-                            <div class="cosmic-line"></div>
-                        </div>
+                        <span class="cosmic-toggle">
+                            <span class="cosmic-line"></span>
+                            <span class="cosmic-line"></span>
+                            <span class="cosmic-line"></span>
+                        </span>
                     </button>
                 </li>
             </ul>
@@ -2619,11 +2624,13 @@ if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
    <div class="sidebar-overlay"></div>
    <div class="sidebar">
        <div class="sidebar-header">
-           <h3 class="sidebar-title" style="animation: ease-in-out infinite;">SOAC Menu</h3>
+           <h3 class="sidebar-title" style="animation: ease-in-out infinite;"><a href="soac.club" target="_blank" style="text-decoration: none;color: inherit;">SOAC Menu</a></h3>
            <button class="sidebar-close" aria-label="Close sidebar">&times;</button>
        </div>
        <ul class="sidebar-menu">
-           <a href="Astronomy-Toolkit-master/Astronomy-Toolkit-master/index.html" target="_blank"><li class="sidebar-category">Simulations</li></a>
+            <a href="about us.html" target="_blank"><li class="sidebar-category">Meet Us</li></a>
+           <a href="partners.html" target="_blank"><li class="sidebar-category">Partners</li></a>
+           <a href="Astronomy-Toolkit/Astronomy-Toolkit/index.html" target="_blank"><li class="sidebar-category">Simulations</li></a>
            <!--<li><a href="simulations/curved-spacetime-main/index.html">Curved Spacetime</a></li>
            <li><a href="simulations/orbits/index.html">Orbital Mechanics</a></li>
            <li><a href="simulations/black-hole/index.html">Black Hole Visualization</a></li>
@@ -2637,12 +2644,13 @@ if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
            
            <li class="sidebar-category">Competitions</li>
            <li><a href="cosmicquest.html" target="_blank">Cosmic Quest</a></li>
+           <li><a href="ambassador.html" target="_blank">Cosmic Quest Ambassador</a></li>
            <!--<li><a href="#astrophotography-contest">Astrophotography Contest</a></li>
            <li><a href="#rocket-design">Rocket Design Challenge</a></li>
            <li><a href="#space-quiz">Space Knowledge Quiz</a></li>-->
            
            <li class="sidebar-category">Games</li>
-           <li><a href="SpaceOdyssey-main/SpaceOdyssey-main/index.html" target="_blank">A Treasure Hunt</a></li>
+           <li><a href="SpaceOdyssey/SpaceOdyssey/index.html" target="_blank">A Treasure Hunt</a></li>
            <!--<li><a href="games/planet-explorer/index.html">Planet Explorer</a></li>
            <li><a href="games/space-mission/index.html">Space Mission Simulator</a></li>
            <li><a href="games/asteroid-dodge/index.html">Asteroid Dodge</a></li>-->
@@ -2654,9 +2662,9 @@ if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
        <div class="member-popup">
            <button class="member-popup-close">&times;</button>
            <div class="member-popup-content">
-               <img class="member-popup-image" id="memberPopupImage" src="" alt="Member Image">
+               <img class="member-popup-image" id="memberPopupImage" src="hi.png" alt="hi image">
                <h2 class="member-popup-name customizable-text" id="memberPopupName" 
-                   style="--custom-font-size: 1.8rem; --custom-color: #87ceeb; --custom-font: 'Orbitron', monospace;"></h2>
+                   style="--custom-font-size: 1.8rem; --custom-color: #87ceeb; --custom-font: 'Orbitron', monospace;">Name</h2>
                <p class="member-popup-position customizable-text" id="memberPopupPosition"
                   style="--custom-font-size: 1.1rem; --custom-color: rgba(135, 206, 235, 0.8); --custom-font: inherit;"></p>
                <p class="member-popup-bio customizable-text" id="memberPopupBio"
@@ -2706,10 +2714,9 @@ if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
    <section id="about">
     <div class="row section-intro">
         <div class="col-twelve with-bottom-line">
-            <h5 class="scale-in" style="color: #f0f0f0; font-weight: bold; font-size: larger; margin-top: 10px;">About Us</h5>
-            <br/>
-            <h2 class="h01 rotate-in" style="color: #87ceeb; text-align: center;">Exploring the Infinite Cosmos Together</h2>
-            <br/>
+            <br><h5 class="scale-in" style="color: #f0f0f0;  font-size: larger; margin-top: 10px;">About Us</h5><br>
+            <br><h2 class="h01 rotate-in" style="color: #87ceeb; text-align: center;">Exploring the Infinite Cosmos Together</h2>
+            <br>
             
             <div class="about-cosmic-grid">
                 <div class="about-content-card fade-in-left">
@@ -2781,13 +2788,13 @@ document.addEventListener('DOMContentLoaded', function() {
     <div class="row section-intro">
         <div class="col-twelve with-bottom-line">
             <h5 class="scale-in" style="color: white;">Curriculum</h5>
-            <br/>
+            <br>
             <h2 class="h01 rotate-in" style="color: #87ceeb; text-align: center;">Our Cosmic Learning Journey</h2>
-            <br/>
+            <br>
             <p class="lead fade-in-right" style="color: rgba(255, 255, 255, 0.9); text-align: center; font-size: 1.7rem;">
                 Through 25 interactive sessions, we guide club members through the fundamental areas of astronomy and astrophysics:
             </p>
-            <br/>
+            <br>
             
             <div class="curriculum-timeline">
                 <div class="timeline-line"></div>
@@ -2882,7 +2889,6 @@ document.addEventListener('DOMContentLoaded', function() {
     </div>
 </section>
 <!-- /curriculum-->
-   <!---->
    <!-- events Section
    ================================================== 
 	<section id="events">
@@ -2901,7 +2907,7 @@ document.addEventListener('DOMContentLoaded', function() {
 		            <p>Fate of humanity in yours Hand.
 	         		</p>
 	         	</div> 	         	 
-				</div> <!-- /bgrid 
+				</div> <! /bgrid 
 				<div class="bgrid feature scroll-reveal">	
 					<span class="icon"><br/><a href="#popup2"><img src="./images/astrohunt.png" style="height:30%; width:30%;"/></a></span>
 	            <div class="service-content">	
@@ -2909,7 +2915,7 @@ document.addEventListener('DOMContentLoaded', function() {
 		            <p>Solve the mysteries of Universe!
 	         		</p>
 	            </div>	                          
-			   </div> <!-- /bgrid 
+			   </div>  /bgrid 
 			   <div class="bgrid feature fade-in-right">
 			   	<span class="icon"><br/><a href="#popup3"><img src="./images/startrek.png" style="height:25%; width:25%;"/></a></span>
 	            <div class="service-content">
@@ -2917,14 +2923,14 @@ document.addEventListener('DOMContentLoaded', function() {
 		            <p>Voyage to different celestial bodies
 	        			</p> 
 	            </div> 	            	               
-			   </div> <!-- /bgrid --
+			   </div> <! /bgrid 
 			   <div class="bgrid feature fade-in-left">
 			   	<span class="icon"><br/><a href="#popup4"><img src="./images/sambharlake.png" style="height:34%; width:34%;"/></a></span>
 	            <div class="service-content">	
 	            	<h3 class="h05"><a href="#popup4">Sambhar Lake Trip</a></h3>
 		            <p>An extended version of Yuri's Night in an exciting trip.</p>
 	            </div>	               
-               </div> <!-- /bgrid --
+               </div> <! /bgrid 
                <div class="bgrid feature scroll-reveal">
                    <span class="icon"><br/><a href="#popup5"><img src="./images/yurisnight.png" style="height:30%; width:30%;"/></a></span>
                    <div class="service-content">
@@ -2932,7 +2938,7 @@ document.addEventListener('DOMContentLoaded', function() {
                        <p>Star shine in the Healing Darkness of the Midnight.
                        </p> 
                    </div>                
-               </div> <!-- /bgrid --
+               </div> <! /bgrid 
                <div class="bgrid feature fade-in-right">
 			   	<span class="icon"><br/><a href="#popup6"><img src="./images/presentation.png" style="height:30%; width:30%;"/></a></span>
 	            <div class="service-content">
@@ -2940,10 +2946,10 @@ document.addEventListener('DOMContentLoaded', function() {
 		            <p>Making new members familiar with Astronomy, in an innovative yet informative way.
 	        			</p> 
 	            </div>	               
-			   </div> <!-- /bgrid --
-	      </div> <!-- events-list --
-   	</div> <!-- events-content --
-    </section> <!-- /events -->
+			   </div> <! /bgrid
+	      </div> <! events-list 
+   	</div> <! events-content 
+    </section> events -->
 
     <!-- members Section
    ================================================== -->
@@ -2965,9 +2971,9 @@ document.addEventListener('DOMContentLoaded', function() {
     }
       ">SOAC</div>
    	<div class="row section-intro">
-        <h5 class="scale-in" style="color: #e2e2e2;">MEMBERS</h5><br/>
+        <h5 class="scale-in" style="color: #e2e2e2;">MEMBERS</h5><br>
    		<div class="col-twelve">
-   			<h2 class="scroll-reveal" style="color: #87ceeb;">Astronomy Club has a team of 30+ students who passionately handle all the club activities.</h2><h2 class="h01"/>
+   			<h2 class="scroll-reveal" style="color: #87ceeb;">Astronomy Club has a team of 30+ students who passionately handle all the club activities.</h2>
    		</div>   		
    	</div>   	
       <div class="row flex-container">
@@ -3004,7 +3010,7 @@ document.addEventListener('DOMContentLoaded', function() {
                    <div class="member-author member-clickable" data-member="webmaster">
                     <img src="members/tareqkhalil.jpg" alt="Web-Master image" style="width: 150px;height: 150px; border-radius: 10%; object-fit: cover;">
                            <div class="author-info" style="color: #87ceeb;">
-                               Tareq Khalil<br/><br/>
+                               <br>Tareq Khalil<br>
                                <span style="margin-top: 0px; color: white; font-size: 2rem;">Web Master</span>
                            </div>
                            </div>                  
@@ -3013,7 +3019,7 @@ document.addEventListener('DOMContentLoaded', function() {
                    <div class="member-author member-clickable" data-member="game_developer">
                     <img src="members/dsmans.png" alt="Game-Developer image" style="width: 150px;height: 150px; border-radius: 10%; object-fit: cover;">
                            <div class="author-info"  style="color: #87ceeb;">
-                               Mohammed Abdelaziz<br/><br/>
+                               <br>Mohammed Abdelaziz<br>
                                <span style="margin-top: 0px; color: white; font-size: 2rem;">Game Developer</span>
                            </div>
                            </div>                  
@@ -3022,8 +3028,8 @@ document.addEventListener('DOMContentLoaded', function() {
                    <div class="member-author" data-member="mentors">
                            <div class="author-info" style="color: #87ceeb;">
                                
-			                   <span style="color: white;">Academic Mentors</span><br/>
-                               Tareq Khalil<br>Loay Alaa<br/>Ahmed Awd<br>
+			                   <span style="color: white;">Academic Mentors</span><br>
+                               Tareq Khalil<br>Loay Alaa<br>Ahmed Awd<br>
                            </div>
                            </div>                  
                </li> <!-- /slide -->       
@@ -3038,7 +3044,7 @@ document.addEventListener('DOMContentLoaded', function() {
                                <span>Samyak Dutt Gupta</span>
                            </div>
                            </div>                  
-               </li> <!-- /slide --              
+               </li> <! /slide               
                <li>                   
                    <div class="member-author member-clickable" data-member="s26">
                            <div class="author-info">
@@ -3055,7 +3061,7 @@ document.addEventListener('DOMContentLoaded', function() {
                                <span>Tapish Gupta</span>
                            </div>
                            </div>                   
-               </li> <!-- /slide --            
+               </li> <! /slide             
                <li>                   
                    <div class="member-author member-clickable" data-member="s27">
                            <div class="author-info">
@@ -3063,8 +3069,8 @@ document.addEventListener('DOMContentLoaded', function() {
                                
                            </div>
                            </div>                  
-               </li> <!-- /slide -->               
-            </ul> <!-- /slides -->
+               </li> slide-->               
+            </ul> <!-- slides -->
          </div> <!-- /member-slider -->                 
       </div> <!-- /flex-container -->
    </section> <!-- /members -->
@@ -3146,14 +3152,14 @@ document.addEventListener('DOMContentLoaded', function() {
 	            <div class="footer-logo"></div>
 	            <p>STEM October Astronomy Club<br>
                 Farouk Diab, Aly Al-Gendy, Mohamed Osama, Egypt<br>
-		        	info@soac.club <br/> +20 111 816 7723
+		        	info@soac.club <br> +20 111 816 7723
 		        	</p>
 		      </div> <!-- /footer-info -->
 	      	<div class="col-six tab-full mob-full social-links" style="text-align: right;">
 	      		<ul>
                         <li><h4 style="color:#aaaaaa">Links</h4></li>
 						<li><a href="https://www.linkedin.com/company/stem-october-astronomy-club/">LinkedIn</a></li>
-                        <li><a href="https://whatsapp.com/channel/0029Vb6S6iQ2phHPPp4U1B32">ًWhatsapp Channel</a></li>
+                        <li><a href="https://whatsapp.com/channel/0029Vb6S6iQ2phHPPp4U1B32">Whatsapp Channel</a></li>
                         <li><a href="https://t.me/+gyrc6ocbBcw0MjA0">Telegram Channel</a></li>
                         <li><a href="https://www.instagram.com/soac_astro?igsh=MTFjOHY1ajBjZ3V4aQ==">Instagram Page</a></li>
                         <li><a href="https://www.facebook.com/share/14KfU2FQT6B/">Facebook Page</a></li>

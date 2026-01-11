@@ -1629,8 +1629,8 @@ background-color: white;
 	margin-left: -60px;
 }
 #members .flex-container {
-	width: 80%;
-	max-width: 800px;
+	width: 100%;
+	max-width: 1000px;
 	margin: 0 auto;
 }
 #member-slider {
@@ -1649,17 +1649,16 @@ background-color: white;
 	color: #c7c7c7;
 	font-size: 6rem;
 	line-height: 0;
-	vertical-align: bottom;
 	position: relative;
 	top: -1.2rem;
 }
 #member-slider p::before {
 	margin-right: .5rem;
-	content: '\201C';
+	content: '\202C';
 }
 #member-slider p::after {
 	margin-left: .5rem;
-	content: '\201D';
+	content: '\202D';
 }
 #member-slider .member-author img {
 	width: 10rem;

@@ -1,0 +1,645 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cosmic Quest - Tournament Bracket</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #0a0e27;
+            color: #fff;
+            overflow-x: auto;
+            position: relative;
+            min-height: 100vh;
+        }
+
+        @keyframes twinkle {
+            0%, 100% { opacity: 0.3; }
+            50% { opacity: 1; }
+        }
+
+        .stars {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .star {
+            position: absolute;
+            background: white;
+            border-radius: 50%;
+            animation: twinkle 3s infinite;
+        }
+
+        header {
+            text-align: center;
+            padding: 40px 20px;
+            background: linear-gradient(135deg, #1a1f4d 0%, #0a0e27 100%);
+            border-bottom: 2px solid #4a5fd9;
+            position: relative;
+            z-index: 1;
+        }
+
+        h1 {
+            font-size: 3em;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-shadow: 0 0 30px rgba(102, 126, 234, 0.5);
+            margin-bottom: 10px;
+        }
+
+        .subtitle {
+            font-size: 1.2em;
+            color: #a0a8d9;
+            letter-spacing: 2px;
+        }
+
+        .bracket-container {
+            padding: 60px 20px;
+            display: flex;
+            justify-content: center;
+            position: relative;
+            z-index: 1;
+            overflow-x: auto;
+        }
+
+        .bracket-svg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .connection-line {
+            stroke: #4a5fd9;
+            stroke-width: 2;
+            fill: none;
+            opacity: 0.6;
+        }
+
+        .bracket-wrapper {
+            display: inline-flex;
+            gap: 50px;
+            align-items: center;
+            min-width: fit-content;
+            position: relative;
+        }
+
+        .bracket-side {
+            display: flex;
+            gap: 50px;
+            align-items: center;
+        }
+
+        .round {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            min-height: 100%;
+            position: relative;
+        }
+
+        .round-title {
+            text-align: center;
+            font-size: 1.1em;
+            font-weight: bold;
+            margin-bottom: 30px;
+            color: #667eea;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .round-matches {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .matchup {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            position: relative;
+        }
+
+        .team {
+            background: linear-gradient(135deg, #1e2551 0%, #141938 100%);
+            padding: 12px 18px;
+            border-radius: 8px;
+            border: 2px solid #2a3166;
+            width: 200px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .team::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(102, 126, 234, 0.3), transparent);
+            transition: left 0.5s;
+        }
+
+        .team:hover::before {
+            left: 100%;
+        }
+
+        .team:hover {
+            border-color: #667eea;
+            box-shadow: 0 0 20px rgba(102, 126, 234, 0.5);
+            transform: scale(1.05);
+        }
+
+        .team.winner {
+            background: linear-gradient(135deg, #4a5fd9 0%, #667eea 100%);
+            border-color: #667eea;
+            box-shadow: 0 0 15px rgba(102, 126, 234, 0.6);
+            font-weight: bold;
+        }
+
+        .team.winner .team-score {
+            color: #ffd700;
+        }
+
+        .team.loser {
+            opacity: 0.5;
+            background: linear-gradient(135deg, #151836 0%, #0f1226 100%);
+        }
+
+        .team-name {
+            font-weight: bold;
+            font-size: 0.9em;
+        }
+
+        .team-score {
+            font-weight: bold;
+            font-size: 1.1em;
+            color: #667eea;
+            margin-left: 10px;
+        }
+
+        .team-score.dq {
+            color: #ff4757;
+            font-size: 0.9em;
+        }
+
+        .team-score.forfeit {
+            color: #a0a8d9;
+            font-size: 0.9em;
+        }
+
+        .round-1 .matchup {
+            margin: 12px 0;
+        }
+
+        .round-2 .matchup {
+            margin: 50px 0;
+        }
+
+        .round-3 .matchup {
+            margin: 125px 0;
+        }
+
+        .round-4 .matchup {
+            margin: 275px 0;
+        }
+
+        .finals-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 30px;
+            padding: 0 30px;
+        }
+
+        .trophy {
+            font-size: 3.5em;
+            animation: float 3s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-15px); }
+        }
+
+        .final-matchup {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            align-items: center;
+        }
+
+        .final-matchup .round-title {
+            font-size: 1.3em;
+            margin-bottom: 15px;
+        }
+
+        .champion-team {
+            background: linear-gradient(135deg, #ffd700 0%, #ffed4e 100%);
+            color: #0a0e27;
+            padding: 20px 30px;
+            border-radius: 12px;
+            font-size: 1.2em;
+            font-weight: bold;
+            box-shadow: 0 0 30px rgba(255, 215, 0, 0.6);
+            border: 3px solid #ffd700;
+            text-align: center;
+            min-width: 220px;
+        }
+
+        footer {
+            text-align: center;
+            padding: 30px;
+            color: #6b7299;
+            position: relative;
+            z-index: 1;
+        }
+    </style>
+</head>
+<body>
+    <div class="stars" id="starfield"></div>
+
+    <header>
+        <h1>COSMIC QUEST</h1>
+        <p class="subtitle">Tournament Bracket</p>
+    </header>
+
+    <div class="bracket-container">
+        <svg class="bracket-svg" id="connectionLines"></svg>
+        <div class="bracket-wrapper">
+            <!-- LEFT SIDE -->
+            <div class="bracket-side">
+                <!-- Round 1 Left -->
+                <div class="round round-1" data-round="1-left">
+                    <div class="round-title">Round of 32</div>
+                    <div class="round-matches">
+                        <div class="matchup" data-matchup="1">
+                            <div class="team winner" data-score="-"><span class="team-name">Astroguy</span><span class="team-score forfeit">-</span></div>
+                            <div class="team loser" data-score="DQ"><span class="team-name">Treza talaat</span><span class="team-score dq">DQ</span></div>
+                        </div>
+                        <div class="matchup" data-matchup="2">
+                            <div class="team winner" data-score="17"><span class="team-name">Sabtheke Boroloks</span><span class="team-score">17</span></div>
+                            <div class="team loser" data-score="3"><span class="team-name">Cosmo Squad</span><span class="team-score">3</span></div>
+                        </div>
+                        <div class="matchup" data-matchup="3">
+                            <div class="team loser" data-score="DQ"><span class="team-name">Space Rats</span><span class="team-score dq">DQ</span></div>
+                            <div class="team winner" data-score="-"><span class="team-name">XX</span><span class="team-score forfeit">-</span></div>
+                        </div>
+                        <div class="matchup" data-matchup="4">
+                            <div class="team loser" data-score="-"><span class="team-name">The Cosmos Explorers</span><span class="team-score forfeit">-</span></div>
+                            <div class="team loser" data-score="DQ"><span class="team-name">Cosmic Quartet</span><span class="team-score dq">DQ</span></div>
+                        </div>
+                        <div class="matchup" data-matchup="5">
+                            <div class="team winner" data-score="-"><span class="team-name">Astroknigts</span><span class="team-score forfeit">-</span></div>
+                            <div class="team loser" data-score="DQ"><span class="team-name">Biologinooo</span><span class="team-score dq">DQ</span></div>
+                        </div>
+                        <div class="matchup" data-matchup="6">
+                            <div class="team loser" data-score="DQ"><span class="team-name">Maria</span><span class="team-score dq">DQ</span></div>
+                            <div class="team winner" data-score="-"><span class="team-name">Astrotopia Founders</span><span class="team-score forfeit">-</span></div>
+                        </div>
+                        <div class="matchup" data-matchup="7">
+                            <div class="team winner" data-score="-"><span class="team-name">OVERLAND ASTRONOMY</span><span class="team-score forfeit">-</span></div>
+                            <div class="team loser" data-score="DQ"><span class="team-name">M</span><span class="team-score dq">DQ</span></div>
+                        </div>
+                        <div class="matchup" data-matchup="8">
+                            <div class="team winner" data-score="-"><span class="team-name">Gargantua</span><span class="team-score forfeit">-</span></div>
+                            <div class="team loser" data-score="DQ"><span class="team-name">Future Pioneers</span><span class="team-score dq">DQ</span></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Round 2 Left -->
+                <div class="round round-2" data-round="2-left">
+                    <div class="round-title">Round of 16</div>
+                    <div class="round-matches">
+                        <div class="matchup" data-matchup="9">
+                            <div class="team loser" data-score="43"><span class="team-name">Astroguy</span><span class="team-score">3</span></div>
+                            <div class="team winner" data-score="49"><span class="team-name">Sabtheke Boroloks</span><span class="team-score">17</span></div>
+                        </div>
+                        <div class="matchup" data-matchup="10">
+                            <div class="team winner" data-score="-"><span class="team-name">XX</span><span class="team-score forfeit">-</span></div>
+                            <div class="team loser" data-score="-"><span class="team-name">-</span><span class="team-score forfeit">-</span></div>
+                        </div>
+                        <div class="matchup" data-matchup="11">
+                            <div class="team winner" data-score="-"><span class="team-name">Astroknigts</span><span class="team-score forfeit">-</span></div>
+                            <div class="team loser" data-score="DQ"><span class="team-name">Astrotopia Founders</span><span class="team-score dq">DQ</span></div>
+                        </div>
+                        <div class="matchup" data-matchup="12">
+                            <div class="team loser" data-score="-"><span class="team-name">OVERLAND ASTRONOMY</span><span class="team-score forfeit">-</span></div>
+                            <div class="team winner" data-score="5"><span class="team-name">Gargantua</span><span class="team-score">5</span></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Quarter Finals Left -->
+                <div class="round round-3" data-round="3-left">
+                    <div class="round-title">Quarter Finals</div>
+                    <div class="round-matches">
+                        <div class="matchup" data-matchup="13">
+                            <div class="team winner" data-score="20"><span class="team-name">Sabtheke Boroloks</span><span class="team-score">20</span></div>
+                            <div class="team loser" data-score="0"><span class="team-name">XX</span><span class="team-score">0</span></div>
+                        </div>
+                        <div class="matchup" data-matchup="14">
+                            <div class="team loser" data-score="0"><span class="team-name">Astroknigts</span><span class="team-score">0</span></div>
+                            <div class="team winner" data-score="20"><span class="team-name">Gargantua</span><span class="team-score">20</span></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Semi Finals Left -->
+                <div class="round round-4" data-round="4-left">
+                    <div class="round-title">Semi Finals</div>
+                    <div class="round-matches">
+                        <div class="matchup" data-matchup="15">
+                            <div class="team loser" data-score="5"><span class="team-name">Sabtheke Boroloks</span><span class="team-score">5</span></div>
+                            <div class="team winner" data-score="15"><span class="team-name">Gargantua</span><span class="team-score">15</span></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- CENTER - FINALS -->
+            <div class="finals-container">
+                <div class="trophy">🏆</div>
+                
+                <div class="final-matchup">
+                    <div class="round-title">Final</div>
+                    <div class="matchup" data-matchup="17">
+                        <div class="team loser" data-score="10"><span class="team-name">Gargantua</span><span class="team-score">10</span></div>
+                        <div class="team winner" data-score="13"><span class="team-name">The Bears</span><span class="team-score">13</span></div>
+                    </div>
+                </div>
+
+                <div class="champion-team">
+                    <div> CHAMPION </div>
+                    <div class="team-name" style="margin-top: 10px;">The Bears</div>
+                </div>
+            </div>
+
+            <!-- RIGHT SIDE -->
+            <div class="bracket-side">
+                <!-- Semi Finals Right -->
+                <div class="round round-4" data-round="4-right">
+                    <div class="round-title">Semi Finals</div>
+                    <div class="round-matches">
+                        <div class="matchup" data-matchup="16">
+                            <div class="team loser" data-score="3"><span class="team-name">Alioth</span><span class="team-score">3</span></div>
+                            <div class="team winner" data-score="1"><span class="team-name">The Bears</span><span class="team-score">1</span></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Quarter Finals Right -->
+                <div class="round round-3" data-round="3-right">
+                    <div class="round-title">Quarter Finals</div>
+                    <div class="round-matches">
+                        <div class="matchup" data-matchup="18">
+                            <div class="team winner" data-score="17"><span class="team-name">Alioth</span><span class="team-score">17</span></div>
+                            <div class="team loser" data-score="3"><span class="team-name">Matrix</span><span class="team-score">3</span></div>
+                        </div>
+                        <div class="matchup" data-matchup="19">
+                            <div class="team winner" data-score="15"><span class="team-name">The Bears</span><span class="team-score">15</span></div>
+                            <div class="team loser" data-score="5"><span class="team-name">AstroForge</span><span class="team-score">5</span></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Round 2 Right -->
+                <div class="round round-2" data-round="2-right">
+                    <div class="round-title">Round of 16</div>
+                    <div class="round-matches">
+                        <div class="matchup" data-matchup="20">
+                            <div class="team loser" data-score="0"><span class="team-name">Kellem Center</span><span class="team-score">0</span></div>
+                            <div class="team winner" data-score="4"><span class="team-name">Alioth</span><span class="team-score">4</span></div>
+                        </div>
+                        <div class="matchup" data-matchup="21">
+                            <div class="team winner" data-score="18"><span class="team-name">Matrix</span><span class="team-score">18</span></div>
+                            <div class="team loser" data-score="2"><span class="team-name">The MilkyWay Explorers</span><span class="team-score">2</span></div>
+                        </div>
+                        <div class="matchup" data-matchup="22">
+                            <div class="team loser" data-score="4"><span class="team-name">Astropheria</span><span class="team-score">4</span></div>
+                            <div class="team winner" data-score="15"><span class="team-name">The Bears</span><span class="team-score">15</span></div>
+                        </div>
+                        <div class="matchup" data-matchup="23">
+                            <div class="team loser" data-score="-"><span class="team-name">-</span><span class="team-score forfeit">-</span></div>
+                            <div class="team winner" data-score="-"><span class="team-name">AstroForge</span><span class="team-score forfeit">-</span></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Round 1 Right -->
+                <div class="round round-1" data-round="1-right">
+                    <div class="round-title">Round of 32</div>
+                    <div class="round-matches">
+                        <div class="matchup" data-matchup="24">
+                            <div class="team winner" data-score="3"><span class="team-name">Kellem Center</span><span class="team-score">3</span></div>
+                            <div class="team loser" data-score="0"><span class="team-name">Orbitra</span><span class="team-score">0</span></div>
+                        </div>
+                        <div class="matchup" data-matchup="25">
+                            <div class="team loser" data-score="5"><span class="team-name">Leo?</span><span class="team-score">5</span></div>
+                            <div class="team winner" data-score="15"><span class="team-name">Alioth</span><span class="team-score">15</span></div>
+                        </div>
+                        <div class="matchup" data-matchup="26">
+                            <div class="team loser" data-score="9"><span class="team-name">Platonic</span><span class="team-score">9</span></div>
+                            <div class="team winner" data-score="11"><span class="team-name">Matrix</span><span class="team-score">11</span></div>
+                        </div>
+                        <div class="matchup" data-matchup="27">
+                            <div class="team winner" data-score="5"><span class="team-name">The MilkyWay Explorers</span><span class="team-score">5</span></div>
+                            <div class="team loser" data-score="-"><span class="team-name">Passenger</span><span class="team-score forfeit">-</span></div>
+                        </div>
+                        <div class="matchup" data-matchup="28">
+                            <div class="team winner" data-score="-"><span class="team-name">Astropheria</span><span class="team-score forfeit">-</span></div>
+                            <div class="team loser" data-score="DQ"><span class="team-name">Luo 17</span><span class="team-score dq">DQ</span></div>
+                        </div>
+                        <div class="matchup" data-matchup="29">
+                            <div class="team winner" data-score="12"><span class="team-name">The Bears</span><span class="team-score">12</span></div>
+                            <div class="team loser" data-score="8"><span class="team-name">Joy</span><span class="team-score">8</span></div>
+                        </div>
+                        <div class="matchup" data-matchup="30">
+                            <div class="team loser" data-score="DQ"><span class="team-name">Celestial Sparks Junior</span><span class="team-score dq">DQ</span></div>
+                            <div class="team loser" data-score="DQ"><span class="team-name">The Nebular Force</span><span class="team-score dq">DQ</span></div>
+                        </div>
+                        <div class="matchup" data-matchup="31">
+                            <div class="team winner" data-score="-"><span class="team-name">AstroForge</span><span class="team-score forfeit">-</span></div>
+                            <div class="team loser" data-score="DQ"><span class="team-name">JMH 3</span><span class="team-score dq">DQ</span></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <p> May the best team conquer the cosmos </p>
+    </footer>
+
+    <script>
+        // Create starfield
+        const starfield = document.getElementById('starfield');
+        for (let i = 0; i < 200; i++) {
+            const star = document.createElement('div');
+            star.className = 'star';
+            star.style.width = Math.random() * 3 + 'px';
+            star.style.height = star.style.width;
+            star.style.left = Math.random() * 100 + '%';
+            star.style.top = Math.random() * 100 + '%';
+            star.style.animationDelay = Math.random() * 3 + 's';
+            starfield.appendChild(star);
+        }
+
+        // Draw connection lines between rounds
+        function drawConnections() {
+            const svg = document.getElementById('connectionLines');
+            svg.innerHTML = '';
+            
+            // Handle left side (Round 1 -> Round 2 -> Round 3 -> Round 4)
+            drawLeftSideConnections(svg);
+            
+            // Handle right side (Round 1 -> Round 2 -> Round 3 -> Round 4)
+            drawRightSideConnections(svg);
+        }
+        
+        function drawLeftSideConnections(svg) {
+            const rounds = [
+                { selector: '[data-round="1-left"]', next: '[data-round="2-left"]' },
+                { selector: '[data-round="2-left"]', next: '[data-round="3-left"]' },
+                { selector: '[data-round="3-left"]', next: '[data-round="4-left"]' }
+            ];
+            
+            rounds.forEach(roundConfig => {
+                const currentRound = document.querySelector(roundConfig.selector);
+                const nextRound = document.querySelector(roundConfig.next);
+                
+                if (!currentRound || !nextRound) return;
+                
+                const matchups = currentRound.querySelectorAll('.matchup');
+                const nextMatchups = nextRound.querySelectorAll('.matchup');
+                
+                matchups.forEach((matchup, matchupIndex) => {
+                    const nextMatchupIndex = Math.floor(matchupIndex / 2);
+                    const nextMatchup = nextMatchups[nextMatchupIndex];
+                    
+                    if (nextMatchup) {
+                        const winner = matchup.querySelector('.team.winner');
+                        if (!winner) return;
+                        
+                        drawLine(svg, winner, nextMatchup, false);
+                    }
+                });
+            });
+        }
+        
+        function drawRightSideConnections(svg) {
+            const rounds = [
+                { selector: '[data-round="1-right"]', next: '[data-round="2-right"]' },
+                { selector: '[data-round="2-right"]', next: '[data-round="3-right"]' },
+                { selector: '[data-round="3-right"]', next: '[data-round="4-right"]' }
+            ];
+            
+            rounds.forEach(roundConfig => {
+                const currentRound = document.querySelector(roundConfig.selector);
+                const nextRound = document.querySelector(roundConfig.next);
+                
+                if (!currentRound || !nextRound) return;
+                
+                const matchups = currentRound.querySelectorAll('.matchup');
+                const nextMatchups = nextRound.querySelectorAll('.matchup');
+                
+                matchups.forEach((matchup, matchupIndex) => {
+                    const nextMatchupIndex = Math.floor(matchupIndex / 2);
+                    const nextMatchup = nextMatchups[nextMatchupIndex];
+                    
+                    if (nextMatchup) {
+                        const winner = matchup.querySelector('.team.winner');
+                        if (!winner) return;
+                        
+                        drawLine(svg, winner, nextMatchup, true);
+                    }
+                });
+            });
+        }
+        
+        function drawLine(svg, fromElement, toMatchup, isRightSide) {
+            const winnerRect = fromElement.getBoundingClientRect();
+            const containerRect = document.querySelector('.bracket-container').getBoundingClientRect();
+            const nextMatchupRect = toMatchup.getBoundingClientRect();
+            
+            let x1, y1, x2, y2;
+            
+            if (isRightSide) {
+                // Right side: lines go from left edge of winner to right edge of next matchup
+                x1 = winnerRect.left - containerRect.left;
+                y1 = winnerRect.top + winnerRect.height / 2 - containerRect.top;
+                x2 = nextMatchupRect.right - containerRect.left;
+                y2 = nextMatchupRect.top + nextMatchupRect.height / 2 - containerRect.top;
+            } else {
+                // Left side: lines go from right edge of winner to left edge of next matchup
+                x1 = winnerRect.right - containerRect.left;
+                y1 = winnerRect.top + winnerRect.height / 2 - containerRect.top;
+                x2 = nextMatchupRect.left - containerRect.left;
+                y2 = nextMatchupRect.top + nextMatchupRect.height / 2 - containerRect.top;
+            }
+            
+            const midX = (x1 + x2) / 2;
+            
+            const path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+            path.setAttribute('d', `M ${x1} ${y1} L ${midX} ${y1} L ${midX} ${y2} L ${x2} ${y2}`);
+            path.setAttribute('class', 'connection-line');
+            svg.appendChild(path);
+        }
+
+        // Initial draw
+        setTimeout(drawConnections, 100);
+        
+        // Redraw on window resize
+        window.addEventListener('resize', drawConnections);
+        
+        // Team selection functionality (for manual editing)
+        const teams = document.querySelectorAll('.team');
+        teams.forEach(team => {
+            team.addEventListener('click', function() {
+                const matchup = this.parentElement;
+                const teamsInMatchup = matchup.querySelectorAll('.team');
+                
+                teamsInMatchup.forEach(t => {
+                    t.classList.remove('winner', 'loser');
+                });
+                
+                this.classList.add('winner');
+                teamsInMatchup.forEach(t => {
+                    if (t !== this) {
+                        t.classList.add('loser');
+                    }
+                });
+                
+                // Redraw connections after selection
+                setTimeout(drawConnections, 50);
+            });
+        });
+    </script>
+</body>
+</html>

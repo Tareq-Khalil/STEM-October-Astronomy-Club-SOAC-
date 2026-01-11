@@ -1,0 +1,760 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cosmic Quest Ambassador Program</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Inter:wght@300;400;500;600&display=swap');
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        :root {
+            --nebula-purple: #4A154B;
+            --stellar-blue: #0B1426;
+            --cosmic-gold: #FFD700;
+            --starlight-white: #F8F8FF;
+            --galaxy-pink: #FF69B4;
+            --deep-space: #0A0A0A;
+            --aurora-green: #00FF7F;
+            --comet-tail: #87CEEB;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--deep-space);
+            min-height: 100vh;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        .cosmic-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                radial-gradient(ellipse at 20% 50%, #1a1a3e 0%, transparent 50%),
+                radial-gradient(ellipse at 80% 20%, #2d1b69 0%, transparent 50%),
+                radial-gradient(ellipse at 40% 80%, #0f3460 0%, transparent 50%),
+                linear-gradient(45deg, #0a0a0a, #1a1a2e, #16213e, #0f3460);
+            background-size: 800% 800%;
+            animation: nebulaFlow 30s ease infinite;
+            z-index: -4;
+        }
+
+        @keyframes nebulaFlow {
+            0%, 100% { background-position: 0% 50%; }
+            25% { background-position: 50% 0%; }
+            50% { background-position: 100% 50%; }
+            75% { background-position: 50% 100%; }
+        }
+
+        .star-field {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: -3;
+        }
+
+        .star {
+            position: absolute;
+            background: var(--starlight-white);
+            border-radius: 50%;
+            animation: twinkle 3s ease-in-out infinite;
+        }
+
+        .star.small {
+            width: 1px;
+            height: 1px;
+            box-shadow: 0 0 3px var(--starlight-white);
+        }
+
+        .star.medium {
+            width: 2px;
+            height: 2px;
+            box-shadow: 0 0 6px var(--cosmic-gold);
+        }
+
+        .star.large {
+            width: 3px;
+            height: 3px;
+            box-shadow: 0 0 10px var(--comet-tail);
+        }
+
+        @keyframes twinkle {
+            0%, 100% { opacity: 0.3; transform: scale(1); }
+            50% { opacity: 1; transform: scale(1.2); }
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 1;
+            padding: clamp(0.5rem, 2vw, 2rem);
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: clamp(2rem, 5vw, 4rem);
+            position: relative;
+            padding: clamp(3rem, 10vw, 6rem) 0;
+        }
+
+        .header::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: min(300px, 70vw);
+            height: min(300px, 70vw);
+            background: radial-gradient(circle, var(--nebula-purple) 0%, rgba(74, 21, 75, 0.3) 40%, transparent 80%);
+            border-radius: 50%;
+            animation: pulsarBeam 6s ease-in-out infinite;
+        }
+
+        @keyframes pulsarBeam {
+            0%, 100% { 
+                transform: translate(-50%, -50%) scale(1);
+                opacity: 0.3;
+            }
+            50% { 
+                transform: translate(-50%, -50%) scale(1.4);
+                opacity: 0.6;
+            }
+        }
+
+        .header h1 {
+            font-family: 'Orbitron', monospace;
+            font-size: clamp(2rem, 7vw, 4rem);
+            font-weight: 900;
+            background: linear-gradient(45deg, var(--cosmic-gold), var(--comet-tail), var(--galaxy-pink), var(--aurora-green));
+            background-size: 400% 400%;
+            background-clip: text;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 0 0 40px rgba(255, 215, 0, 0.5);
+            margin-bottom: clamp(1rem, 3vw, 2rem);
+            animation: stellarGlow 4s ease-in-out infinite, gradientShift 8s ease infinite;
+            position: relative;
+            z-index: 2;
+        }
+
+        @keyframes stellarGlow {
+            0%, 100% { filter: brightness(1) drop-shadow(0 0 20px rgba(255, 215, 0, 0.3)); }
+            50% { filter: brightness(1.5) drop-shadow(0 0 30px rgba(255, 215, 0, 0.6)); }
+        }
+
+        @keyframes gradientShift {
+            0%, 100% { background-position: 0% 50%; }
+            25% { background-position: 50% 0%; }
+            50% { background-position: 100% 50%; }
+            75% { background-position: 50% 100%; }
+        }
+
+        .header p {
+            font-size: clamp(1rem, 3vw, 1.2rem);
+            color: var(--starlight-white);
+            opacity: 0.95;
+            font-weight: 300;
+            letter-spacing: clamp(1px, 0.5vw, 2px);
+            position: relative;
+            z-index: 2;
+            text-shadow: 0 0 10px rgba(248, 248, 255, 0.5);
+            padding: 0 1rem;
+            line-height: 1.6;
+        }
+
+        .info-section {
+            background: rgba(11, 20, 38, 0.15);
+            backdrop-filter: blur(25px);
+            border: 2px solid rgba(0, 255, 127, 0.3);
+            border-radius: clamp(15px, 3vw, 30px);
+            padding: clamp(1.5rem, 4vw, 3rem);
+            margin-bottom: clamp(2rem, 4vw, 3rem);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .info-section::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: conic-gradient(
+                from 0deg,
+                transparent 0deg,
+                rgba(0, 255, 127, 0.1) 90deg,
+                transparent 180deg,
+                rgba(255, 215, 0, 0.1) 270deg,
+                transparent 360deg
+            );
+            animation: stellarRotation 20s linear infinite;
+            z-index: -1;
+        }
+
+        @keyframes stellarRotation {
+            100% { transform: rotate(360deg); }
+        }
+
+        .info-section h2 {
+            font-family: 'Orbitron', monospace;
+            color: var(--aurora-green);
+            font-size: clamp(1.5rem, 4vw, 2rem);
+            margin-bottom: clamp(1rem, 3vw, 1.5rem);
+            text-align: center;
+            text-shadow: 0 0 15px rgba(0, 255, 127, 0.5);
+        }
+
+        .info-section > p {
+            text-align: center; 
+            color: var(--starlight-white); 
+            margin-bottom: clamp(1.5rem, 4vw, 2rem); 
+            font-size: clamp(0.95rem, 2.5vw, 1.1rem);
+            line-height: 1.6;
+            padding: 0 clamp(0.5rem, 2vw, 1rem);
+        }
+
+        /* IMPROVED RESPONSIVE BENEFITS SECTION */
+        .benefits {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: clamp(1rem, 3vw, 2rem);
+            margin-top: clamp(1.5rem, 4vw, 2rem);
+            justify-items: center;
+            align-items: stretch;
+        }
+
+        .benefit-card {
+            background: rgba(11, 20, 38, 0.25);
+            border: 1px solid rgba(135, 206, 235, 0.3);
+            border-radius: clamp(12px, 2.5vw, 20px);
+            padding: clamp(1.25rem, 3vw, 2rem);
+            text-align: center;
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            width: 100%;
+            max-width: 350px;
+            min-height: 200px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .benefit-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(135, 206, 235, 0.1), transparent);
+            transition: left 0.6s ease;
+        }
+
+        .benefit-card:hover::before {
+            left: 100%;
+        }
+
+        .benefit-card:hover {
+            transform: translateY(-8px) scale(1.02);
+            border-color: var(--cosmic-gold);
+            box-shadow: 
+                0 15px 35px rgba(255, 215, 0, 0.25),
+                0 5px 15px rgba(0, 255, 127, 0.15);
+            background: rgba(11, 20, 38, 0.4);
+        }
+
+        .benefit-icon {
+            font-size: clamp(2rem, 5vw, 3rem);
+            margin-bottom: clamp(0.75rem, 2vw, 1.25rem);
+            display: block;
+            filter: drop-shadow(0 0 8px rgba(255, 215, 0, 0.3));
+            transition: all 0.3s ease;
+        }
+
+        .benefit-card:hover .benefit-icon {
+            transform: scale(1.1);
+            filter: drop-shadow(0 0 12px rgba(255, 215, 0, 0.5));
+        }
+
+        .benefit-card h3 {
+            color: var(--cosmic-gold);
+            font-size: clamp(1.1rem, 2.8vw, 1.3rem);
+            margin-bottom: clamp(0.5rem, 1.5vw, 0.75rem);
+            font-weight: 600;
+            font-family: 'Orbitron', monospace;
+            text-shadow: 0 0 8px rgba(255, 215, 0, 0.3);
+            transition: all 0.3s ease;
+        }
+
+        .benefit-card:hover h3 {
+            color: var(--aurora-green);
+            text-shadow: 0 0 12px rgba(0, 255, 127, 0.5);
+        }
+
+        .benefit-card p {
+            color: var(--starlight-white);
+            font-size: clamp(0.85rem, 2.2vw, 1rem);
+            line-height: 1.6;
+            opacity: 0.9;
+            transition: opacity 0.3s ease;
+            flex-grow: 1;
+            display: flex;
+            align-items: center;
+            text-align: center;
+        }
+
+        .benefit-card:hover p {
+            opacity: 1;
+        }
+
+        .form-container {
+            background: rgba(11, 20, 38, 0.15);
+            backdrop-filter: blur(25px);
+            border: 2px solid rgba(135, 206, 235, 0.2);
+            border-radius: clamp(15px, 3vw, 30px);
+            padding: clamp(1.5rem, 4vw, 4rem);
+            box-shadow: 
+                0 30px 60px rgba(0, 0, 0, 0.5),
+                inset 0 2px 0 rgba(248, 248, 255, 0.1),
+                0 0 100px rgba(135, 206, 235, 0.1);
+            position: relative;
+            overflow: hidden;
+            margin: 0 auto;
+            max-width: 600px;
+        }
+
+        .form-container::after {
+            content: '';
+            position: absolute;
+            inset: 3px;
+            background: rgba(10, 10, 10, 0.95);
+            border-radius: calc(clamp(15px, 3vw, 30px) - 3px);
+            z-index: -1;
+        }
+
+        .form-group {
+            margin-bottom: clamp(1.2rem, 3vw, 2rem);
+        }
+
+        label {
+            display: block;
+            margin-bottom: clamp(0.5rem, 2vw, 0.8rem);
+            font-weight: 600;
+            color: var(--starlight-white);
+            font-size: clamp(0.9rem, 2.5vw, 1rem);
+            letter-spacing: 0.8px;
+            text-shadow: 0 0 5px rgba(248, 248, 255, 0.2);
+        }
+
+        .required {
+            color: var(--galaxy-pink);
+            text-shadow: 0 0 8px var(--galaxy-pink);
+        }
+
+        input, textarea {
+            width: 100%;
+            padding: clamp(1rem, 3vw, 1.5rem) clamp(1.2rem, 3vw, 2rem);
+            background: rgba(11, 20, 38, 0.3);
+            border: 2px solid rgba(135, 206, 235, 0.3);
+            border-radius: clamp(8px, 2vw, 15px);
+            color: var(--starlight-white);
+            font-size: clamp(14px, 3vw, 16px);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            backdrop-filter: blur(10px);
+            min-height: 48px;
+            resize: vertical;
+        }
+
+        input::placeholder, textarea::placeholder {
+            color: rgba(248, 248, 255, 0.5);
+        }
+
+        input:focus, textarea:focus {
+            outline: none;
+            border-color: var(--cosmic-gold);
+            box-shadow: 
+                0 0 25px rgba(255, 215, 0, 0.4),
+                inset 0 2px 0 rgba(248, 248, 255, 0.1);
+            transform: translateY(-2px) scale(1.01);
+            background: rgba(11, 20, 38, 0.5);
+        }
+
+        .submit-btn {
+            background: linear-gradient(45deg, var(--aurora-green), var(--cosmic-gold), var(--comet-tail));
+            background-size: 300% 300%;
+            color: var(--deep-space);
+            border: none;
+            padding: clamp(1.2rem, 4vw, 2rem) clamp(2rem, 6vw, 4rem);
+            font-size: clamp(1rem, 3vw, 1.2rem);
+            font-weight: 900;
+            border-radius: clamp(20px, 4vw, 40px);
+            cursor: pointer;
+            transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            display: block;
+            margin: clamp(2rem, 5vw, 3rem) auto;
+            position: relative;
+            overflow: hidden;
+            letter-spacing: clamp(1px, 0.3vw, 2px);
+            font-family: 'Orbitron', monospace;
+            animation: ambassadorPulse 4s ease-in-out infinite;
+            box-shadow: 0 10px 30px rgba(0, 255, 127, 0.3);
+            width: 100%;
+            max-width: 350px;
+            min-height: 56px;
+        }
+
+        @keyframes ambassadorPulse {
+            0%, 100% { 
+                background-position: 0% 50%;
+                box-shadow: 0 10px 30px rgba(0, 255, 127, 0.3);
+            }
+            50% { 
+                background-position: 100% 50%;
+                box-shadow: 0 10px 30px rgba(255, 215, 0, 0.5);
+            }
+        }
+
+        .submit-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(248, 248, 255, 0.4), transparent);
+            transition: left 0.6s;
+        }
+
+        .submit-btn:hover::before {
+            left: 100%;
+        }
+
+        .submit-btn:hover {
+            transform: translateY(-5px) scale(1.05);
+            box-shadow: 0 20px 40px rgba(0, 255, 127, 0.5);
+        }
+
+        .loading {
+            display: none;
+            text-align: center;
+            padding: clamp(2rem, 5vw, 4rem);
+            color: var(--starlight-white);
+        }
+
+        .spinner {
+            width: clamp(50px, 10vw, 70px);
+            height: clamp(50px, 10vw, 70px);
+            border: 3px solid rgba(248, 248, 255, 0.1);
+            border-top: 3px solid var(--aurora-green);
+            border-radius: 50%;
+            animation: galaxySpin 1s linear infinite;
+            margin: 0 auto clamp(1rem, 3vw, 2rem);
+        }
+
+        @keyframes galaxySpin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .success-message {
+            display: none;
+            background: rgba(0, 255, 127, 0.05);
+            border: 2px solid rgba(0, 255, 127, 0.3);
+            backdrop-filter: blur(25px);
+            color: var(--starlight-white);
+            padding: clamp(2rem, 5vw, 4rem);
+            text-align: center;
+            border-radius: clamp(15px, 3vw, 25px);
+            margin: clamp(2rem, 5vw, 3rem) 0;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .success-message h3 {
+            font-family: 'Orbitron', monospace;
+            font-size: clamp(1.5rem, 4vw, 2.2rem);
+            margin-bottom: clamp(1.5rem, 4vw, 2rem);
+            background: linear-gradient(45deg, var(--aurora-green), var(--cosmic-gold));
+            background-clip: text;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .ambassador-id {
+            background: rgba(0, 255, 127, 0.1);
+            border: 1px solid rgba(0, 255, 127, 0.5);
+            border-radius: 10px;
+            padding: 1rem;
+            margin: 1rem 0;
+            font-family: 'Orbitron', monospace;
+            font-size: 1.1rem;
+            color: var(--aurora-green);
+            text-shadow: 0 0 10px rgba(0, 255, 127, 0.3);
+        }
+
+        /* RESPONSIVE BREAKPOINTS */
+        @media (max-width: 480px) {
+            .benefits {
+                grid-template-columns: 1fr;
+                gap: 1rem;
+            }
+            
+            .benefit-card {
+                min-height: 180px;
+                padding: 1rem;
+            }
+            
+            .container {
+                padding: 0.5rem;
+            }
+            
+            .form-container, .info-section {
+                margin: 0.5rem 0;
+                padding: 1rem;
+            }
+        }
+
+        @media (min-width: 481px) and (max-width: 768px) {
+            .benefits {
+                grid-template-columns: 1fr;
+                max-width: 400px;
+                margin-left: auto;
+                margin-right: auto;
+            }
+        }
+
+        @media (min-width: 769px) and (max-width: 1024px) {
+            .benefits {
+                grid-template-columns: repeat(2, 1fr);
+                justify-items: center;
+            }
+            
+            .benefit-card:nth-child(3) {
+                grid-column: 1 / -1;
+                max-width: 350px;
+                justify-self: center;
+            }
+        }
+
+        @media (min-width: 1025px) {
+            .benefits {
+                grid-template-columns: repeat(3, 1fr);
+                max-width: 1000px;
+                margin-left: auto;
+                margin-right: auto;
+            }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            .cosmic-bg, .star, .header h1, .submit-btn, .info-section::before,
+            .benefit-card, .benefit-icon {
+                animation: none;
+            }
+            
+            .benefit-card:hover {
+                transform: none;
+            }
+        }
+
+        /* HIGH DPI / RETINA DISPLAYS */
+        @media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
+            .star {
+                transform: translateZ(0);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="cosmic-bg"></div>
+    <div class="star-field" id="starField"></div>
+
+    <div class="container">
+        <div class="header">
+            <h1>AMBASSADOR PROGRAM</h1>
+            <p>Join the Elite Squad • Spread the Cosmic Mission • Earn Stellar Rewards</p>
+        </div>
+        <div class="info-section">
+            <h2>Ambassador Benefits</h2>
+            <p>Help us expand our cosmic community and earn amazing rewards!</p>
+            
+            <div class="benefits">
+                <div class="benefit-card">
+                    <span class="benefit-icon">🏆</span>
+                    <h3>Grand Prize</h3>
+                    <p>Top 3 ambassadors each win 1 AoPS coupons worth $25 total</p>
+                </div>
+                <div class="benefit-card">
+                    <span class="benefit-icon">📈</span>
+                    <h3>Track Progress</h3>
+                    <p>Real-time tracking of your referrals and leaderboard position</p>
+                </div>
+                <div class="benefit-card">
+                    <span class="benefit-icon">🌟</span>
+                    <h3>Recognition</h3>
+                    <p>Official ambassador status and special recognition</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-container">
+            <form id="ambassadorForm">
+                <div class="form-group">
+                    <label for="name">Full Name <span class="required">*</span></label>
+                    <input type="text" id="name" name="name" required placeholder="Enter your full name">
+                </div>
+                
+                <div class="form-group">
+                    <label for="email">Email Address <span class="required">*</span></label>
+                    <input type="email" id="email" name="email" required placeholder="your@email.com">
+                </div>
+                
+                <div class="form-group">
+                    <label for="phone">Phone Number<span class="required">*</span></label>
+                    <input type="tel" id="phone" name="phone" placeholder="+20 xxx xxx xxxx">
+                </div>
+                
+                <div class="form-group">
+                    <label for="schoolName">School/Institution<span class="required">*</span></label>
+                    <input type="text" id="schoolName" name="schoolName" placeholder="Your school or institution">
+                </div>
+                
+                <div class="form-group">
+                    <label for="motivation">Why do you want to be an ambassador?</label>
+                    <textarea id="motivation" name="motivation" rows="4" placeholder="Tell us what motivates you to spread the word about Cosmic Quest..."></textarea>
+                </div>
+
+                <button type="submit" class="submit-btn">BECOME AN AMBASSADOR</button>
+            </form>
+            
+            <div class="loading" id="loading">
+                <div class="spinner"></div>
+                <p>Processing your application...</p>
+            </div>
+            
+            <div class="success-message" id="successMessage">
+                <h3>MISSION ACCEPTED!</h3>
+                <p>Welcome to the Cosmic Quest Ambassador Program!</p>
+                <div class="ambassador-id">
+                    Your Ambassador ID: <span id="ambassadorId"></span>
+                </div>
+                <p>Share the registration link and ask people to select your name from the ambassador list when they register.</p>
+                <p><strong>Your referral link:</strong> <a href="register.html" style="color: var(--cosmic-gold);">Registration Form</a></p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function createStarField() {
+            const starField = document.getElementById('starField');
+            const starCount = window.innerWidth < 768 ? 50 : 100;
+            
+            for (let i = 0; i < starCount; i++) {
+                const star = document.createElement('div');
+                star.className = 'star';
+                
+                const size = Math.random();
+                if (size < 0.7) {
+                    star.classList.add('small');
+                } else if (size < 0.9) {
+                    star.classList.add('medium');
+                } else {
+                    star.classList.add('large');
+                }
+                
+                star.style.left = Math.random() * 100 + '%';
+                star.style.top = Math.random() * 100 + '%';
+                star.style.animationDelay = Math.random() * 3 + 's';
+                star.style.animationDuration = (Math.random() * 2 + 2) + 's';
+                
+                starField.appendChild(star);
+            }
+        }
+
+        createStarField();
+
+        document.getElementById('ambassadorForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            // Show loading
+            document.getElementById('loading').style.display = 'block';
+            document.querySelector('.submit-btn').disabled = true;
+            document.querySelector('.submit-btn').textContent = 'PROCESSING...';
+            
+            if (window.innerWidth < 768) {
+                document.getElementById('loading').scrollIntoView({ behavior: 'smooth' });
+            }
+            
+            const formData = new FormData(this);
+            const ambassadorData = {
+                name: formData.get('name'),
+                email: formData.get('email'),
+                phone: formData.get('phone'),
+                schoolName: formData.get('schoolName'),
+                motivation: formData.get('motivation')
+            };
+            
+            try {
+                const response = await fetch('register_ambassador.php', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(ambassadorData)
+                });
+                
+                await new Promise(resolve => setTimeout(resolve, 1500));
+                
+                if (response.ok) {
+                    const result = await response.json();
+                    
+                    document.getElementById('loading').style.display = 'none';
+                    document.getElementById('ambassadorForm').style.display = 'none';
+                    document.getElementById('ambassadorId').textContent = '#' + result.ambassador_id;
+                    document.getElementById('successMessage').style.display = 'block';
+                    
+                    document.getElementById('successMessage').scrollIntoView({ 
+                        behavior: 'smooth' 
+                    });
+                } else {
+                    throw new Error('Registration failed');
+                }
+                
+            } catch (error) {
+                document.getElementById('loading').style.display = 'none';
+                document.querySelector('.submit-btn').disabled = false;
+                document.querySelector('.submit-btn').textContent = 'BECOME AN AMBASSADOR';
+                
+                alert('Registration failed! Please try again.');
+                console.error('Error:', error);
+            }
+        });
+
+        // Form validation
+        document.querySelectorAll('input[required]').forEach(field => {
+            field.addEventListener('blur', function() {
+                if (!this.value) {
+                    this.style.borderColor = 'var(--galaxy-pink)';
+                } else {
+                    this.style.borderColor = 'var(--cosmic-gold)';
+                }
+            });
+        });
+    </script>
+</body>

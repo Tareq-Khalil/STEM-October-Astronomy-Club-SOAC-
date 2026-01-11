@@ -1,0 +1,522 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Panel - Cosmic Quest</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+
+        .nav-tabs {
+            display: flex;
+            background: #f8f9fa;
+            border-bottom: 2px solid #ddd;
+        }
+
+        .tab-btn {
+            flex: 1;
+            padding: 15px;
+            background: transparent;
+            border: none;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+
+        .tab-btn:hover {
+            background: #e9ecef;
+        }
+
+        .tab-btn.active {
+            background: white;
+            color: #667eea;
+            border-bottom: 3px solid #667eea;
+        }
+
+        .content {
+            padding: 30px;
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+            animation: fadeIn 0.3s;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #333;
+        }
+
+        .form-group input, .form-group select, .form-group textarea {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            font-size: 16px;
+        }
+
+        .form-group textarea {
+            min-height: 100px;
+            resize: vertical;
+        }
+
+        .btn {
+            padding: 12px 30px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+        }
+
+        .btn-danger {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+        }
+
+        .question-item {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            border: 2px solid #ddd;
+        }
+
+        .question-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .question-number {
+            font-weight: bold;
+            color: #667eea;
+            font-size: 1.2em;
+        }
+
+        .grid-2 {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+        }
+
+        .alert {
+            padding: 15px;
+            border-radius: 8px;
+            margin: 20px 0;
+        }
+
+        .alert-success {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+
+        .alert-error {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+
+        .question-list {
+            max-height: 600px;
+            overflow-y: auto;
+        }
+
+        .add-question-btn {
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1> Admin Panel</h1>
+            <p>Cosmic Quest Competition Management</p>
+        </div>
+
+        <div class="nav-tabs">
+            <button class="tab-btn active" onclick="showTab('questions')">Manage Questions</button>
+            <button class="tab-btn" onclick="showTab('teams')">View Teams</button>
+            <button class="tab-btn" onclick="showTab('bracket-mgmt')">Bracket Management</button>
+        </div>
+
+        <div class="content">
+            <!-- Questions Tab -->
+            <div id="questions-tab" class="tab-content active">
+                <h2>Manage Questions</h2>
+                
+                <div class="form-group">
+                    <label>Select Wave/Round</label>
+                    <select id="waveSelectQuestions" onchange="loadQuestions()">
+                        <option value="1">Round of 32 (Wave 1)</option>
+                        <option value="2">Round of 16 (Wave 2)</option>
+                        <option value="3">Quarter Finals (Wave 3)</option>
+                        <option value="4">Semi Finals (Wave 4)</option>
+                        <option value="5">Finals (Wave 5)</option>
+                    </select>
+                </div>
+
+                <button class="btn add-question-btn" onclick="addQuestionField()">+ Add Question</button>
+
+                <div id="questionsList" class="question-list">
+                    <!-- Questions will be loaded here -->
+                </div>
+
+                <button class="btn" onclick="saveQuestions()">Save All Questions</button>
+                <div id="questionsAlert"></div>
+            </div>
+
+            <!-- Teams Tab -->
+            <div id="teams-tab" class="tab-content">
+                <h2>Registered Teams</h2>
+                <div id="teamsList">
+                    <!-- Teams will be loaded here -->
+                </div>
+            </div>
+
+            <!-- Bracket Management Tab -->
+            <div id="bracket-mgmt-tab" class="tab-content">
+                <h2>Bracket Management</h2>
+                
+                <div class="form-group">
+                    <label>Current Active Wave</label>
+                    <select id="currentWaveSelect">
+                        <option value="1">Round of 32 (Wave 1)</option>
+                        <option value="2">Round of 16 (Wave 2)</option>
+                        <option value="3">Quarter Finals (Wave 3)</option>
+                        <option value="4">Semi Finals (Wave 4)</option>
+                        <option value="5">Finals (Wave 5)</option>
+                    </select>
+                </div>
+
+                <button class="btn" onclick="createNextRound()">Create Next Round Bracket</button>
+                
+                <div id="bracketAlert"></div>
+
+                <div style="margin-top: 30px;">
+                    <h3>Quick Actions</h3>
+                    <button class="btn" onclick="window.location.href='bracket.html'">View Tournament Bracket</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let questionCounter = 0;
+
+        window.onload = function() {
+            loadQuestions();
+            loadTeams();
+        };
+
+        function showTab(tabName) {
+            document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+            document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
+            
+            event.target.classList.add('active');
+            document.getElementById(tabName + '-tab').classList.add('active');
+        }
+
+        function addQuestionField() {
+            questionCounter++;
+            const questionsList = document.getElementById('questionsList');
+            const questionNumber = questionsList.children.length + 1;
+            
+            const questionHTML = `
+                <div class="question-item" id="question-${questionCounter}">
+                    <div class="question-header">
+                        <span class="question-number">Question ${questionNumber}</span>
+                        <button class="btn btn-danger" onclick="removeQuestion('question-${questionCounter}')">Remove</button>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Question Image URL (ImgBB Link)</label>
+                        <input type="url" class="question-image-url" placeholder="https://i.ibb.co/...">
+                    </div>
+                    
+                    <div class="grid-2">
+                        <div class="form-group">
+                            <label>Option A</label>
+                            <input type="text" class="option-a" placeholder="Enter option A">
+                        </div>
+                        <div class="form-group">
+                            <label>Option B</label>
+                            <input type="text" class="option-b" placeholder="Enter option B">
+                        </div>
+                        <div class="form-group">
+                            <label>Option C</label>
+                            <input type="text" class="option-c" placeholder="Enter option C">
+                        </div>
+                        <div class="form-group">
+                            <label>Option D</label>
+                            <input type="text" class="option-d" placeholder="Enter option D">
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Correct Answer</label>
+                        <select class="correct-answer">
+                            <option value="A">A</option>
+                            <option value="B">B</option>
+                            <option value="C">C</option>
+                            <option value="D">D</option>
+                        </select>
+                    </div>
+                </div>
+            `;
+            
+            questionsList.insertAdjacentHTML('beforeend', questionHTML);
+        }
+
+        function removeQuestion(questionId) {
+            document.getElementById(questionId).remove();
+            updateQuestionNumbers();
+        }
+
+        function updateQuestionNumbers() {
+            const questions = document.querySelectorAll('.question-item');
+            questions.forEach((q, index) => {
+                q.querySelector('.question-number').textContent = `Question ${index + 1}`;
+            });
+        }
+
+        async function saveQuestions() {
+            const waveId = document.getElementById('waveSelectQuestions').value;
+            const questionItems = document.querySelectorAll('.question-item');
+            
+            if (questionItems.length !== 20) {
+                showAlert('questionsAlert', 'You must add exactly 20 questions for each wave!', 'error');
+                return;
+            }
+            
+            const questions = [];
+            let isValid = true;
+            
+            questionItems.forEach((item, index) => {
+                const imageUrl = item.querySelector('.question-image-url').value;
+                const optionA = item.querySelector('.option-a').value;
+                const optionB = item.querySelector('.option-b').value;
+                const optionC = item.querySelector('.option-c').value;
+                const optionD = item.querySelector('.option-d').value;
+                const correctAnswer = item.querySelector('.correct-answer').value;
+                
+                if (!imageUrl || !optionA || !optionB || !optionC || !optionD) {
+                    isValid = false;
+                    return;
+                }
+                
+                questions.push({
+                    question_number: index + 1,
+                    image_url: imageUrl,
+                    option_a: optionA,
+                    option_b: optionB,
+                    option_c: optionC,
+                    option_d: optionD,
+                    correct_answer: correctAnswer
+                });
+            });
+            
+            if (!isValid) {
+                showAlert('questionsAlert', 'Please fill in all fields for all questions!', 'error');
+                return;
+            }
+            
+            try {
+                const response = await fetch('api/admin.php?action=add_questions', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        wave_id: waveId,
+                        questions: questions
+                    })
+                });
+                
+                const data = await response.json();
+                if (data.success) {
+                    showAlert('questionsAlert', 'Questions saved successfully!', 'success');
+                } else {
+                    showAlert('questionsAlert', data.error || 'Failed to save questions', 'error');
+                }
+            } catch (error) {
+                showAlert('questionsAlert', 'Error: ' + error.message, 'error');
+            }
+        }
+
+        async function loadQuestions() {
+            const waveId = document.getElementById('waveSelectQuestions').value;
+            
+            try {
+                const response = await fetch(`api/instructor.php?action=get_questions&wave_id=${waveId}`);
+                const data = await response.json();
+                
+                if (data.success && data.questions.length > 0) {
+                    document.getElementById('questionsList').innerHTML = '';
+                    data.questions.forEach(q => {
+                        displayExistingQuestion(q);
+                    });
+                } else {
+                    document.getElementById('questionsList').innerHTML = '<p style="text-align: center; padding: 20px; color: #999;">No questions added yet for this wave. Click "Add Question" to start.</p>';
+                }
+            } catch (error) {
+                console.error('Error loading questions:', error);
+            }
+        }
+
+        function displayExistingQuestion(question) {
+            questionCounter++;
+            const questionsList = document.getElementById('questionsList');
+            
+            const questionHTML = `
+                <div class="question-item" id="question-${questionCounter}">
+                    <div class="question-header">
+                        <span class="question-number">Question ${question.question_number}</span>
+                        <button class="btn btn-danger" onclick="removeQuestion('question-${questionCounter}')">Remove</button>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Question Image URL (ImgBB Link)</label>
+                        <input type="url" class="question-image-url" value="${question.question_image_url}">
+                    </div>
+                    
+                    <div class="grid-2">
+                        <div class="form-group">
+                            <label>Option A</label>
+                            <input type="text" class="option-a" value="${question.option_a}">
+                        </div>
+                        <div class="form-group">
+                            <label>Option B</label>
+                            <input type="text" class="option-b" value="${question.option_b}">
+                        </div>
+                        <div class="form-group">
+                            <label>Option C</label>
+                            <input type="text" class="option-c" value="${question.option_c}">
+                        </div>
+                        <div class="form-group">
+                            <label>Option D</label>
+                            <input type="text" class="option-d" value="${question.option_d}">
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Correct Answer</label>
+                        <select class="correct-answer">
+                            <option value="A" ${question.correct_answer === 'A' ? 'selected' : ''}>A</option>
+                            <option value="B" ${question.correct_answer === 'B' ? 'selected' : ''}>B</option>
+                            <option value="C" ${question.correct_answer === 'C' ? 'selected' : ''}>C</option>
+                            <option value="D" ${question.correct_answer === 'D' ? 'selected' : ''}>D</option>
+                        </select>
+                    </div>
+                </div>
+            `;
+            
+            questionsList.insertAdjacentHTML('beforeend', questionHTML);
+        }
+
+        async function loadTeams() {
+            try {
+                const response = await fetch('api/admin.php?action=get_teams');
+                const data = await response.json();
+                
+                if (data.success) {
+                    let html = '<table style="width: 100%; border-collapse: collapse;">';
+                    html += '<thead><tr style="background: #f8f9fa;"><th style="padding: 12px; border: 1px solid #ddd;">ID</th><th style="padding: 12px; border: 1px solid #ddd;">Team Name</th><th style="padding: 12px; border: 1px solid #ddd;">Team Code</th><th style="padding: 12px; border: 1px solid #ddd;">Status</th></tr></thead><tbody>';
+                    
+                    data.teams.forEach(team => {
+                        html += `<tr>
+                            <td style="padding: 12px; border: 1px solid #ddd; text-align: center;">${team.id}</td>
+                            <td style="padding: 12px; border: 1px solid #ddd;">${team.team_name}</td>
+                            <td style="padding: 12px; border: 1px solid #ddd; font-weight: bold;">${team.team_code}</td>
+                            <td style="padding: 12px; border: 1px solid #ddd; text-align: center;">${team.is_active ? '✓ Active' : '✗ Inactive'}</td>
+                        </tr>`;
+                    });
+                    
+                    html += '</tbody></table>';
+                    document.getElementById('teamsList').innerHTML = html;
+                }
+            } catch (error) {
+                console.error('Error loading teams:', error);
+            }
+        }
+
+        async function createNextRound() {
+            const currentWave = document.getElementById('currentWaveSelect').value;
+            
+            try {
+                const response = await fetch('api/admin.php?action=update_bracket', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ current_wave: parseInt(currentWave) })
+                });
+                
+                const data = await response.json();
+                if (data.success) {
+                    showAlert('bracketAlert', data.message, 'success');
+                } else {
+                    showAlert('bracketAlert', data.message || 'Failed to create next round', 'error');
+                }
+            } catch (error) {
+                showAlert('bracketAlert', 'Error: ' + error.message, 'error');
+            }
+        }
+
+        function showAlert(elementId, message, type) {
+            const alertEl = document.getElementById(elementId);
+            alertEl.className = `alert alert-${type}`;
+            alertEl.textContent = message;
+            alertEl.style.display = 'block';
+        }
+    </script>
+</body>
+</html>

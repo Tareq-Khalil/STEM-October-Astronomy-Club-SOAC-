@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cosmic Quest - Registration Closed</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #0a0e27 0%, #1a1a3e 50%, #2d1b4e 100%);
+            color: #fff;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .stars {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+        }
+
+        .star {
+            position: absolute;
+            background: white;
+            border-radius: 50%;
+            animation: twinkle 3s infinite;
+        }
+
+        @keyframes twinkle {
+            0%, 100% { opacity: 0.3; }
+            50% { opacity: 1; }
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-20px); }
+        }
+
+        .container {
+            text-align: center;
+            z-index: 10;
+            max-width: 800px;
+            width: 90%;
+            padding: 40px;
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+            animation: float 6s ease-in-out infinite;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 30px 20px;
+                width: 95%;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .container {
+                padding: 25px 15px;
+            }
+        }
+
+        .planet {
+            width: 150px;
+            height: 150px;
+            margin: 0 auto 30px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 50%;
+            position: relative;
+            box-shadow: 0 0 50px rgba(102, 126, 234, 0.5);
+            animation: rotate 20s linear infinite;
+        }
+
+        @media (max-width: 768px) {
+            .planet {
+                width: 120px;
+                height: 120px;
+                margin-bottom: 25px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .planet {
+                width: 100px;
+                height: 100px;
+                margin-bottom: 20px;
+            }
+        }
+
+        .planet::before {
+            content: '';
+            position: absolute;
+            width: 30px;
+            height: 30px;
+            background: rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            top: 30px;
+            left: 40px;
+        }
+
+        .planet::after {
+            content: '';
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 50%;
+            bottom: 40px;
+            right: 35px;
+        }
+
+        @keyframes rotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        h1 {
+            font-size: 3.5em;
+            margin-bottom: 20px;
+            background: linear-gradient(45deg, #667eea, #764ba2, #f093fb);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            font-weight: 700;
+            letter-spacing: 2px;
+        }
+
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2.5em;
+                letter-spacing: 1px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            h1 {
+                font-size: 2em;
+            }
+        }
+
+        .subtitle {
+            font-size: 1.3em;
+            color: #a0aec0;
+            margin-bottom: 30px;
+            font-weight: 300;
+        }
+
+        @media (max-width: 768px) {
+            .subtitle {
+                font-size: 1.1em;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .subtitle {
+                font-size: 1em;
+            }
+        }
+
+        .closed-badge {
+            display: inline-block;
+            background: rgba(239, 68, 68, 0.2);
+            border: 2px solid #ef4444;
+            color: #fca5a5;
+            padding: 15px 30px;
+            border-radius: 50px;
+            font-size: 1.2em;
+            font-weight: 600;
+            margin-bottom: 30px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        @media (max-width: 768px) {
+            .closed-badge {
+                font-size: 1em;
+                padding: 12px 25px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .closed-badge {
+                font-size: 0.9em;
+                padding: 10px 20px;
+            }
+        }
+
+        .message {
+            font-size: 1.2em;
+            line-height: 1.8;
+            color: #cbd5e0;
+            margin-bottom: 40px;
+        }
+
+        @media (max-width: 768px) {
+            .message {
+                font-size: 1.1em;
+                line-height: 1.7;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .message {
+                font-size: 1em;
+                line-height: 1.6;
+                margin-bottom: 30px;
+            }
+        }
+
+        .next-event {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 20px 40px;
+            border-radius: 50px;
+            font-size: 1.5em;
+            font-weight: 600;
+            display: inline-block;
+            margin-top: 20px;
+            box-shadow: 0 10px 30px rgba(102, 126, 234, 0.4);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        @media (max-width: 768px) {
+            .next-event {
+                font-size: 1.2em;
+                padding: 18px 35px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .next-event {
+                font-size: 1em;
+                padding: 15px 25px;
+                margin-top: 15px;
+            }
+        }
+
+        .next-event:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(102, 126, 234, 0.6);
+        }
+
+        .year {
+            color: #fbbf24;
+            font-size: 1.3em;
+            font-weight: 700;
+        }
+
+        @media (max-width: 768px) {
+            .year {
+                font-size: 1.2em;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .year {
+                font-size: 1.1em;
+                display: block;
+                margin-top: 5px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="stars" id="stars"></div>
+    
+    <div class="container">
+        <div class="planet"></div>
+        <h1>COSMIC QUEST</h1>
+        <p class="subtitle">Astronomy Competition</p>
+        
+        <div class="closed-badge">
+            ⭐ Registration Closed ⭐
+        </div>
+        
+        <p class="message">
+            Thank you for your interest in Cosmic Quest!<br>
+            Unfortunately, registration for this year's competition has closed.<br>
+            We hope to see you reach for the stars next year!
+        </p>
+        
+        <div class="next-event">
+            Try Again in <span class="year">COSMIC QUEST 2026</span> 🚀
+        </div>
+    </div>
+
+    <script>
+        // Create stars
+        const starsContainer = document.getElementById('stars');
+        for (let i = 0; i < 150; i++) {
+            const star = document.createElement('div');
+            star.className = 'star';
+            const size = Math.random() * 3;
+            star.style.width = size + 'px';
+            star.style.height = size + 'px';
+            star.style.left = Math.random() * 100 + '%';
+            star.style.top = Math.random() * 100 + '%';
+            star.style.animationDelay = Math.random() * 3 + 's';
+            starsContainer.appendChild(star);
+        }
+    </script>
+</body>
+</html>

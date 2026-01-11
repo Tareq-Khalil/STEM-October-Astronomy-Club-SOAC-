@@ -1,0 +1,11 @@
+body{
+  
+}
+
+#info{
+  z-index: 1;
+  position: absolute;
+  bottom: 5px;
+  left: 5px;
+
+}

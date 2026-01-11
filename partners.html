@@ -1,0 +1,723 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Our Partners - SOAC</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: linear-gradient(135deg, #0a0a0a 0%, #1a1a2e 50%, #16213e 100%);
+            min-height: 100vh;
+            color: white;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        /* Geometric pattern background */
+        body::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-image: 
+                linear-gradient(30deg, transparent 40%, rgba(255,255,255,0.02) 41%, rgba(255,255,255,0.02) 42%, transparent 43%),
+                linear-gradient(-30deg, transparent 40%, rgba(255,255,255,0.02) 41%, rgba(255,255,255,0.02) 42%, transparent 43%),
+                linear-gradient(60deg, transparent 45%, rgba(255,255,255,0.01) 46%, rgba(255,255,255,0.01) 47%, transparent 48%);
+            background-size: 100px 100px;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            position: relative;
+            z-index: 2;
+        }
+
+        .header {
+            text-align: center;
+            padding: 80px 0 60px;
+        }
+
+        .section-label {
+            font-size: 20px;
+            font-weight: 600;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: #64b5f6;
+            margin-bottom: 20px;
+        }
+
+        .main-title {
+            font-size: 48px;
+            font-weight: 700;
+            margin-bottom: 30px;
+            background: linear-gradient(135deg, #ffffff 0%, #e3f2fd 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .subtitle {
+            font-size: 18px;
+            line-height: 1.6;
+            color: #b0bec5;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .partners-grid {
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+            margin-top: 60px;
+            flex-wrap: wrap;
+        }
+
+        .partner-card {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            padding: 50px 40px;
+            width: 350px;
+            text-align: center;
+            backdrop-filter: blur(20px);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .partner-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, rgba(100, 181, 246, 0.1) 0%, rgba(63, 81, 181, 0.1) 100%);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            z-index: -1;
+        }
+
+        .partner-card:hover {
+            transform: translateY(-10px);
+            border-color: rgba(100, 181, 246, 0.3);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+        }
+
+        .partner-card:hover::before {
+            opacity: 1;
+        }
+
+        .partner-logo {
+            width: 80px;
+            height: 80px;
+            margin: 0 auto 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 36px;
+            font-weight: bold;
+        }
+
+        .wolfram-logo {
+            background: linear-gradient(135deg, #ff4444, #ff6666);
+            border-radius: 15px;
+            color: white;
+        }
+
+        .aops-logo {
+            background: linear-gradient(135deg, #4a90e2, #7bb3f0);
+            border-radius: 15px;
+            color: white;
+            font-size: 24px;
+        }
+
+        .partner-name {
+            font-size: 28px;
+            font-weight: 700;
+            margin-bottom: 20px;
+            color: #ffffff;
+        }
+
+        .partner-description {
+            font-size: 16px;
+            line-height: 1.6;
+            color: #b0bec5;
+        }
+
+        @media (max-width: 768px) {
+            .main-title {
+                font-size: 36px;
+            }
+            
+            .partners-grid {
+                gap: 30px;
+            }
+            
+            .partner-card {
+                width: 100%;
+                max-width: 400px;
+                padding: 40px 30px;
+            }
+        }
+           /* Unique Cosmic Sidebar Toggle */
+   .sidebar-toggle {
+       background: none;
+    border: none;
+    cursor: pointer;
+    padding: 12px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 50px;
+    height: 50px;
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 10000;
+       transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+       border-radius: 50%;
+       background: linear-gradient(135deg, rgba(135, 206, 235, 0.2), rgba(72, 187, 255, 0.2));
+       backdrop-filter: blur(10px);
+       box-shadow: 0 4px 15px rgba(135, 206, 235, 0.3);
+   }
+
+   .sidebar-toggle:hover {
+       transform: scale(1.1);
+       box-shadow: 0 6px 25px rgba(135, 206, 235, 0.5);
+       background: linear-gradient(135deg, rgba(135, 206, 235, 0.3), rgba(72, 187, 255, 0.3));
+   }
+
+   /* Cosmic Toggle Shape - Star/Constellation Pattern */
+   .cosmic-toggle {
+       position: relative;
+       width: 100%;
+       height: 100%;
+       display: flex;
+       align-items: center;
+       justify-content: center;
+   }
+
+   /* Central Star */
+   .cosmic-toggle::before {
+       content: '';
+       position: absolute;
+       width: 8px;
+       height: 8px;
+       background: skyblue;
+       border-radius: 50%;
+       box-shadow: 0 0 10px skyblue;
+       z-index: 3;
+       transition: all 0.4s ease;
+   }
+
+   /* Constellation Lines/Points */
+   .cosmic-line {
+       position: absolute;
+       background: skyblue;
+       transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+       border-radius: 2px;
+       box-shadow: 0 0 5px rgba(135, 206, 235, 0.6);
+   }
+
+   /* Three constellation lines forming a unique pattern */
+   .cosmic-line:nth-child(1) {
+       width: 20px;
+       height: 2px;
+       top: 50%;
+       left: 50%;
+       transform: translate(-50%, -50%) rotate(0deg);
+       transform-origin: center;
+   }
+
+   .cosmic-line:nth-child(2) {
+       width: 16px;
+       height: 2px;
+       top: 50%;
+       left: 50%;
+       transform: translate(-50%, -50%) rotate(60deg);
+       transform-origin: center;
+   }
+
+   .cosmic-line:nth-child(3) {
+       width: 16px;
+       height: 2px;
+       top: 50%;
+       left: 50%;
+       transform: translate(-50%, -50%) rotate(120deg);
+       transform-origin: center;
+   }
+
+   /* Corner stars/points */
+   .cosmic-line::before,
+   .cosmic-line::after {
+       content: '';
+       position: absolute;
+       width: 4px;
+       height: 4px;
+       background: skyblue;
+       border-radius: 50%;
+       box-shadow: 0 0 5px rgba(135, 206, 235, 0.8);
+       transition: all 0.4s ease;
+   }
+
+   .cosmic-line::before {
+       left: -2px;
+       top: 50%;
+       transform: translateY(-50%);
+   }
+
+   .cosmic-line::after {
+       right: -2px;
+       top: 50%;
+       transform: translateY(-50%);
+   }
+
+   /* Active State - Transform into X */
+   .sidebar-toggle.active .cosmic-toggle::before {
+       opacity: 0;
+       transform: scale(0);
+   }
+
+   .sidebar-toggle.active .cosmic-line:nth-child(1) {
+       transform: translate(-50%, -50%) rotate(45deg);
+       width: 24px;
+   }
+
+   .sidebar-toggle.active .cosmic-line:nth-child(2) {
+       transform: translate(-50%, -50%) rotate(-45deg);
+       width: 24px;
+   }
+
+   .sidebar-toggle.active .cosmic-line:nth-child(3) {
+       opacity: 0;
+       transform: translate(-50%, -50%) rotate(120deg) scale(0);
+   }
+
+   .sidebar-toggle.active .cosmic-line::before,
+   .sidebar-toggle.active .cosmic-line::after {
+       opacity: 0;
+       transform: translateY(-50%) scale(0);
+   }
+
+   /* Hover effects */
+   .sidebar-toggle:hover .cosmic-toggle::before {
+       box-shadow: 0 0 15px skyblue;
+   }
+
+   .sidebar-toggle:hover .cosmic-line {
+       box-shadow: 0 0 10px rgba(135, 206, 235, 0.8);
+   }
+
+   .sidebar-toggle:hover .cosmic-line::before,
+   .sidebar-toggle:hover .cosmic-line::after {
+       box-shadow: 0 0 8px rgba(135, 206, 235, 1);
+   }
+
+   /* Rotation animation on hover */
+   .sidebar-toggle:hover .cosmic-toggle {
+       animation: cosmicRotate 3s linear infinite;
+   }
+
+   @keyframes cosmicRotate {
+       from {
+           transform: rotate(0deg);
+       }
+       to {
+           transform: rotate(360deg);
+       }
+   }
+
+   /* Sidebar Overlay */
+   .sidebar-overlay {
+       position: fixed;
+       top: 0;
+       left: 0;
+       right: 0;
+       bottom: 0;
+       background: rgba(0, 0, 0, 0.6);
+       backdrop-filter: blur(5px);
+       z-index: 9998;
+       opacity: 0;
+       visibility: hidden;
+       transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+   }
+
+   .sidebar-overlay.active {
+       opacity: 1;
+       visibility: visible;
+   }
+
+   /* Sidebar */
+   .sidebar {
+       position: fixed;
+       top: 0;
+       right: -350px;
+       width: 320px;
+       height: 100vh;
+       background: linear-gradient(135deg, rgba(15, 23, 42, 0.95), rgba(30, 41, 59, 0.95));
+       backdrop-filter: blur(20px);
+       box-shadow: -10px 0 30px rgba(0, 0, 0, 0.3);
+       z-index: 9999;
+       transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+       overflow-y: auto;
+   }
+
+   .sidebar.active {
+       right: 0;
+   }
+
+   .sidebar-header {
+       padding: 30px 25px;
+       border-bottom: 1px solid rgba(135, 206, 235, 0.2);
+       background: linear-gradient(135deg, rgba(135, 206, 235, 0.1), rgba(72, 187, 255, 0.1));
+   }
+
+   .sidebar-title {
+       color: skyblue;
+       font-size: 1.4rem;
+       font-weight: 600;
+       margin: 0;
+       text-align: center;
+       font-family: 'Orbitron', monospace;
+   }
+
+   .sidebar-close {
+       position: absolute;
+       top: 20px;
+       right: 20px;
+       background: none;
+       border: none;
+       color: skyblue;
+       font-size: 1.5rem;
+       cursor: pointer;
+       padding: 5px;
+       border-radius: 50%;
+       transition: all 0.3s ease;
+       width: 35px;
+       height: 35px;
+       display: flex;
+       align-items: center;
+       justify-content: center;
+   }
+
+   .sidebar-close:hover {
+       background: rgba(135, 206, 235, 0.2);
+       transform: rotate(90deg);
+   }
+
+   .sidebar-menu {
+       padding: 20px 0;
+       list-style: none;
+       margin: 0;
+   }
+
+   .sidebar-menu li {
+       margin: 0;
+   }
+
+   .sidebar-menu a {
+       display: flex;
+       align-items: center;
+       padding: 15px 25px;
+       color: rgba(255, 255, 255, 0.9);
+       text-decoration: none;
+       transition: all 0.3s ease;
+       font-size: 1rem;
+       font-weight: 500;
+       border-left: 3px solid transparent;
+   }
+
+   .sidebar-menu a:hover {
+       background: linear-gradient(135deg, rgba(135, 206, 235, 0.15), rgba(72, 187, 255, 0.15));
+       color: skyblue;
+       border-left-color: skyblue;
+       transform: translateX(5px);
+   }
+
+   .sidebar-menu a::before {
+       content: '';
+       width: 8px;
+       height: 8px;
+       background: skyblue;
+       border-radius: 50%;
+       margin-right: 12px;
+       opacity: 0;
+       transform: scale(0);
+       transition: all 0.3s ease;
+   }
+
+   .sidebar-menu a:hover::before {
+       opacity: 1;
+       transform: scale(1);
+   }
+
+   /* Category Headers */
+   .sidebar-category {
+       padding: 20px 25px 10px;
+       color: rgba(135, 206, 235, 0.7);
+       font-size: 0.85rem;
+       font-weight: 600;
+       text-transform: uppercase;
+       letter-spacing: 1px;
+       border-top: 1px solid rgba(135, 206, 235, 0.1);
+       margin-top: 10px;
+   }
+
+   .sidebar-category:first-child {
+       border-top: none;
+       margin-top: 0;
+   }
+
+   /* Mobile Responsiveness */
+   @media (max-width: 768px) {
+       .sidebar {
+           width: 280px;
+           right: -300px;
+       }
+   }
+
+   @media (max-width: 480px) {
+       .sidebar {
+           width: 100vw;
+           right: -100vw;
+       }
+   }
+    </style>
+</head>
+<body>
+                    <button class="sidebar-toggle" type="button" aria-label="Open sidebar menu" >
+                        <span class="cosmic-toggle">
+                            <span class="cosmic-line"></span>
+                            <span class="cosmic-line"></span>
+                            <span class="cosmic-line"></span>
+                        </span>
+                    </button>
+                   <div class="sidebar-overlay"></div>
+   <div class="sidebar">
+       <div class="sidebar-header">
+           <h3 class="sidebar-title" style="animation: ease-in-out infinite;"><a href="soac.club" target="_blank" style="text-decoration: none;color: inherit;">SOAC Menu</a></h3>
+           <button class="sidebar-close" aria-label="Close sidebar">&times;</button>
+       </div>
+       <ul class="sidebar-menu">
+            <a href="" target="_blank"><li class="sidebar-category">Meet Us</li></a>
+           <a href="partners.html" target="_blank"><li class="sidebar-category">Partners</li></a>
+           <a href="Astronomy-Toolkit-master/Astronomy-Toolkit-master/index.html" target="_blank"><li class="sidebar-category">Simulations</li></a>
+           <!--<li><a href="simulations/curved-spacetime-main/index.html">Curved Spacetime</a></li>
+           <li><a href="simulations/orbits/index.html">Orbital Mechanics</a></li>
+           <li><a href="simulations/black-hole/index.html">Black Hole Visualization</a></li>
+           <li><a href="simulations/solar-system/index.html">Solar System 3D</a></li>-->
+           
+           <li class="sidebar-category">Events</li>
+           <!--<li><a href="#stargazing-events">Stargazing Nights</a></li>
+           <li><a href="#telescope-workshops">Telescope Workshops</a></li>
+           <li><a href="#guest-lectures">Guest Lectures</a></li>
+           <li><a href="#observatory-visits">Observatory Visits</a></li>-->
+           
+           <li class="sidebar-category">Competitions</li>
+           <li><a href="cosmicquest.html" target="_blank">Cosmic Quest</a></li>
+           <!--<li><a href="#astrophotography-contest">Astrophotography Contest</a></li>
+           <li><a href="#rocket-design">Rocket Design Challenge</a></li>
+           <li><a href="#space-quiz">Space Knowledge Quiz</a></li>-->
+           
+           <li class="sidebar-category">Games</li>
+           <li><a href="SpaceOdyssey-main/SpaceOdyssey-main/index.html" target="_blank">A Treasure Hunt</a></li>
+           <!--<li><a href="games/planet-explorer/index.html">Planet Explorer</a></li>
+           <li><a href="games/space-mission/index.html">Space Mission Simulator</a></li>
+           <li><a href="games/asteroid-dodge/index.html">Asteroid Dodge</a></li>-->
+       </ul>
+   </div>
+    <div class="container">
+        <div class="header">
+            <div class="section-label">OUR PARTNERS</div>
+            <h1 class="main-title">Partners Who Propel Us Forward</h1>
+            <p class="subtitle">
+                We are proud to collaborate with leading educational organizations that support our mission of advancing astronomical education and research.
+            </p>
+        </div>
+
+        <div class="partners-grid">
+            <div class="partner-card">
+                <a href="https://artofproblemsolving.com" class="partner-logo" target="_blank" rel="noopener noreferrer">
+                    <img src="https://www.octphysicsclub.org/wp-content/uploads/2024/06/AoPS_Main_Logo-1.png" alt="Art of Problem Solving Logo" style="width:250px !important;height:120px !important; ">
+                </a>
+                <h3 class="partner-name">Art of Problem Solving</h3>
+                <p class="partner-description">
+                    AoPS offers advanced math, science, and language arts courses, focusing on problem-solving and active learning to prepare students for top-tier colleges and competitive careers in STEM fields.
+                </p>
+            </div>
+
+            <div class="partner-card">
+                <a href="https://www.wolfram.com" class="partner-logo" target="_blank" rel="noopener noreferrer">
+                    <img src="https://www.octphysicsclub.org/wp-content/uploads/2024/05/wolfram-corporate-logo-stacked-med-1.png" alt="Wolfram Logo" style="width:270px !important;height:140px !important; ">
+                </a>
+                <h3 class="partner-name">Wolfram</h3>
+                <p class="partner-description">
+                    Wolfram Research is one of the world's most respected computer, web, and cloud software companies, providing powerful computational tools for astronomical research and education.
+                </p>
+            </div>
+            <div class="partner-card">
+                <a href="http://atn-telescope.com" class="partner-logo" target="_blank" rel="noopener noreferrer">
+                    <img src="images/voyager.png" alt="voyager Logo" style="width:215px !important;height:140px !important; background: white;border-radius:50%;">
+                </a>
+                <h3 class="partner-name">Voyager Factory</h3>
+                <p class="partner-description">
+                    Voyager Factory is a leading Egypt-based manufacturer of telescopes and astronomical accessories, dedicated to advancing observational astronomy by providing high-quality, locally crafted instruments.
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Create animated star field
+        function createStars() {
+            const starsContainer = document.getElementById('stars');
+            const numStars = 150;
+            
+            for (let i = 0; i < numStars; i++) {
+                const star = document.createElement('div');
+                star.className = 'star';
+                star.style.left = Math.random() * 100 + '%';
+                star.style.top = Math.random() * 100 + '%';
+                star.style.animationDelay = Math.random() * 4 + 's';
+                star.style.opacity = Math.random() * 0.8 + 0.2;
+                starsContainer.appendChild(star);
+            }
+            
+            // Create shooting stars
+            setInterval(() => {
+                const shootingStar = document.createElement('div');
+                shootingStar.className = 'shooting-star';
+                shootingStar.style.top = Math.random() * 50 + '%';
+                shootingStar.style.left = '-10px';
+                starsContainer.appendChild(shootingStar);
+                
+                setTimeout(() => {
+                    shootingStar.remove();
+                }, 3000);
+            }, 4000);
+        }
+
+        // Initialize stars when page loads
+        window.addEventListener('load', createStars);
+        // Sidebar functionality
+document.addEventListener('DOMContentLoaded', function() {
+    const sidebarToggle = document.querySelector('.sidebar-toggle');
+    const sidebar = document.querySelector('.sidebar');
+    const sidebarOverlay = document.querySelector('.sidebar-overlay');
+    const sidebarClose = document.querySelector('.sidebar-close');
+
+    // Open sidebar
+    function openSidebar() {
+        sidebar.classList.add('active');
+        sidebarOverlay.classList.add('active');
+        sidebarToggle.classList.add('active');
+        document.body.style.overflow = 'hidden';
+    }
+
+    // Close sidebar
+    function closeSidebar() {
+        sidebar.classList.remove('active');
+        sidebarOverlay.classList.remove('active');
+        sidebarToggle.classList.remove('active');
+        document.body.style.overflow = '';
+    }
+
+    // Toggle sidebar on hamburger button click
+    sidebarToggle.addEventListener('click', function(e) {
+        e.stopPropagation();
+        if (sidebar.classList.contains('active')) {
+            closeSidebar();
+        } else {
+            openSidebar();
+        }
+    });
+
+    // Close sidebar when clicking close button
+    sidebarClose.addEventListener('click', closeSidebar);
+
+    // Close sidebar when clicking overlay
+    sidebarOverlay.addEventListener('click', closeSidebar);
+
+    // Close sidebar when pressing Escape key
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape' && sidebar.classList.contains('active')) {
+            closeSidebar();
+            sidebarToggle.focus();
+        }
+    });
+
+    // Handle keyboard navigation for hamburger button
+    sidebarToggle.addEventListener('keydown', function(e) {
+        if (e.key === 'Enter' || e.key === ' ') {
+            e.preventDefault();
+            if (sidebar.classList.contains('active')) {
+                closeSidebar();
+            } else {
+                openSidebar();
+            }
+        }
+    });
+
+    // Add smooth scroll behavior for internal links
+    const sidebarLinks = document.querySelectorAll('.sidebar-menu a[href^="#"]');
+    sidebarLinks.forEach(link => {
+        link.addEventListener('click', function() {
+            closeSidebar();
+        });
+    });
+
+    // Add staggered animation to menu items
+    const menuItems = document.querySelectorAll('.sidebar-menu li:not(.sidebar-category)');
+    sidebar.addEventListener('transitionend', function(e) {
+        if (e.target === sidebar && sidebar.classList.contains('active')) {
+            menuItems.forEach((item, index) => {
+                setTimeout(() => {
+                    item.style.animation = `slideInFromRight 0.3s ease-out forwards`;
+                }, index * 50);
+            });
+        }
+    });
+
+    // Reset animations when sidebar closes
+    sidebar.addEventListener('transitionstart', function(e) {
+        if (e.target === sidebar && !sidebar.classList.contains('active')) {
+            menuItems.forEach(item => {
+                item.style.animation = '';
+            });
+        }
+    });
+});
+
+// Add CSS animation keyframes dynamically
+const style = document.createElement('style');
+style.textContent = `
+    @keyframes slideInFromRight {
+        from {
+            opacity: 0;
+            transform: translateX(20px);
+        }
+        to {
+            opacity: 1;
+            transform: translateX(0);
+        }
+    }
+`;
+document.head.appendChild(style);
+    </script>
+</body>
+</html>

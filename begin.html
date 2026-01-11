@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cosmic Quest Competition</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1000px;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            color: white;
+            padding: 60px 40px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 4em;
+            margin-bottom: 15px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .header p {
+            font-size: 1.5em;
+            opacity: 0.9;
+        }
+
+        .content {
+            padding: 50px 40px;
+        }
+
+        .cards-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+            margin-top: 40px;
+        }
+
+        .card {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 40px 30px;
+            border-radius: 15px;
+            text-align: center;
+            color: white;
+            transition: all 0.3s;
+            cursor: pointer;
+            text-decoration: none;
+            display: block;
+        }
+
+        .card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(102, 126, 234, 0.4);
+        }
+
+        .card-icon {
+            font-size: 4em;
+            margin-bottom: 20px;
+        }
+
+        .card h2 {
+            font-size: 1.8em;
+            margin-bottom: 15px;
+        }
+
+        .card p {
+            font-size: 1em;
+            opacity: 0.9;
+            line-height: 1.6;
+        }
+
+        .card.admin-card {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+        }
+
+        .card.bracket-card {
+            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+        }
+
+        .info-section {
+            background: #f8f9fa;
+            padding: 30px;
+            border-radius: 15px;
+            margin-bottom: 30px;
+        }
+
+        .info-section h2 {
+            color: #667eea;
+            margin-bottom: 20px;
+            font-size: 2em;
+        }
+
+        .info-section ul {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .info-section li {
+            padding: 12px 0;
+            padding-left: 30px;
+            position: relative;
+            font-size: 1.1em;
+            color: #333;
+        }
+
+        .info-section li:before {
+            content: "✓";
+            position: absolute;
+            left: 0;
+            color: #667eea;
+            font-weight: bold;
+            font-size: 1.3em;
+        }
+
+        .footer {
+            text-align: center;
+            padding: 30px;
+            background: #f8f9fa;
+            color: #666;
+        }
+
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 2.5em;
+            }
+            
+            .header p {
+                font-size: 1.2em;
+            }
+            
+            .cards-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🚀 Cosmic Quest</h1>
+            <p>Round 2 Competition - Buzz System</p>
+        </div>
+
+        <div class="content">
+            <div class="info-section">
+                <h2>Welcome to Cosmic Quest!</h2>
+                <ul>
+                    <li>32 teams competing in an exciting quiz tournament</li>
+                    <li>Real-time buzzer system for fair competition</li>
+                    <li>20 multiple-choice questions per match</li>
+                    <li>Live tournament bracket tracking</li>
+                    <li>Multiple rooms running simultaneously</li>
+                </ul>
+            </div>
+
+            <h2 style="text-align: center; margin-bottom: 30px; color: #333;">Select Your Role</h2>
+
+            <div class="cards-grid">
+                <a href="instructor.html" class="card">
+                    <div class="card-icon">👨‍🏫</div>
+                    <h2>Instructor</h2>
+                    <p>Create and manage competition rooms. Control matches and declare winners.</p>
+                </a>
+
+                <a href="team.html" class="card">
+                    <div class="card-icon">👥</div>
+                    <h2>Team</h2>
+                    <p>Join your room using the code. Buzz in and answer questions to win!</p>
+                </a>
+
+                <a href="bracket.html" class="card bracket-card">
+                    <div class="card-icon">🏆</div>
+                    <h2>Bracket</h2>
+                    <p>View the tournament bracket and track competition progress live.</p>
+                </a>
+
+                <a href="admin.html" class="card admin-card">
+                    <div class="card-icon">⚙️</div>
+                    <h2>Admin</h2>
+                    <p>Manage questions, teams, and tournament settings.</p>
+                </a>
+            </div>
+
+            <div class="info-section" style="margin-top: 50px;">
+                <h2>How It Works</h2>
+                <ul>
+                    <li><strong>Instructors</strong> create rooms and receive a 6-digit code</li>
+                    <li><strong>Teams</strong> join using the room code and their team code</li>
+                    <li>Each question has a <strong>30-second</strong> thinking period</li>
+                    <li>First team to <strong>buzz in</strong> gets to answer</li>
+                    <li><strong>+1 point</strong> for correct answers, no penalties</li>
+                    <li>If wrong, opponent gets <strong>5 seconds</strong> to answer</li>
+                    <li>After 20 questions, instructor declares the winner</li>
+                    <li>Winners advance to the next round automatically</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="footer">
+            <p>&copy; 2025 Cosmic Quest Competition | Good Luck to All Teams! 🌟</p>
+        </div>
+    </div>
+</body>
+</html>

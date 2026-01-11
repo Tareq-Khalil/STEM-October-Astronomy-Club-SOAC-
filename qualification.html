@@ -1,0 +1,605 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tournament Bracket - Cosmic Quest</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #0a0e27;
+            background-image: 
+                radial-gradient(white, rgba(255,255,255,.2) 2px, transparent 40px),
+                radial-gradient(white, rgba(255,255,255,.15) 1px, transparent 30px),
+                radial-gradient(white, rgba(255,255,255,.1) 2px, transparent 40px);
+            background-size: 550px 550px, 350px 350px, 250px 250px;
+            background-position: 0 0, 40px 60px, 130px 270px;
+            min-height: 100vh;
+            padding: 20px;
+            position: relative;
+            overflow-x: auto;
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: radial-gradient(ellipse at bottom, #1b2735 0%, #090a0f 100%);
+            z-index: -1;
+        }
+
+        .container {
+            max-width: 1600px;
+            margin: 0 auto;
+        }
+
+        .header {
+            background: linear-gradient(135deg, rgba(102, 126, 234, 0.9) 0%, rgba(118, 75, 162, 0.9) 100%);
+            backdrop-filter: blur(10px);
+            color: white;
+            padding: 40px;
+            text-align: center;
+            border-radius: 20px;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 40px rgba(102, 126, 234, 0.3);
+            border: 2px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .header h1 {
+            font-size: 3em;
+            margin-bottom: 10px;
+            text-shadow: 0 0 20px rgba(255, 255, 255, 0.5);
+        }
+
+        .header p {
+            font-size: 1.2em;
+            opacity: 0.9;
+        }
+
+        .wave-selector {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+        }
+
+        .wave-btn {
+            padding: 15px 30px;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border: 2px solid rgba(102, 126, 234, 0.5);
+            border-radius: 12px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            color: white;
+        }
+
+        .wave-btn:hover {
+            border-color: #667eea;
+            background: rgba(102, 126, 234, 0.3);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 20px rgba(102, 126, 234, 0.4);
+        }
+
+        .wave-btn.active {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-color: #764ba2;
+            box-shadow: 0 5px 20px rgba(102, 126, 234, 0.5);
+        }
+
+        .bracket-wrapper {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 40px;
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            min-width: 1400px;
+        }
+
+        .bracket-container {
+            display: flex;
+            justify-content: space-between;
+            gap: 60px;
+            position: relative;
+        }
+
+        .bracket-side {
+            flex: 1;
+            display: flex;
+            gap: 40px;
+        }
+
+        .round {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-around;
+            position: relative;
+        }
+
+        .round-title {
+            text-align: center;
+            font-size: 1.1em;
+            font-weight: bold;
+            color: #667eea;
+            margin-bottom: 20px;
+            padding: 12px;
+            background: rgba(102, 126, 234, 0.2);
+            border-radius: 10px;
+            border: 1px solid rgba(102, 126, 234, 0.3);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .match {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border: 2px solid rgba(102, 126, 234, 0.3);
+            border-radius: 12px;
+            margin: 10px 0;
+            overflow: hidden;
+            transition: all 0.3s;
+            position: relative;
+        }
+
+        .match:hover {
+            box-shadow: 0 5px 25px rgba(102, 126, 234, 0.4);
+            transform: translateY(-2px);
+            border-color: #667eea;
+        }
+
+        .match::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, #667eea, transparent);
+        }
+
+        .match-header {
+            background: linear-gradient(135deg, rgba(102, 126, 234, 0.4) 0%, rgba(118, 75, 162, 0.4) 100%);
+            color: white;
+            padding: 8px 15px;
+            font-size: 0.85em;
+            font-weight: 600;
+            text-align: center;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .team {
+            padding: 15px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.3s;
+            color: white;
+            position: relative;
+        }
+
+        .team:last-of-type {
+            border-bottom: none;
+        }
+
+        .team.winner {
+            background: linear-gradient(135deg, rgba(52, 211, 153, 0.3) 0%, rgba(16, 185, 129, 0.3) 100%);
+            border-left: 4px solid #10b981;
+        }
+
+        .team.winner .team-name {
+            color: #6ee7b7;
+            font-weight: bold;
+        }
+
+        .team.loser {
+            opacity: 0.5;
+        }
+
+        .team-name {
+            font-size: 1em;
+            font-weight: 600;
+        }
+
+        .team-score {
+            font-size: 1.5em;
+            font-weight: bold;
+            color: #667eea;
+            min-width: 40px;
+            text-align: right;
+            text-shadow: 0 0 10px rgba(102, 126, 234, 0.5);
+        }
+
+        .team.winner .team-score {
+            color: #6ee7b7;
+        }
+
+        .match-status {
+            padding: 8px 15px;
+            background: rgba(0, 0, 0, 0.2);
+            text-align: center;
+            font-size: 0.85em;
+            font-weight: 600;
+        }
+
+        .match-status.pending {
+            color: #fbbf24;
+        }
+
+        .match-status.in-progress {
+            color: #60a5fa;
+            animation: pulse 2s infinite;
+        }
+
+        .match-status.completed {
+            color: #34d399;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.6; }
+        }
+
+        .finals-section {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            min-width: 280px;
+        }
+
+        .finals-match {
+            width: 100%;
+        }
+
+        .champion-section {
+            margin-top: 30px;
+            text-align: center;
+        }
+
+        .champion-label {
+            font-size: 1.5em;
+            font-weight: bold;
+            color: #fbbf24;
+            margin-bottom: 15px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            text-shadow: 0 0 20px rgba(251, 191, 36, 0.5);
+        }
+
+        .champion-box {
+            background: linear-gradient(135deg, rgba(251, 191, 36, 0.3) 0%, rgba(245, 158, 11, 0.3) 100%);
+            border: 3px solid #fbbf24;
+            border-radius: 15px;
+            padding: 20px;
+            font-size: 1.3em;
+            font-weight: bold;
+            color: #fef3c7;
+            min-height: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 0 30px rgba(251, 191, 36, 0.4);
+        }
+
+        .no-matches {
+            text-align: center;
+            padding: 60px;
+            color: rgba(255, 255, 255, 0.6);
+            font-size: 1.3em;
+        }
+
+        .refresh-btn {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 65px;
+            height: 65px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            font-size: 28px;
+            cursor: pointer;
+            box-shadow: 0 5px 25px rgba(102, 126, 234, 0.5);
+            transition: all 0.3s;
+            z-index: 1000;
+        }
+
+        .refresh-btn:hover {
+            transform: scale(1.15) rotate(180deg);
+            box-shadow: 0 8px 35px rgba(102, 126, 234, 0.7);
+        }
+
+        .legend {
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+            padding: 25px;
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            margin-top: 30px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            color: white;
+            font-weight: 600;
+        }
+
+        .legend-box {
+            width: 35px;
+            height: 35px;
+            border-radius: 8px;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .legend-box.winner {
+            background: linear-gradient(135deg, rgba(52, 211, 153, 0.3) 0%, rgba(16, 185, 129, 0.3) 100%);
+            border-color: #10b981;
+        }
+
+        .legend-box.pending {
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        /* Connector lines */
+        .match::after {
+            content: '';
+            position: absolute;
+            right: -40px;
+            top: 50%;
+            width: 40px;
+            height: 2px;
+            background: rgba(102, 126, 234, 0.3);
+        }
+
+        .bracket-side.left .match::after {
+            left: auto;
+            right: -40px;
+        }
+
+        .bracket-side.right .match::after {
+            right: auto;
+            left: -40px;
+        }
+
+        .finals-section .match::after {
+            display: none;
+        }
+
+        @media (max-width: 1400px) {
+            .bracket-wrapper {
+                overflow-x: auto;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1> Cosmic Quest Tournament</h1>
+            <p>Competition Bracket & Live Leaderboard</p>
+        </div>
+
+        <div class="wave-selector" id="waveSelector">
+            <!-- Wave buttons will be inserted here -->
+        </div>
+
+        <div class="bracket-wrapper">
+            <div id="bracketDisplay">
+                <!-- Bracket will be displayed here -->
+            </div>
+
+            <div class="legend">
+                <div class="legend-item">
+                    <div class="legend-box winner"></div>
+                    <span>Winner</span>
+                </div>
+                <div class="legend-item">
+                    <div class="legend-box pending"></div>
+                    <span>Pending/In Progress</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <button class="refresh-btn" onclick="loadBracket()" title="Refresh">
+        ↻
+    </button>
+
+    <script>
+        let currentWave = 1;
+        let autoRefreshInterval = null;
+
+        window.onload = function() {
+            loadWaves();
+            startAutoRefresh();
+        };
+
+        async function loadWaves() {
+            try {
+                const response = await fetch('api/admin.php?action=get_waves');
+                const data = await response.json();
+                if (data.success) {
+                    displayWaveSelector(data.waves);
+                    loadBracket();
+                }
+            } catch (error) {
+                console.error('Error loading waves:', error);
+            }
+        }
+
+        function displayWaveSelector(waves) {
+            const selector = document.getElementById('waveSelector');
+            selector.innerHTML = '';
+            
+            waves.forEach(wave => {
+                const btn = document.createElement('button');
+                btn.className = 'wave-btn' + (wave.wave_number === currentWave ? ' active' : '');
+                btn.textContent = wave.wave_name;
+                btn.onclick = () => selectWave(wave.wave_number);
+                selector.appendChild(btn);
+            });
+        }
+
+        function selectWave(waveNumber) {
+            currentWave = waveNumber;
+            
+            document.querySelectorAll('.wave-btn').forEach((btn, index) => {
+                btn.classList.toggle('active', index + 1 === waveNumber);
+            });
+            
+            loadBracket();
+        }
+
+        async function loadBracket() {
+            try {
+                const response = await fetch(`api/admin.php?action=get_bracket&wave_id=${currentWave}`);
+                const data = await response.json();
+                if (data.success) {
+                    displayBracket(data.matches, currentWave);
+                }
+            } catch (error) {
+                console.error('Error loading bracket:', error);
+            }
+        }
+
+        function displayBracket(matches, wave) {
+            const container = document.getElementById('bracketDisplay');
+            
+            if (matches.length === 0) {
+                container.innerHTML = '<div class="no-matches"> No matches scheduled for this round yet.</div>';
+                return;
+            }
+
+            // Determine bracket structure based on wave
+            let structure = getBracketStructure(matches.length);
+            
+            let html = '<div class="bracket-container">';
+            
+            if (matches.length === 1) {
+                // Finals only
+                html += '<div class="finals-section">';
+                html += '<div class="round-title">FINALS</div>';
+                html += generateMatchHTML(matches[0]);
+                html += generateChampionSection(matches[0]);
+                html += '</div>';
+            } else {
+                // Split matches into left and right sides
+                let half = Math.ceil(matches.length / 2);
+                let leftMatches = matches.slice(0, half);
+                let rightMatches = matches.slice(half);
+                
+                // Left bracket
+                html += '<div class="bracket-side left">';
+                html += '<div class="round">';
+                html += `<div class="round-title">${getRoundName(matches.length)}</div>`;
+                leftMatches.forEach(match => {
+                    html += generateMatchHTML(match);
+                });
+                html += '</div>';
+                html += '</div>';
+                
+                // Right bracket
+                html += '<div class="bracket-side right">';
+                html += '<div class="round">';
+                html += `<div class="round-title">${getRoundName(matches.length)}</div>`;
+                rightMatches.forEach(match => {
+                    html += generateMatchHTML(match);
+                });
+                html += '</div>';
+                html += '</div>';
+            }
+            
+            html += '</div>';
+            container.innerHTML = html;
+        }
+
+        function generateMatchHTML(match) {
+            return `
+                <div class="match">
+                    <div class="match-header">Match ${match.match_number}</div>
+                    <div class="team ${match.winner_team_id === match.team1_id ? 'winner' : (match.winner_team_id ? 'loser' : '')}">
+                        <span class="team-name">${match.team1_name}</span>
+                        <span class="team-score">${match.team1_score || 0}</span>
+                    </div>
+                    <div class="team ${match.winner_team_id === match.team2_id ? 'winner' : (match.winner_team_id ? 'loser' : '')}">
+                        <span class="team-name">${match.team2_name}</span>
+                        <span class="team-score">${match.team2_score || 0}</span>
+                    </div>
+                    <div class="match-status ${match.match_status}">
+                        ${getStatusText(match)}
+                    </div>
+                </div>
+            `;
+        }
+
+        function generateChampionSection(match) {
+            let champion = '';
+            if (match.winner_team_id && match.winner_name) {
+                champion = `🏆 ${match.winner_name}`;
+            } else {
+                champion = 'TBD';
+            }
+            
+            return `
+                <div class="champion-section">
+                    <div class="champion-label">⭐ CHAMPION ⭐</div>
+                    <div class="champion-box">${champion}</div>
+                </div>
+            `;
+        }
+
+        function getRoundName(matchCount) {
+            const names = {
+                16: 'ROUND OF 32',
+                8: 'ROUND OF 16',
+                4: 'QUARTER FINALS',
+                2: 'SEMI FINALS',
+                1: 'FINALS'
+            };
+            return names[matchCount] || `ROUND OF ${matchCount * 2}`;
+        }
+
+        function getBracketStructure(matchCount) {
+            // Returns how many rounds based on match count
+            return Math.ceil(Math.log2(matchCount));
+        }
+
+        function getStatusText(match) {
+            if (match.match_status === 'completed' && match.winner_name) {
+                return `✓ Winner: ${match.winner_name}`;
+            } else if (match.match_status === 'in_progress') {
+                return ` In Progress${match.room_code ? ' - Room: ' + match.room_code : ''}`;
+            } else {
+                return '⏳ Pending';
+            }
+        }
+
+        function startAutoRefresh() {
+            clearInterval(autoRefreshInterval);
+            autoRefreshInterval = setInterval(() => {
+                loadBracket();
+            }, 5000); // Refresh every 5 seconds
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,161 @@
+body{
+  color: #fff;
+  background-color: #000;
+  font-family: Arial, Helvetica, sans-serif	;
+}
+
+#guiContainer{
+  position: absolute;
+  right: 5px;
+  top: 0px;
+  z-index: 2;
+  user-select: none;
+
+}
+
+#info{
+  z-index: 2;
+  position: absolute;
+  bottom: 0px;
+  margin-bottom: 0px;
+  left: 10px;
+}
+
+#info p{
+  font-family: "Courier New", Courier, monospace;
+  font-size: 15px;
+  color: #fff;
+  margin-top: -10px;
+}
+
+
+#error{
+  display: none;
+
+  z-index: 0;
+  background-color: black;
+  position: absolute;
+  text-align: center;
+  top : 50%;
+  left: 50%;
+  width: 100%;
+  -ms-transform: translate(-50%, -50%);
+  transform    : translate(-50%, -50%);
+
+}
+
+#error a{
+  color: #fff;
+}
+
+#error img{
+  display: inline-block;
+  width: 64px;
+  margin-right: 50px;
+
+}
+
+#aboutLink{
+  color: #fff;
+  z-index: 3;
+  position: absolute;
+  right: 5px;
+  bottom: 5px;
+  font-size: 20px;
+}
+
+#bellowAbout{
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  width: 100%;
+  height: 100%;
+  -webkit-transition: 0.3s linear;
+  -moz-transition: 0.3s linear;
+  -o-transition: 0.3s linear;
+
+}
+
+.blurBellow{
+  -webkit-filter: blur(2px);
+  -moz-filter: blur(2px);
+  -o-filter: blur(2px);
+  -ms-filter: blur(2px);
+  filter: blur(2px);
+}
+
+#about{
+  z-index: 4;
+  background-color: rgba(17, 17, 17, 0.85);
+  position: absolute;
+  width: 90%;
+  height: 80%;
+  top: -100%;
+  left: 5%;
+  overflow: auto;
+  border-width: 1px;
+  border-style: solid;
+  border-color: #fff;
+  border-radius: 1px;
+
+  -webkit-transition: 0.3s linear;
+  -moz-transition: 0.3s linear;
+  -o-transition: 0.3s linear;
+  font-size: 110%;
+
+}
+
+.showAbout{
+  -webkit-transform:translate(180%, 137.5%);
+  -moz-transform:translate(180%, 137.5%);
+  -ms-transform:translate(180%, 137.5%);
+  -o-transform:translate(180%, 137.5%);
+  transform:translate(0%, 137.5%);
+}
+#about a{
+  color: #fff;
+  outline: 0;
+}
+
+#about h1{
+  margin-left: 10px;
+}
+
+#about h2{
+  margin-left: 20px;
+}
+
+#about h3{
+  margin-left: 40px;
+}
+
+#about ul{
+  margin-left: 40px;
+}
+
+#aboutClose{
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  color: #fff;
+}
+
+
+::-webkit-scrollbar {
+  width:  5px;;
+  height: 5px;
+}
+
+
+::-webkit-scrollbar-thumb {
+  background:#aaaaaa;
+}
+
+::-webkit-scrollbar-track {
+  background: #212121;
+}
+
+body {
+  scrollbar-face-color: #aaaaaa;
+  scrollbar-track-color: #212121;
+}

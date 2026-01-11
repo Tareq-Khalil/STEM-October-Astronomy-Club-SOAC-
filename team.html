@@ -1,0 +1,725 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Team Buzzer - Cosmic Quest</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+
+        .content {
+            padding: 30px;
+        }
+
+        .section {
+            display: none;
+            animation: fadeIn 0.3s;
+        }
+
+        .section.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #333;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            font-size: 16px;
+            transition: border 0.3s;
+        }
+
+        .form-group input:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        .btn {
+            width: 100%;
+            padding: 15px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 18px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+        }
+
+        .btn:active {
+            transform: scale(0.98);
+        }
+
+        .btn:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .buzz-button {
+            width: 200px;
+            height: 200px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            border: none;
+            font-size: 2em;
+            font-weight: bold;
+            color: white;
+            cursor: pointer;
+            margin: 30px auto;
+            display: block;
+            box-shadow: 0 10px 30px rgba(245, 87, 108, 0.4);
+            transition: all 0.3s;
+        }
+
+        .buzz-button:hover:not(:disabled) {
+            transform: scale(1.1);
+            box-shadow: 0 15px 40px rgba(245, 87, 108, 0.6);
+        }
+
+        .buzz-button:active:not(:disabled) {
+            transform: scale(0.95);
+        }
+
+        .buzz-button:disabled {
+            background: #999;
+            cursor: not-allowed;
+            box-shadow: none;
+        }
+
+        .buzz-button.buzzed {
+            animation: buzzAnimation 0.5s;
+            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+        }
+
+        .buzz-button.locked-out {
+            background: linear-gradient(135deg, #999 0%, #666 100%);
+            opacity: 0.5;
+        }
+
+        @keyframes buzzAnimation {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.2); }
+        }
+
+        .team-info {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .team-info h2 {
+            font-size: 2em;
+            margin-bottom: 10px;
+        }
+
+        .score-display {
+            font-size: 3em;
+            font-weight: bold;
+            margin: 10px 0;
+        }
+
+        .question-display {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+        }
+
+        .question-image {
+            width: 100%;
+            max-height: 400px;
+            object-fit: contain;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+
+        .options-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .option-btn {
+            padding: 20px;
+            background: white;
+            border: 3px solid #ddd;
+            border-radius: 8px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-weight: 600;
+        }
+
+        .option-btn:hover:not(:disabled) {
+            border-color: #667eea;
+            background: #f0f0f0;
+            transform: translateY(-2px);
+        }
+
+        .option-btn:disabled {
+            cursor: not-allowed;
+            opacity: 0.6;
+        }
+
+        .timer {
+            font-size: 3em;
+            font-weight: bold;
+            text-align: center;
+            color: #667eea;
+            margin: 20px 0;
+        }
+
+        .timer.warning {
+            color: #f5576c;
+            animation: pulse 1s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+
+        .status-message {
+            background: #fff3cd;
+            border: 2px solid #ffc107;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 20px 0;
+            text-align: center;
+            font-size: 18px;
+            font-weight: 600;
+        }
+
+        .status-message.success {
+            background: #d4edda;
+            border-color: #28a745;
+            color: #155724;
+        }
+
+        .status-message.error {
+            background: #f8d7da;
+            border-color: #dc3545;
+            color: #721c24;
+        }
+
+        .status-message.info {
+            background: #d1ecf1;
+            border-color: #17a2b8;
+            color: #0c5460;
+        }
+
+        .status-message.locked {
+            background: #e2e3e5;
+            border-color: #6c757d;
+            color: #383d41;
+        }
+
+        .waiting-screen {
+            text-align: center;
+            padding: 50px 20px;
+        }
+
+        .waiting-screen h2 {
+            font-size: 2em;
+            color: #667eea;
+            margin-bottom: 20px;
+        }
+
+        .spinner {
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid #667eea;
+            border-radius: 50%;
+            width: 60px;
+            height: 60px;
+            animation: spin 1s linear infinite;
+            margin: 20px auto;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .opponent-info {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 15px 0;
+            text-align: center;
+        }
+
+        .vs-text {
+            font-size: 2em;
+            font-weight: bold;
+            color: #667eea;
+            text-align: center;
+            margin: 20px 0;
+        }
+
+        .alert {
+            padding: 15px;
+            border-radius: 8px;
+            margin: 20px 0;
+        }
+
+        .alert-error {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Cosmic Quest</h1>
+            <p>Team Buzzer System</p>
+        </div>
+
+        <div class="content">
+            <!-- Section 1: Join Room -->
+            <div id="joinSection" class="section active">
+                <h2>Join Competition Room</h2>
+                <div class="form-group">
+                    <label>Room Code</label>
+                    <input type="text" id="roomCodeInput" placeholder="Enter 6-digit room code" maxlength="6" style="text-transform: uppercase;">
+                </div>
+                <div class="form-group">
+                    <label>Team Code</label>
+                    <input type="text" id="teamCodeInput" placeholder="Enter your team code">
+                </div>
+                <button class="btn" onclick="joinRoom()">Join Room</button>
+                <div id="joinAlert"></div>
+            </div>
+
+            <!-- Section 2: Waiting for Match -->
+            <div id="waitingSection" class="section">
+                <div class="team-info">
+                    <h2 id="teamNameDisplay"></h2>
+                    <p>Team Position: <span id="teamPositionDisplay"></span></p>
+                </div>
+
+                <div class="opponent-info">
+                    <h3>VS</h3>
+                    <p id="opponentName">Waiting for opponent...</p>
+                </div>
+
+                <div class="waiting-screen">
+                    <div class="spinner"></div>
+                    <h2>Waiting for instructor to start the match...</h2>
+                    <p>Get ready! The competition will begin soon.</p>
+                </div>
+            </div>
+
+            <!-- Section 3: Active Match -->
+            <div id="matchSection" class="section">
+                <div class="team-info">
+                    <h2 id="matchTeamName"></h2>
+                    <div class="score-display" id="teamScore">0</div>
+                    <p>Your Score</p>
+                </div>
+
+                <div class="opponent-info">
+                    <strong id="matchOpponentName">Opponent</strong>
+                    <div style="font-size: 2em; font-weight: bold; color: #667eea;" id="opponentScore">0</div>
+                </div>
+
+                <div class="timer" id="timer">30</div>
+
+                <div class="question-display" id="questionDisplay" style="display: none;">
+                    <h3>Question <span id="questionNumber">1</span></h3>
+                    <img id="questionImage" class="question-image" src="" alt="Question will appear here">
+                </div>
+
+                <button class="buzz-button" id="buzzButton" onclick="buzz()" disabled>
+                    BUZZ IN
+                </button>
+
+                <div id="answerSection" style="display: none;">
+                    <h3 style="text-align: center; margin: 20px 0;">Select Your Answer:</h3>
+                    <div class="options-grid">
+                        <button class="option-btn" id="optionA" onclick="submitAnswer('A')">A: </button>
+                        <button class="option-btn" id="optionB" onclick="submitAnswer('B')">B: </button>
+                        <button class="option-btn" id="optionC" onclick="submitAnswer('C')">C: </button>
+                        <button class="option-btn" id="optionD" onclick="submitAnswer('D')">D: </button>
+                    </div>
+                </div>
+
+                <div id="statusMessage" class="status-message" style="display: none;"></div>
+            </div>
+
+            <!-- Section 4: Match Completed -->
+            <div id="completedSection" class="section">
+                <div class="waiting-screen">
+                    <h2>🎉 Match Completed!</h2>
+                    <div class="team-info">
+                        <h3>Final Score</h3>
+                        <div class="score-display" id="finalScore">0</div>
+                    </div>
+                    <p style="margin-top: 20px;">Thank you for participating!</p>
+                    <p>Please wait for the results announcement.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let roomData = null;
+        let teamData = null;
+        let roomId = null;
+        let teamPosition = null;
+        let pollInterval = null;
+        let timerInterval = null;
+        let currentQuestion = null;
+        let isLockedOut = false;
+
+        async function joinRoom() {
+            const roomCode = document.getElementById('roomCodeInput').value.toUpperCase();
+            const teamCode = document.getElementById('teamCodeInput').value;
+
+            if (!roomCode || !teamCode) {
+                showAlert('joinAlert', 'Please enter both room code and team code', 'error');
+                return;
+            }
+
+            try {
+                const response = await fetch('api/team.php?action=join_room', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        room_code: roomCode,
+                        team_code: teamCode
+                    })
+                });
+
+                const data = await response.json();
+                if (data.success) {
+                    teamData = data.team;
+                    roomData = data.room;
+                    roomId = data.room.id;
+                    teamPosition = data.team_position;
+
+                    document.getElementById('teamNameDisplay').textContent = teamData.team_name;
+                    document.getElementById('teamPositionDisplay').textContent = `Team ${teamPosition}`;
+                    
+                    const opponentName = teamPosition === 1 ? roomData.team2_name : roomData.team1_name;
+                    document.getElementById('opponentName').textContent = opponentName || 'Waiting...';
+
+                    showSection('waitingSection');
+                    startPolling();
+                } else {
+                    showAlert('joinAlert', data.error || 'Failed to join room', 'error');
+                }
+            } catch (error) {
+                showAlert('joinAlert', 'Error: ' + error.message, 'error');
+            }
+        }
+
+        function startPolling() {
+            clearInterval(pollInterval);
+            pollInterval = setInterval(async () => {
+                try {
+                    const response = await fetch(`api/team.php?action=get_room_state&room_id=${roomId}`);
+                    const data = await response.json();
+                    if (data.success) {
+                        updateRoomState(data.state);
+                    }
+                } catch (error) {
+                    console.error('Polling error:', error);
+                }
+            }, 500);
+        }
+
+        let lastQuestionNumber = 0;
+
+        function updateRoomState(state) {
+            // Update scores
+            const myScore = teamPosition === 1 ? state.team1_score : state.team2_score;
+            const oppScore = teamPosition === 1 ? state.team2_score : state.team1_score;
+            
+            document.getElementById('teamScore').textContent = myScore;
+            document.getElementById('opponentScore').textContent = oppScore;
+            document.getElementById('finalScore').textContent = myScore;
+
+            // Update team names
+            document.getElementById('matchTeamName').textContent = teamPosition === 1 ? state.team1_name : state.team2_name;
+            document.getElementById('matchOpponentName').textContent = teamPosition === 1 ? state.team2_name : state.team1_name;
+
+            // Check if match started
+            if (state.current_question > 0 && document.getElementById('waitingSection').classList.contains('active')) {
+                showSection('matchSection');
+                loadCurrentQuestion();
+                lastQuestionNumber = state.current_question;
+            }
+
+            // Check if question changed - load new question
+            if (state.current_question > 0 && state.current_question !== lastQuestionNumber) {
+                lastQuestionNumber = state.current_question;
+                loadCurrentQuestion();
+                resetForNextQuestion();
+                // Force clear status message
+                document.getElementById('statusMessage').style.display = 'none';
+                // Ensure buzzer is ready
+                const buzzBtn = document.getElementById('buzzButton');
+                buzzBtn.style.display = 'block';
+                buzzBtn.classList.remove('buzzed', 'locked-out');
+                buzzBtn.textContent = 'BUZZ IN';
+                // Will be enabled/disabled based on question start state below
+            }
+
+            // Check if match completed
+            if (state.room_status === 'completed') {
+                clearInterval(pollInterval);
+                showSection('completedSection');
+                return;
+            }
+
+            // Check if this team is locked out
+            isLockedOut = (state.locked_out_team_id === teamData.id);
+
+            // Update buzzer state
+            if (state.current_question > 0) {
+                const buzzBtn = document.getElementById('buzzButton');
+                
+                if (isLockedOut) {
+                    // Team answered wrong and is locked out
+                    buzzBtn.disabled = true;
+                    buzzBtn.classList.add('locked-out');
+                    buzzBtn.textContent = 'LOCKED OUT';
+                    showStatus('You answered incorrectly. Wait for the next question.', 'locked');
+                } else if (state.buzzer_locked) {
+                    buzzBtn.disabled = true;
+                    
+                    if (state.buzzed_team_id === teamData.id) {
+                        buzzBtn.classList.add('buzzed');
+                        buzzBtn.textContent = 'YOU BUZZED!';
+                        showAnswerSection();
+                    } else {
+                        buzzBtn.textContent = 'OPPONENT BUZZED';
+                        showStatus('Opponent buzzed in first!', 'info');
+                    }
+                } else {
+                    buzzBtn.disabled = false;
+                    buzzBtn.classList.remove('buzzed', 'locked-out');
+                    buzzBtn.textContent = 'BUZZ IN';
+                }
+
+                // Update timer
+                if (state.question_start_time && !state.buzzer_locked) {
+                    updateTimer(state.time_remaining);
+                }
+            }
+        }
+
+        async function loadCurrentQuestion() {
+            try {
+                const response = await fetch(`api/team.php?action=get_current_question&room_id=${roomId}`);
+                const data = await response.json();
+                if (data.success && data.question) {
+                    currentQuestion = data.question;
+                    displayQuestion(data.question);
+                }
+            } catch (error) {
+                console.error('Error loading question:', error);
+            }
+        }
+
+        function displayQuestion(question) {
+            document.getElementById('questionNumber').textContent = question.question_number;
+            document.getElementById('questionImage').src = question.question_image_url;
+            document.getElementById('optionA').textContent = 'A: ' + question.option_a;
+            document.getElementById('optionB').textContent = 'B: ' + question.option_b;
+            document.getElementById('optionC').textContent = 'C: ' + question.option_c;
+            document.getElementById('optionD').textContent = 'D: ' + question.option_d;
+            document.getElementById('questionDisplay').style.display = 'block';
+        }
+
+        async function buzz() {
+            if (isLockedOut) {
+                showStatus('You are locked out! Wait for the next question.', 'locked');
+                return;
+            }
+
+            const buzzBtn = document.getElementById('buzzButton');
+            buzzBtn.disabled = true;
+
+            try {
+                const response = await fetch('api/team.php?action=buzz', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        room_id: roomId,
+                        team_id: teamData.id
+                    })
+                });
+
+                const data = await response.json();
+                if (data.success) {
+                    buzzBtn.classList.add('buzzed');
+                    buzzBtn.textContent = 'YOU BUZZED!';
+                    showAnswerSection();
+                    showStatus('You buzzed in! Select your answer:', 'success');
+                } else {
+                    if (data.locked_out) {
+                        showStatus('You are locked out until the next question!', 'locked');
+                        buzzBtn.classList.add('locked-out');
+                        buzzBtn.textContent = 'LOCKED OUT';
+                    } else {
+                        showStatus(data.message || 'Too late! Opponent buzzed first.', 'error');
+                    }
+                }
+            } catch (error) {
+                console.error('Buzz error:', error);
+                buzzBtn.disabled = false;
+            }
+        }
+
+        function showAnswerSection() {
+            document.getElementById('answerSection').style.display = 'block';
+            document.getElementById('buzzButton').style.display = 'none';
+        }
+
+        async function submitAnswer(answer) {
+            // Disable all option buttons
+            ['A', 'B', 'C', 'D'].forEach(opt => {
+                document.getElementById('option' + opt).disabled = true;
+            });
+
+            try {
+                const response = await fetch('api/instructor.php?action=submit_answer', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        room_id: roomId,
+                        team_id: teamData.id,
+                        answer: answer,
+                        question_number: currentQuestion.question_number
+                    })
+                });
+
+                const data = await response.json();
+                if (data.success) {
+                    if (data.is_correct) {
+                        showStatus('✓ Correct Answer! +1 Point', 'success');
+                    } else {
+                        showStatus(`✗ Wrong Answer. You're locked out for this question. Correct answer: ${data.correct_answer}`, 'error');
+                        isLockedOut = true;
+                    }
+
+                    setTimeout(() => {
+                        resetForNextQuestion();
+                    }, 3000);
+                }
+            } catch (error) {
+                console.error('Submit answer error:', error);
+            }
+        }
+
+        function resetForNextQuestion() {
+            document.getElementById('answerSection').style.display = 'none';
+            document.getElementById('buzzButton').style.display = 'block';
+            document.getElementById('buzzButton').disabled = true;
+            document.getElementById('buzzButton').classList.remove('buzzed', 'locked-out');
+            document.getElementById('buzzButton').textContent = 'BUZZ IN';
+            document.getElementById('statusMessage').style.display = 'none';
+            isLockedOut = false;
+            
+            // Re-enable option buttons
+            ['A', 'B', 'C', 'D'].forEach(opt => {
+                document.getElementById('option' + opt).disabled = false;
+            });
+        }
+
+        function updateTimer(seconds) {
+            const timerEl = document.getElementById('timer');
+            timerEl.textContent = seconds;
+            
+            if (seconds <= 10) {
+                timerEl.classList.add('warning');
+            } else {
+                timerEl.classList.remove('warning');
+            }
+        }
+
+        function showStatus(message, type) {
+            const statusEl = document.getElementById('statusMessage');
+            statusEl.className = `status-message ${type}`;
+            statusEl.textContent = message;
+            statusEl.style.display = 'block';
+        }
+
+        function showSection(sectionId) {
+            document.querySelectorAll('.section').forEach(section => {
+                section.classList.remove('active');
+            });
+            document.getElementById(sectionId).classList.add('active');
+        }
+
+        function showAlert(elementId, message, type) {
+            const alertEl = document.getElementById(elementId);
+            alertEl.className = `alert alert-${type}`;
+            alertEl.textContent = message;
+            alertEl.style.display = 'block';
+        }
+    </script>
+</body>
+</html>

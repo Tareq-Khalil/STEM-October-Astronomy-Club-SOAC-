@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cosmic Quest Competition</title>
+    <link rel="stylesheet" href="styling.css">
+</head>
+<body>
+    <div class="stars"></div>
+    <div class="container">
+        <!-- Landing Page -->
+        <div id="landingPage" class="card">
+            <h1>Cosmic Quest Competition</h1>
+            <p class="subtitle">Welcome to the Cosmic Quest competition platform</p>
+            <div class="nav-buttons">
+                <!-- Hidden admin button - Press Ctrl+Shift+A on keyboard to access admin panel -->
+                <button id="adminSecretBtn" onclick="showPage('adminLogin')" class="btn-primary" style="position: absolute; left: -9999px; width: 1px; height: 1px; opacity: 0;">Admin Panel</button>
+                <button onclick="showPage('leaderboard')" class="btn-secondary"> View Leaderboard</button>
+            </div>
+        </div>
+
+        <!-- Admin Login -->
+        <div id="adminLogin" class="card hidden">
+            <h2>🔐 Admin Login</h2>
+            <div class="form-group">
+                <label>Admin Password:</label>
+                <input type="password" id="adminPassword" placeholder="Enter admin password">
+            </div>
+            <button onclick="loginAdmin()" class="btn-primary">Login</button>
+            <button onclick="showPage('landingPage')" class="btn-secondary">Back</button>
+            <div id="adminLoginMessage"></div>
+        </div>
+
+        <!-- Admin Panel -->
+        <div id="adminPanel" class="card hidden">
+            <h2>⚙️ Admin Panel</h2>
+            <div class="nav-buttons">
+                <button onclick="showAdminSection('teams')" class="btn-primary">Manage Teams</button>
+                <button onclick="showAdminSection('questions')" class="btn-primary">Set Answers</button>
+                <button onclick="showAdminSection('submissions')" class="btn-primary">Review Files</button>
+                <button onclick="adminLogout()" class="btn-secondary">Logout</button>
+            </div>
+
+            <!-- Manage Teams -->
+            <div id="adminTeams" class="admin-section hidden">
+                <h3>Add New Team</h3>
+                <div class="form-group">
+                    <label>Team Name:</label>
+                    <input type="text" id="newTeamName" placeholder="Enter team name">
+                </div>
+                <div class="form-group">
+                    <label>Team Passcode:</label>
+                    <input type="text" id="newTeamPasscode" placeholder="Enter unique passcode">
+                </div>
+                <button onclick="addTeam()" class="btn-primary">Add Team</button>
+                <div id="addTeamMessage"></div>
+
+                <h3 style="margin-top: 30px;">Existing Teams</h3>
+                <div id="teamsList"></div>
+            </div>
+
+            <!-- Set Answers -->
+            <div id="adminQuestions" class="admin-section hidden">
+                <h3>Set Correct Answers (Questions 1-25)</h3>
+                <p class="info-text">Set numerical answers with acceptable ranges. Questions 26-30 are file uploads (reviewed manually).</p>
+                <div id="questionAnswers"></div>
+                <button onclick="saveQuestionAnswers()" class="btn-primary">Save All Answers</button>
+                <div id="saveAnswersMessage"></div>
+            </div>
+
+            <!-- Review Files -->
+            <div id="adminSubmissions" class="admin-section hidden">
+                <h3>Pending File Submissions</h3>
+                <div id="submissionsList"></div>
+            </div>
+        </div>
+
+        <!-- Team Login -->
+        <div id="teamLogin" class="card hidden">
+            <h2> Team Login</h2>
+            <div class="form-group">
+                <label>Team Name:</label>
+                <input type="text" id="teamNameInput" placeholder="Enter your team name">
+            </div>
+            <div class="form-group">
+                <label>Passcode:</label>
+                <input type="password" id="teamPasscodeInput" placeholder="Enter your passcode">
+            </div>
+            <button onclick="loginTeam()" class="btn-primary">Login</button>
+            <button onclick="showPage('landingPage')" class="btn-secondary">Back</button>
+            <div id="teamLoginMessage"></div>
+        </div>
+
+        <!-- Team Dashboard -->
+        <div id="teamDashboard" class="card hidden">
+            <div class="team-header">
+                <div>
+                    <h2 id="teamNameDisplay"></h2>
+                    <p class="subtitle">Submit your answers below</p><br>
+                    <p class="subtitle">Please use only the first three question bars for the trial round.<br>
+These are the only questions that will be graded in this round.</p>
+                </div>
+                <div class="score-display" id="teamScore">0 points</div>
+            </div>
+            
+            <div class="nav-buttons">
+                <button onclick="teamLogout()" class="btn-secondary">Logout</button>
+                <button onclick="showPage('leaderboard')" class="btn-secondary">View Leaderboard</button>
+                <button onclick="refreshTeamStatus()" class="btn-secondary">Refresh</button>
+            </div>
+
+            <h3>Submit Answer</h3>
+            <div class="form-group">
+                <label>Select Question:</label>
+                <select id="questionSelect" onchange="updateQuestionInfo()">
+                    <option value="">-- Select Question --</option>
+                </select>
+            </div>
+
+            <div id="questionInfo" class="hidden">
+                <div id="questionDetails" class="question-item"></div>
+                
+                <!-- Numerical Answer -->
+                <div id="numericalAnswer" class="form-group hidden">
+                    <label>Your Answer (Numerical):</label>
+                    <input type="number" step="any" id="answerInput" placeholder="Enter your numerical answer">
+                    <button onclick="submitAnswer()" class="btn-primary">Submit Answer</button>
+                </div>
+
+                <!-- File Answer -->
+                <div id="fileAnswer" class="form-group hidden">
+                    <label>Upload Your File:</label>
+                    <div class="file-upload" onclick="document.getElementById('fileInput').click()">
+                        <p>📁 Click to upload file</p>
+                        <p class="file-info">Allowed: PDF, DOC, DOCX, TXT, ZIP, JPG, PNG (Max 10MB)</p>
+                        <p id="fileName"></p>
+                    </div>
+                    <input type="file" id="fileInput" style="display: none;" onchange="handleFileSelect()">
+                    <button onclick="submitFileAnswer()" class="btn-primary">Submit File</button>
+                </div>
+            </div>
+
+            <div id="submissionMessage"></div>
+
+            <h3 style="margin-top: 40px;">Your Progress</h3>
+            <div id="teamProgress"></div>
+        </div>
+
+        <!-- Leaderboard -->
+        <div id="leaderboard" class="card hidden">
+            <h2> Leaderboard</h2>
+            <div class="nav-buttons">
+                <button onclick="showPage('landingPage')" class="btn-secondary">Back to Home</button>
+                <button onclick="refreshLeaderboard()" class="btn-secondary">Refresh</button>
+            </div>
+            
+            <table class="leaderboard-table">
+                <thead>
+                    <tr>
+                        <th>Rank</th>
+                        <th>Team Name</th>
+                        <th>Score</th>
+                    </tr>
+                </thead>
+                <tbody id="leaderboardBody"></tbody>
+            </table>
+        </div>
+    </div>
+
+    <script src="scripting.js"></script>
+    <script>
+        document.addEventListener('keydown', function(e) {
+            if (e.ctrlKey && e.shiftKey && e.key === 'A') {
+                showPage('adminLogin');
+            }
+        });
+    </script>
+</body>
+</html>

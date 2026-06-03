@@ -5,18 +5,14 @@
  * ║  <script src="cosmos-widget.js"></script>             ║
  * ╚═══════════════════════════════════════════════════════╝
  *
- * SETUP (one time):
- *  1. Go to https://aistudio.google.com/app/apikey
- *  2. Click "Create API Key"
- *  3. Paste it below where it says YOUR_GEMINI_API_KEY
- *  4. (Recommended) In Google Cloud Console → Credentials,
- *     restrict the key to only your GitHub Pages domain
- *     so nobody else can use it.
+ * SETUP:
+ *  1. Go to https://openrouter.ai → sign up → Keys → Create Key
+ *  2. Paste your key below (starts with sk-or-...)
  */
 
 (function () {
 
-  const GEMINI_API_KEY = "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"; // ← paste your key here
+  const OPENROUTER_API_KEY = "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"; // ← your key is already here
 
   const SYSTEM_PROMPT = `You are Cosmos, the friendly and knowledgeable AI assistant for the STEM October Astronomy Club (SOAC). You have a warm, enthusiastic, and scientifically curious personality — like a wise stargazer who loves sharing knowledge. You speak with confidence and passion about astronomy, and always represent SOAC positively. Keep responses concise and clear. Use emojis sparingly for warmth (🌌 🔭 ⭐). You are Cosmos, the voice of SOAC — not a generic chatbot.
 
@@ -66,8 +62,8 @@ V.   Modern Astrophysics — Quantum Physics, Relativity, Gravitational Waves, R
 International astronomy competition founded by SOAC. Main organizer: Tareq Khalil.
 - Open to: 9th grade and high school students worldwide
 - Team size: 3 students
-- Structure: Open Round (30 questions, 3 days, live leaderboard) → Invitational Round (Top 32 teams, live buzz session)
-- Timeline: Registration Aug 16 – Oct 5, 2025 | Round 1: Oct 10 | Finals: Oct 25, 2025
+- Structure: Open Round (30 questions, 3 days, live leaderboard) then Invitational Round (Top 32 teams, live buzz session)
+- Timeline: Registration Aug 16 to Oct 5 2025, Round 1 Oct 10, Finals Oct 25 2025
 - Prizes:
   * 1st Place: VR 114-500 EQ Telescope
   * 2nd & 3rd: 3 AoPS course coupons each
@@ -86,10 +82,7 @@ Home, About Us / Meet the Team, Simulations, Events, Competitions (Cosmic Quest,
 
 If asked something specific about SOAC not covered above, say so honestly and suggest contacting the club directly.`;
 
-  // ── Gemini API endpoint (gemini-2.0-flash — fast & free) ──────────────────
-  const GEMINI_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${GEMINI_API_KEY}`;
-
-  // ── Styles ─────────────────────────────────────────────────────────────────
+  // ── Styles ──────────────────────────────────────────────────────────────────
   const CSS = `
     #cosmos-btn {
       position: fixed; bottom: 28px; right: 28px;
@@ -124,7 +117,6 @@ If asked something specific about SOAC not covered above, say so honestly and su
       font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
     }
     #cosmos-panel.cmos-open { transform: scale(1) translateY(0); opacity: 1; pointer-events: all; }
-    /* star dust */
     #cosmos-panel::before {
       content:''; position:absolute; inset:0; border-radius:22px; pointer-events:none;
       background-image:
@@ -136,24 +128,20 @@ If asked something specific about SOAC not covered above, say so honestly and su
         radial-gradient(1px 1px at 18% 72%, rgba(255,255,255,.5),  transparent),
         radial-gradient(1px 1px at 88% 78%, rgba(255,255,255,.45), transparent),
         radial-gradient(1.5px 1.5px at 43% 83%, rgba(255,255,255,.6), transparent),
-        radial-gradient(1px 1px at 63% 48%, rgba(255,255,255,.35), transparent),
-        radial-gradient(1px 1px at 35% 92%, rgba(255,255,255,.5),  transparent),
-        radial-gradient(1px 1px at 75% 6%,  rgba(255,255,255,.6),  transparent);
+        radial-gradient(1px 1px at 63% 48%, rgba(255,255,255,.35), transparent);
     }
     .cmos-header {
       padding: 15px 18px;
       background: linear-gradient(135deg,rgba(138,43,226,.28),rgba(72,187,255,.18));
       border-bottom: 1px solid rgba(135,206,250,.18);
-      display: flex; align-items: center; gap: 11px; position: relative; z-index:1;
-      flex-shrink: 0;
+      display: flex; align-items: center; gap: 11px; position: relative; z-index:1; flex-shrink:0;
     }
     .cmos-avatar {
       width:40px; height:40px; border-radius:50%;
       background: linear-gradient(135deg,#6a11cb,#2575fc);
       border: 2px solid rgba(135,206,250,.5);
       display:flex; align-items:center; justify-content:center;
-      font-size:19px; flex-shrink:0;
-      box-shadow: 0 0 14px rgba(100,150,255,.4);
+      font-size:19px; flex-shrink:0; box-shadow: 0 0 14px rgba(100,150,255,.4);
     }
     .cmos-info { flex:1; }
     .cmos-name { color:#87ceeb; font-weight:700; font-size:14.5px; letter-spacing:.9px; }
@@ -199,24 +187,19 @@ If asked something specific about SOAC not covered above, say so honestly and su
       width:7px; height:7px; border-radius:50%; background:rgba(135,206,250,.7);
       animation: cmos-td 1.3s ease-in-out infinite;
     }
-    .cmos-td:nth-child(2){animation-delay:.2s}
-    .cmos-td:nth-child(3){animation-delay:.4s}
-    @keyframes cmos-td {
-      0%,60%,100%{transform:translateY(0)} 30%{transform:translateY(-6px)}
-    }
+    .cmos-td:nth-child(2){animation-delay:.2s} .cmos-td:nth-child(3){animation-delay:.4s}
+    @keyframes cmos-td { 0%,60%,100%{transform:translateY(0)} 30%{transform:translateY(-6px)} }
     .cmos-foot {
       padding:10px 12px; border-top:1px solid rgba(135,206,250,.13);
       display:flex; gap:7px; align-items:flex-end;
-      position:relative; z-index:1; background:rgba(8,12,36,.65);
-      flex-shrink:0;
+      position:relative; z-index:1; background:rgba(8,12,36,.65); flex-shrink:0;
     }
     .cmos-inp {
       flex:1; background:rgba(18,28,62,.82);
       border:1px solid rgba(135,206,250,.22); border-radius:11px;
       color:#cfe6ff; font-size:13px; padding:8px 12px;
       resize:none; font-family:inherit; outline:none;
-      max-height:96px; min-height:36px; line-height:1.45;
-      transition:border-color .18s;
+      max-height:96px; min-height:36px; line-height:1.45; transition:border-color .18s;
     }
     .cmos-inp::placeholder { color:rgba(135,206,250,.38); }
     .cmos-inp:focus { border-color:rgba(135,206,250,.52); }
@@ -230,8 +213,7 @@ If asked something specific about SOAC not covered above, say so honestly and su
     .cmos-send:hover { transform:scale(1.08); box-shadow:0 4px 16px rgba(100,150,255,.52); }
     .cmos-send:disabled { opacity:.38; cursor:default; transform:none; }
     .cmos-send svg { width:15px; height:15px; fill:#fff; }
-    /* suggested questions */
-    .cmos-suggestions {
+    .cmos-chips {
       display:flex; flex-wrap:wrap; gap:6px;
       padding:0 14px 10px; position:relative; z-index:1;
     }
@@ -248,24 +230,21 @@ If asked something specific about SOAC not covered above, say so honestly and su
     }
   `;
 
-  // ── Inject HTML ─────────────────────────────────────────────────────────────
+  // ── Mount HTML ──────────────────────────────────────────────────────────────
   function mount() {
     const style = document.createElement('style');
     style.textContent = CSS;
     document.head.appendChild(style);
 
-    // Button
     const btn = document.createElement('button');
     btn.id = 'cosmos-btn';
     btn.setAttribute('aria-label', 'Open Cosmos – SOAC AI Assistant');
     btn.textContent = '🔭';
     document.body.appendChild(btn);
 
-    // Panel
     const panel = document.createElement('div');
     panel.id = 'cosmos-panel';
     panel.setAttribute('role', 'dialog');
-    panel.setAttribute('aria-modal', 'true');
     panel.setAttribute('aria-label', 'Cosmos AI Assistant');
     panel.innerHTML = `
       <div class="cmos-header">
@@ -275,15 +254,15 @@ If asked something specific about SOAC not covered above, say so honestly and su
           <div class="cmos-sub">SOAC AI Assistant</div>
         </div>
         <div class="cmos-dot" title="Online"></div>
-        <button class="cmos-x" aria-label="Close Cosmos">&times;</button>
+        <button class="cmos-x" aria-label="Close">&times;</button>
       </div>
       <div class="cmos-msgs" id="cmos-msgs" role="log" aria-live="polite"></div>
-      <div class="cmos-suggestions" id="cmos-chips"></div>
+      <div class="cmos-chips" id="cmos-chips"></div>
       <div class="cmos-foot">
         <textarea class="cmos-inp" id="cmos-inp"
           placeholder="Ask about SOAC, Cosmic Quest, astronomy…"
           rows="1" aria-label="Message"></textarea>
-        <button class="cmos-send" id="cmos-send" aria-label="Send message">
+        <button class="cmos-send" id="cmos-send" aria-label="Send">
           <svg viewBox="0 0 24 24"><path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/></svg>
         </button>
       </div>
@@ -294,21 +273,15 @@ If asked something specific about SOAC not covered above, say so honestly and su
   // ── State ───────────────────────────────────────────────────────────────────
   let open = false;
   let busy = false;
-  // Gemini uses a different history format
-  let history = []; // [{role:'user'|'model', parts:[{text:'...'}]}]
+  let history = []; // OpenAI-style: [{role:'user'|'assistant', content:'...'}]
 
-  const CHIPS = [
-    "What is SOAC?",
-    "Tell me about Cosmic Quest",
-    "Who founded the club?",
-    "What sessions do you cover?",
-  ];
+  const CHIPS = ["What is SOAC?", "Tell me about Cosmic Quest", "Who founded the club?", "What topics do you cover?"];
 
   // ── Helpers ─────────────────────────────────────────────────────────────────
   function addBubble(role, text) {
     const box = document.getElementById('cmos-msgs');
     const el = document.createElement('div');
-    el.className = `cmos-bubble ${role === 'user' ? 'usr' : 'bot'}`;
+    el.className = 'cmos-bubble ' + (role === 'user' ? 'usr' : 'bot');
     el.textContent = text;
     box.appendChild(el);
     box.scrollTop = box.scrollHeight;
@@ -323,65 +296,64 @@ If asked something specific about SOAC not covered above, say so honestly and su
     box.scrollTop = box.scrollHeight;
   }
 
-  function hideTyping() {
-    const el = document.getElementById('cmos-typing');
-    if (el) el.remove();
-  }
-
+  function hideTyping() { const e = document.getElementById('cmos-typing'); if (e) e.remove(); }
   function setEnabled(on) {
     document.getElementById('cmos-inp').disabled = !on;
     document.getElementById('cmos-send').disabled = !on;
   }
 
-  function hideChips() {
-    const c = document.getElementById('cmos-chips');
-    if (c) c.style.display = 'none';
-  }
-
-  // ── API Call (Gemini) ────────────────────────────────────────────────────────
-  async function ask(userText) {
-    if (!userText.trim() || busy) return;
+  // ── API Call (OpenRouter — OpenAI-compatible) ────────────────────────────────
+  async function ask(text) {
+    text = text.trim();
+    if (!text || busy) return;
     busy = true;
     setEnabled(false);
-    hideChips();
 
-    addBubble('user', userText);
-    history.push({ role: 'user', parts: [{ text: userText }] });
+    // Hide chips after first message
+    const chips = document.getElementById('cmos-chips');
+    if (chips) chips.style.display = 'none';
+
+    addBubble('user', text);
+    history.push({ role: 'user', content: text });
 
     const inp = document.getElementById('cmos-inp');
     inp.value = ''; inp.style.height = 'auto';
     showTyping();
 
     try {
-      const res = await fetch(GEMINI_URL, {
+      const res = await fetch('https://openrouter.ai/api/v1/chat/completions', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${OPENROUTER_API_KEY}`,
+          'HTTP-Referer': window.location.origin,
+          'X-Title': 'SOAC Cosmos Assistant',
+        },
         body: JSON.stringify({
-          system_instruction: { parts: [{ text: SYSTEM_PROMPT }] },
-          contents: history,
-          generationConfig: { maxOutputTokens: 800, temperature: 0.7 },
+          model: 'meta-llama/llama-3.1-8b-instruct:free', // free model, no credits needed
+          messages: [
+            { role: 'system', content: SYSTEM_PROMPT },
+            ...history,
+          ],
+          max_tokens: 800,
+          temperature: 0.7,
         }),
       });
 
+      const data = await res.json();
+
       if (!res.ok) {
-        const err = await res.json().catch(() => ({}));
-        throw new Error(err?.error?.message || `HTTP ${res.status}`);
+        throw new Error(data?.error?.message || `HTTP ${res.status}`);
       }
 
-      const data = await res.json();
-      const reply = data?.candidates?.[0]?.content?.parts?.[0]?.text
-        || "I couldn't fetch a response. Please try again!";
-
-      history.push({ role: 'model', parts: [{ text: reply }] });
+      const reply = data?.choices?.[0]?.message?.content || "I couldn't get a response. Please try again!";
+      history.push({ role: 'assistant', content: reply });
       hideTyping();
       addBubble('bot', reply);
     } catch (err) {
       hideTyping();
-      const msg = err.message.includes('API_KEY_INVALID') || err.message.includes('API key')
-        ? "⚠️ Invalid API key. Please set your Gemini key in cosmos-widget.js."
-        : "⚠️ I had trouble connecting to the stars. Please try again in a moment!";
-      addBubble('bot', msg);
-      console.error('[Cosmos]', err);
+      addBubble('bot', '⚠️ I had trouble connecting to the stars. Please try again in a moment!');
+      console.error('[Cosmos]', err.message);
     } finally {
       busy = false;
       setEnabled(true);
@@ -395,18 +367,15 @@ If asked something specific about SOAC not covered above, say so honestly and su
     document.getElementById('cosmos-panel').classList.add('cmos-open');
     document.getElementById('cosmos-btn').textContent = '✕';
     document.getElementById('cmos-inp').focus();
-
     if (history.length === 0) {
       setTimeout(() => {
         addBubble('bot', "🌌 Hello! I'm Cosmos, SOAC's AI assistant. Ask me anything about our club, the Cosmic Quest competition, our curriculum, or any astronomy question!");
-        // show suggestion chips
         const chips = document.getElementById('cmos-chips');
         CHIPS.forEach(label => {
-          const btn = document.createElement('button');
-          btn.className = 'cmos-chip';
-          btn.textContent = label;
-          btn.addEventListener('click', () => ask(label));
-          chips.appendChild(btn);
+          const b = document.createElement('button');
+          b.className = 'cmos-chip'; b.textContent = label;
+          b.addEventListener('click', () => ask(label));
+          chips.appendChild(b);
         });
       }, 220);
     }
@@ -422,23 +391,15 @@ If asked something specific about SOAC not covered above, say so honestly and su
   function wire() {
     document.getElementById('cosmos-btn').addEventListener('click', () => open ? closePanel() : openPanel());
     document.querySelector('.cmos-x').addEventListener('click', closePanel);
-
     const inp = document.getElementById('cmos-inp');
     document.getElementById('cmos-send').addEventListener('click', () => ask(inp.value));
-    inp.addEventListener('keydown', e => {
-      if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); ask(inp.value); }
-    });
-    inp.addEventListener('input', () => {
-      inp.style.height = 'auto';
-      inp.style.height = Math.min(inp.scrollHeight, 96) + 'px';
-    });
+    inp.addEventListener('keydown', e => { if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); ask(inp.value); } });
+    inp.addEventListener('input', () => { inp.style.height = 'auto'; inp.style.height = Math.min(inp.scrollHeight, 96) + 'px'; });
     document.addEventListener('keydown', e => { if (e.key === 'Escape' && open) closePanel(); });
   }
 
   // ── Boot ─────────────────────────────────────────────────────────────────────
   function init() { mount(); wire(); }
-  document.readyState === 'loading'
-    ? document.addEventListener('DOMContentLoaded', init)
-    : init();
+  document.readyState === 'loading' ? document.addEventListener('DOMContentLoaded', init) : init();
 
 })();

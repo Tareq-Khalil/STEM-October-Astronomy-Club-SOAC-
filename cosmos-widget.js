@@ -8,7 +8,7 @@
 (function () { 
 
   // ── Configuration ─────────────────────────────────────────────────────────
-  const OPENROUTER_API_KEY = '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'; // <-- free key from openrouter.ai
+  const OPENROUTER_API_KEY = AI_KEY; // <-- free key from openrouter.ai
   const OPENROUTER_MODEL   = 'mistralai/mistral-7b-instruct:free'; // free model
 
   const SYSTEM_PROMPT = `You are Cosmos, the friendly and knowledgeable AI assistant for the STEM October Astronomy Club (SOAC). You have a warm, enthusiastic, and scientifically curious personality — like a wise stargazer who loves sharing knowledge. Keep responses concise and clear. Use emojis sparingly (🌌 🔭 ⭐). You are Cosmos, the voice of SOAC — not a generic chatbot. 

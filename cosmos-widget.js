@@ -2,10 +2,14 @@
  * ╔═══════════════════════════════════════════════════════╗ 
  * ║          COSMOS — SOAC AI Assistant Widget            ║ 
  * ║  <script src="cosmos-widget.js"></script>             ║ 
- * ║  Requires a Gemini API key (see GEMINI_API_KEY below) ║ 
+ * ║  Free API key from openrouter.ai (no card needed)     ║ 
  * ╚═══════════════════════════════════════════════════════╝ 
  */ 
 (function () { 
+
+  // ── Configuration ─────────────────────────────────────────────────────────
+  const OPENROUTER_API_KEY = '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'; // <-- free key from openrouter.ai
+  const OPENROUTER_MODEL   = 'mistralai/mistral-7b-instruct:free'; // free model
 
   const SYSTEM_PROMPT = `You are Cosmos, the friendly and knowledgeable AI assistant for the STEM October Astronomy Club (SOAC). You have a warm, enthusiastic, and scientifically curious personality — like a wise stargazer who loves sharing knowledge. Keep responses concise and clear. Use emojis sparingly (🌌 🔭 ⭐). You are Cosmos, the voice of SOAC — not a generic chatbot. 
  
@@ -274,20 +278,27 @@ If asked something not covered above, say so and suggest contacting the club dir
         ...history
       ];
 
-      // Pollinations AI — free, no key, CORS-enabled
-      const res = await fetch('https://text.pollinations.ai/openai', { 
-        method: 'POST', 
-        headers: { 'Content-Type': 'application/json' }, 
-        body: JSON.stringify({ 
-          model: 'openai',
+      // OpenRouter — free tier, generous limits, no rate limit issues
+      const res = await fetch('https://openrouter.ai/api/v1/chat/completions', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${OPENROUTER_API_KEY}`,
+          'HTTP-Referer': window.location.origin,
+          'X-Title': 'SOAC Cosmos Widget',
+        },
+        body: JSON.stringify({
+          model: OPENROUTER_MODEL,
           messages,
           max_tokens: 600,
           temperature: 0.7,
-          private: true,
-        }), 
-      }); 
- 
-      if (!res.ok) throw new Error(`HTTP ${res.status}`);
+        }),
+      });
+
+      if (!res.ok) {
+        const err = await res.json().catch(() => ({}));
+        throw new Error(err?.error?.message || `HTTP ${res.status}`);
+      }
  
       const data = await res.json(); 
       const reply = data?.choices?.[0]?.message?.content?.trim()

@@ -8,7 +8,7 @@
 (function () { 
 
   // ── Configuration ─────────────────────────────────────────────────────────
-  const GEMINI_API_KEY = 'AIzaSyATuiKNjki53nRTXdZt-7jVjVwzY6gjXYM'; // <-- Set your key here
+  const GEMINI_API_KEY = 'AQ.Ab8RN6L0hSaI2KStws5xU_5c0NaE7mRgQ4QgVfIvqEmamv8ZMQ'; // <-- Set your key here
   const GEMINI_MODEL   = 'gemini-2.0-flash';         // or 'gemini-1.5-pro', etc.
 
   const SYSTEM_PROMPT = `You are Cosmos, the friendly and knowledgeable AI assistant for the STEM October Astronomy Club (SOAC). You have a warm, enthusiastic, and scientifically curious personality — like a wise stargazer who loves sharing knowledge. Keep responses concise and clear. Use emojis sparingly (🌌 🔭 ⭐). You are Cosmos, the voice of SOAC — not a generic chatbot. 

@@ -28,5 +28,6 @@ export default async function handler(req, res) {
   } catch (err) {
     console.error('[/api/chat]', err);
     res.status(500).json({ error: { message: 'Internal server error' } });
+    console.log('KEY:', process.env.OPENROUTER_API_KEY ? 'found' : 'MISSING');
   }
 }

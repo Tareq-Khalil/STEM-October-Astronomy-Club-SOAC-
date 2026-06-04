@@ -309,12 +309,7 @@ If asked something not covered above, say so and suggest contacting the club dir
     } catch (err) { 
       hideTyping(); 
       addBubble('bot', '⚠️ I had trouble connecting to the stars. Please try again in a moment!'); 
-      if (!res.ok) {
-  const text = await res.text();
-  console.error("Status:", res.status);
-  console.error("Response:", text);
-  throw new Error(`HTTP ${res.status}`);
-} 
+      console.error('[Cosmos]', err.message);
     } finally { 
       busy = false; setEnabled(true); 
       document.getElementById('cmos-inp').focus(); 

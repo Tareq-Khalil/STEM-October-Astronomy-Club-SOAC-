@@ -7,10 +7,6 @@
  */ 
 (function () { 
 
-  // ── Configuration ─────────────────────────────────────────────────────────
-  const GEMINI_API_KEY = 'AQ.Ab8RN6K7BIbcgeOy0Jo8YXW_FztcJl1wazWhpjegINYOZfHevw'; // <-- Set your key here
-  const GEMINI_MODEL   = 'gemini-2.0-flash';         // or 'gemini-1.5-pro', etc.
-
   const SYSTEM_PROMPT = `You are Cosmos, the friendly and knowledgeable AI assistant for the STEM October Astronomy Club (SOAC). You have a warm, enthusiastic, and scientifically curious personality — like a wise stargazer who loves sharing knowledge. Keep responses concise and clear. Use emojis sparingly (🌌 🔭 ⭐). You are Cosmos, the voice of SOAC — not a generic chatbot. 
  
 == ABOUT SOAC == 
@@ -231,7 +227,7 @@ If asked something not covered above, say so and suggest contacting the club dir
   } 
  
   let open = false, busy = false; 
-  let history = []; // [{role, parts: [{text}]}] — Gemini format
+  let history = []; // [{role, content}]
   const CHIPS = ["What is SOAC?", "Tell me about Cosmic Quest", "Who founded the club?", "What topics do you cover?"]; 
  
   function addBubble(role, text) { 
@@ -265,45 +261,39 @@ If asked something not covered above, say so and suggest contacting the club dir
     document.getElementById('cmos-chips').style.display = 'none'; 
     addBubble('user', text); 
 
-    // Gemini uses {role, parts:[{text}]} — 'assistant' role is called 'model'
-    history.push({ role: 'user', parts: [{ text }] }); 
+    history.push({ role: 'user', content: text });
 
     const inp = document.getElementById('cmos-inp'); 
     inp.value = ''; inp.style.height = 'auto'; 
     showTyping(); 
  
     try { 
-      const endpoint = 
-        `https://generativelanguage.googleapis.com/v1beta/models/${GEMINI_MODEL}:generateContent?key=${GEMINI_API_KEY}`;
+      // Build messages array with system prompt prepended
+      const messages = [
+        { role: 'system', content: SYSTEM_PROMPT },
+        ...history
+      ];
 
-      const res = await fetch(endpoint, { 
+      // Pollinations AI — free, no key, CORS-enabled
+      const res = await fetch('https://text.pollinations.ai/openai', { 
         method: 'POST', 
         headers: { 'Content-Type': 'application/json' }, 
         body: JSON.stringify({ 
-          // System instruction is separate in Gemini's API
-          system_instruction: { 
-            parts: [{ text: SYSTEM_PROMPT }] 
-          }, 
-          contents: history,          // conversation history (user + model turns)
-          generationConfig: { 
-            maxOutputTokens: 600, 
-            temperature: 0.7, 
-          }, 
+          model: 'openai',
+          messages,
+          max_tokens: 600,
+          temperature: 0.7,
+          private: true,
         }), 
       }); 
  
-      if (!res.ok) { 
-        const err = await res.json().catch(() => ({})); 
-        throw new Error(err?.error?.message || `HTTP ${res.status}`); 
-      } 
+      if (!res.ok) throw new Error(`HTTP ${res.status}`);
  
       const data = await res.json(); 
-      const reply = 
-        data?.candidates?.[0]?.content?.parts?.[0]?.text?.trim() 
+      const reply = data?.choices?.[0]?.message?.content?.trim()
         || "I couldn't get a response. Please try again!"; 
  
-      // Store reply in Gemini's 'model' role format
-      history.push({ role: 'model', parts: [{ text: reply }] }); 
+      history.push({ role: 'assistant', content: reply }); 
       hideTyping(); addBubble('bot', reply); 
     } catch (err) { 
       hideTyping(); 
